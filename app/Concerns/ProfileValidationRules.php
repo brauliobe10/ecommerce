@@ -48,4 +48,17 @@ trait ProfileValidationRules
                 : Rule::unique(User::class)->ignore($userId),
         ];
     }
+
+    protected function messages(?int $userId = null): array
+    {
+        return [
+            'name.required' => 'El nombre es requerido',
+            'name.string' => 'El nombre debe ser una cadena de texto',
+            'name.max' => 'El nombre no debe pasar los 255 caracteres',
+
+            'email.required' => 'El email es requerido',
+            'email.email' => 'Ingresa un correo valido',
+            'email.unique' => 'El correo ingresado ya esta registrado'
+        ];
+    }
 }
