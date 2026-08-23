@@ -8,9 +8,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('usuario.index');
+        $texto = $request->input('texto');
+        $users = User::with('permissions')->where('name', 'like', '%{$texto}%')
+                    ->orderBy('id', 'asc')->paginate(10);
+        return view('usuario.index' , compact('texto', 'users'));
     }
 
     public function create()
@@ -25,7 +28,7 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->password = $request->input('password');
         $user->save();
-        return redirect('usuario.index')->with('mensaje', 'Usuario' . $user->id . 'agregado correctamente');
+        return redirect('usuario.index')->with('mensaje', 'Usuario' . $user->name . 'agregado correctamente');
     }
 
     public function show() {}
@@ -45,7 +48,7 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->save();
-        return redirect('usuario.index')->with('mensaje', 'Usuario' . $user->id . 'actualizado correctamente');
+        return redirect('usuario.index')->with('mensaje', 'Usuario' . $user->name . 'actualizado correctamente');
     }
 
     public function destroy($id)
@@ -53,6 +56,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return view('usuario.index')->with('Usuario' . $user->id . 'eliminado correctamente');
+        return view('usuario.index')->with('Usuario' . $user->name . 'eliminado correctamente');
     }
 }
