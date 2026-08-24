@@ -4,65 +4,68 @@ namespace App\Http\Controllers;
 
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use App\Http\Requests\Categoria\CreateCategoryRequest;
+use App\Http\Requests\Categoria\UpdateCategoyRequest;
+use App\Services\Categoria\CategoriaService;
 
 class CategoriaController extends Controller
 {
-    public function index()
+
+    public function __construct(protected CategoriaService $service) {}
+
+    public function index(Request $request )
     {
-        $categorias = Categoria::withCount('productos')->get();
-         return view ('categoria.index' , compact('categorias'));
-        //return response()->json($categorias);
+        $categorias = $this->service->getAll($request->only('estado'));
+        return view('categoria.index', compact('categorias'));
     }
 
     public function create()
     {
-        return view('categoria.action');
+        return view('categoria.action', ['categoria' => new Categoria()]);
     }
 
-    public function store(Request $request)
+    public function store(CreateCategoryRequest $request)
     {
-        $categoria = $request->input('name');
-        $categoria = $request->input('descripcion');
-        $categoria = $request->input('activo');
 
-        $categoria->save();
+        $this->service->create($request->validated());
 
-        return redirect()->route('categoria.index')->with('mensaje', 'Categoria ' . $categoria->nombre . ' ingresada correctamente');
+        return redirect()->route('categoria.index')->with('mensaje', 'Categoria creada correctamente');
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         $categoria = Categoria::findOrFail($id);
         return view('categoria.index', ['categoria' => $categoria]);
     }
 
-    public function edit($id)
+    public function edit(int $id)
     {
-        $categoria = Categoria::findOrFail($id);
+        $categoria = $this->service->find($id);
         return view('categoria.action', compact('categoria'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateCategoyRequest $request, int $id)
     {
-        $categoria = Categoria::findOrFail($id);
-        $categoria = $request->input('name');
-        $categoria = $request->input('descripcion');
-        $categoria = $request->input('activo');
-        $categoria->save();
+        $categoria = $this->service->update($id, $request->validated());
 
         return redirect()->route('categoria.index')->with('mensaje', 'Categoria ' . $categoria->nombre . ' actualizada correctamente');
     }
 
-    public function destroy($id){
-        $categoria = Categoria::findOrFail($id);
-        $categoria->delete();
+    public function destroy(int $id)
+    {
 
-        return redirect()->route('categoria.index')->with('mensaje' , 'Categoria' . $categoria->nombre . ' eliminada correctamente');
+        $categoria = $this->service->destroy($id);
+
+        return redirect()->route('categoria.index')->with('mensaje', 'Categoria ' . $categoria->nombre . ' eliminada correctamente');
     }
 
-    public function toggleStatus(Categoria $categoria){ //funcion para cambiar el estado de las categorias
-        $categoria->activo =! $categoria->activo;
+    public function toggleStatus(Categoria $categoria)
+    {
+        // Cambiar entre 'activo' e 'inactivo'
+        $categoria->estado = ($categoria->estado === 'activo') ? 'inactivo' : 'activo';
         $categoria->save();
-        return redirect()->route('usuarios.index')->with('mensaje' , 'Estado de la categoria actualizado correctamente.');
+
+        return redirect()->route('categoria.index')
+            ->with('mensaje', 'Estado de la categoría actualizado correctamente.');
     }
 }
