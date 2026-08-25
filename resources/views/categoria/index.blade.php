@@ -66,7 +66,7 @@
                 @empty
                 <tr>
                     <td colspan="6" class="p-4 text-center text-gray-500">
-                        No hay categorías enviadas a la vista. (Asegúrate de descomentar <code>$categorias</code> en el <code>index()</code> de tu controlador).
+                        No hay categorías enviadas a la vista. 
                     </td>
                 </tr>
                 @endforelse
