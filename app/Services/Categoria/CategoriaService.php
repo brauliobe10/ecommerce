@@ -43,4 +43,12 @@ class CategoriaService
         $categoria->delete();
         return $categoria;
     }
+
+    public function toggleStatus(Categoria $cat): Categoria
+    {
+        // Cambiar entre 'activo' e 'inactivo'
+        $cat->estado = ($cat->estado === 'activo') ? 'inactivo' : 'activo';
+        $cat->save();
+        return $cat;
+    }
 }

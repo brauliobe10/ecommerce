@@ -13,7 +13,7 @@ class CategoriaController extends Controller
 
     public function __construct(protected CategoriaService $service) {}
 
-    public function index(Request $request )
+    public function index(Request $request)
     {
         $categorias = $this->service->getAll($request->only('estado'));
         return view('categoria.index', compact('categorias'));
@@ -53,7 +53,6 @@ class CategoriaController extends Controller
 
     public function destroy(int $id)
     {
-
         $categoria = $this->service->destroy($id);
 
         return redirect()->route('categoria.index')->with('mensaje', 'Categoria ' . $categoria->nombre . ' eliminada correctamente');
@@ -61,10 +60,7 @@ class CategoriaController extends Controller
 
     public function toggleStatus(Categoria $categoria)
     {
-        // Cambiar entre 'activo' e 'inactivo'
-        $categoria->estado = ($categoria->estado === 'activo') ? 'inactivo' : 'activo';
-        $categoria->save();
-
+        $this->service->toggleStatus($categoria);
         return redirect()->route('categoria.index')
             ->with('mensaje', 'Estado de la categoría actualizado correctamente.');
     }
