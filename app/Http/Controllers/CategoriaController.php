@@ -29,7 +29,7 @@ class CategoriaController extends Controller
 
         $this->service->create($request->validated());
 
-        return redirect()->route('categoria.index')->with('mensaje', 'Categoria creada correctamente');
+        return redirect()->route('categorias.index')->with('mensaje', 'Categoria creada correctamente');
     }
 
     public function show(int $id)
@@ -48,20 +48,20 @@ class CategoriaController extends Controller
     {
         $categoria = $this->service->update($id, $request->validated());
 
-        return redirect()->route('categoria.index')->with('mensaje', 'Categoria ' . $categoria->nombre . ' actualizada correctamente');
+        return redirect()->route('categorias.index')->with('mensaje', 'Categoria ' . $categoria->nombre . ' actualizada correctamente');
     }
 
     public function destroy(int $id)
     {
         $categoria = $this->service->destroy($id);
 
-        return redirect()->route('categoria.index')->with('mensaje', 'Categoria ' . $categoria->nombre . ' eliminada correctamente');
+        return redirect()->route('categorias.index')->with('mensaje', 'Categoria ' . $categoria->nombre . ' eliminada correctamente');
     }
 
     public function toggleStatus(Categoria $categoria)
     {
         $this->service->toggleStatus($categoria);
-        return redirect()->route('categoria.index')
+        return redirect()->route('categorias.index')
             ->with('mensaje', 'Estado de la categoría actualizado correctamente.');
     }
 }

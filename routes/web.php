@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome')->name('home');
 Route::resource('usuarios', UserController::class);
 
-Route::patch('categoria/{categoria}/toggle-status', [CategoriaController::class, 'toggleStatus'])->name('categoria.toggleStatus');
-Route::resource('categoria', CategoriaController::class);
+Route::patch('categorias/{categoria}/toggle-status', [CategoriaController::class, 'toggleStatus'])->name('categorias.toggleStatus');
+Route::resource('categorias', CategoriaController::class);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');

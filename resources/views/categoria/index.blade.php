@@ -13,7 +13,7 @@
 
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold text-gray-800">Categorías</h1>
-            <a href="{{ route('categoria.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            <a href="{{ route('categorias.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                 Nueva Categoría
             </a>
         </div>
@@ -43,7 +43,7 @@
                     <td class="p-3 text-gray-600">{{ $cat->descripcion ?? '-' }}</td>
                     <td class="p-3 text-center">{{ $cat->productos_count ?? 0 }}</td>
                     <td class="p-3 text-center">
-                        <form action="{{ route('categoria.toggleStatus', $cat->id) }}" method="POST" class="inline">
+                        <form action="{{ route('categorias.toggleStatus', $cat->id) }}" method="POST" class="inline">
                             @csrf
                             @method('PATCH')
                             <button type="submit"
@@ -54,8 +54,8 @@
                     </td>
                     <td class="p-3 text-center">
                         <div class="flex justify-center space-x-2">
-                            <a href="{{ route('categoria.edit', $cat->id) }}" class="text-blue-600 hover:underline">Editar</a>
-                            <form action="{{ route('categoria.destroy', $cat->id) }}" method="POST" onsubmit="return confirm('¿Eliminar esta categoría?')">
+                            <a href="{{ route('categorias.edit', $cat->id) }}" class="text-blue-600 hover:underline">Editar</a>
+                            <form action="{{ route('categorias.destroy', $cat->id) }}" method="POST" onsubmit="return confirm('¿Eliminar esta categoría?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:underline">Eliminar</button>

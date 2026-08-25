@@ -15,7 +15,7 @@
             {{ $categoria->exists ? 'Editar Categoría' : 'Nueva Categoría' }}
         </h1>
 
-        <form action="{{ $categoria->exists ? route('categoria.update', $categoria) : route('categoria.store') }}" method="POST">
+        <form action="{{ $categoria->exists ? route('categorias.update', $categoria) : route('categorias.store') }}" method="POST">
             @csrf
             @if($categoria->exists)
             @method('PUT')
@@ -55,11 +55,11 @@
             </div>
 
             <div class="flex justify-end space-x-2">
-                <a href="{{ route('categoria.index') }}" class="px-4 py-2 border rounded text-gray-600 hover:bg-gray-100">
+                <a href="{{ route('categorias.index') }}" class="px-4 py-2 border rounded text-gray-600 hover:bg-gray-100">
                     Cancelar
                 </a>
                 <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                    {{ isset($categoria) ? 'Actualizar' : 'Guardar' }}
+                    {{ $categoria->exists  ? 'Actualizar' : 'Guardar' }}
                 </button>
             </div>
         </form>
