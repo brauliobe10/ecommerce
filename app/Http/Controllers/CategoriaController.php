@@ -27,7 +27,7 @@ class CategoriaController extends Controller
     public function store(CreateCategoryRequest $request)
     {
 
-        $this->service->create($request->validated());
+        $this->service->store($request->validated());
 
         return redirect()->route('categorias.index')->with('mensaje', 'Categoria creada correctamente');
     }

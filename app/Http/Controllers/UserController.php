@@ -4,58 +4,47 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Services\User\UserService;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
+    public function __construct(protected UserService $service) {}
+
     public function index(Request $request)
     {
-        $texto = $request->input('texto');
-        $users = User::with('permissions')->where('name', 'like', '%{$texto}%')
-                    ->orderBy('id', 'asc')->paginate(10);
-        return view('usuario.index' , compact('texto', 'users'));
+        $this->service->getAll();
     }
 
-    public function create()
+    public function create(User $user)
     {
-        return view('usuario.action');
+        return view('usuario.action', ['user' => $user]);
     }
 
     public function store(Request $request)
     {
-        $user = new User();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = $request->input('password');
-        $user->save();
-        return redirect('usuario.index')->with('mensaje', 'Usuario' . $user->name . 'agregado correctamente');
+        $user = $this->service->store($request->validated());
+        return redirect()->route('user.index')->with('mensaje', 'Usuario' . $user->name . 'agregado correctamente');
     }
 
     public function show() {}
 
-    public function edit($id)
+    public function edit(int $id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->service->find($id);
         return view('usuario.action', compact('user'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
-        $user = User::findOrFail($id);
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-        }
-        $user->save();
+        $user = $this->service->update($id, $request->validated());
         return redirect('usuario.index')->with('mensaje', 'Usuario' . $user->name . 'actualizado correctamente');
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-
+        $user = $this->service->destroy($id);
         return view('usuario.index')->with('Usuario' . $user->name . 'eliminado correctamente');
     }
 }

@@ -25,7 +25,7 @@ class CategoriaService
         return Categoria::findOrFail($id);
     }
 
-    public function create(array $data): Categoria
+    public function store(array $data): Categoria
     {
         return Categoria::create($data);
     }
