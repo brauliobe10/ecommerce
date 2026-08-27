@@ -17,9 +17,9 @@ class UserController extends Controller
         $this->service->getAll();
     }
 
-    public function create(User $user)
+    public function create()
     {
-        return view('usuario.action', ['user' => $user]);
+        return view('usuario.action', ['user' => new User()]);
     }
 
     public function store(Request $request)

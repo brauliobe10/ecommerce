@@ -34,7 +34,7 @@ class CategoriaController extends Controller
 
     public function show(int $id)
     {
-        $categoria = Categoria::findOrFail($id);
+        $categoria = $this->service->find($id);
         return view('categoria.index', ['categoria' => $categoria]);
     }
 
