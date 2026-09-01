@@ -15,8 +15,13 @@ class Categoria extends Model
         'estado'
     ];
 
-    public function productos() : BelongsToMany
+    public function productos(): BelongsToMany
     {
-        return $this->belongsToMany(Producto::class); // relacion muchos a muchos
+        return $this->belongsToMany(
+            Categoria::class,      // 1. Modelo relacionado
+            'categoria_producto',  // 2. Nombre de la tabla pivote
+            'producto_id',         // 3. Clave foránea de ESTE modelo en la pivote
+            'categoria_id'         // 4. Clave foránea del OTRO modelo en la pivote 
+        );       
     }
 }
