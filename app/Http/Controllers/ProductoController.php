@@ -11,9 +11,7 @@ use ProductoService;
 class ProductoController extends Controller
 {
 
-    public function __construct(protected ProductoService $service) {
-        
-    }
+    public function __construct(protected ProductoService $service) {}
     /**
      * Display a listing of the resource.
      */
