@@ -44,11 +44,11 @@ class CategoriaService
         return $categoria;
     }
 
-    public function toggleStatus(Categoria $cat): Categoria
+    public function toggleStatus(Categoria $categoria): Categoria
     {
         // Cambiar entre 'activo' e 'inactivo'
-        $cat->estado = ($cat->estado === 'activo') ? 'inactivo' : 'activo';
-        $cat->save();
-        return $cat;
+        $categoria->estado = ($categoria->estado === 'activo') ? 'inactivo' : 'activo';
+        $categoria->save();
+        return $categoria;
     }
 }
