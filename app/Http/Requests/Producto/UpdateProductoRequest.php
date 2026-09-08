@@ -12,7 +12,7 @@ class UpdateProductoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,17 +24,14 @@ class UpdateProductoRequest extends FormRequest
     {
         return [
             'nombre' => 'required|string|max:100',
-            'codigo' => 'required|string|max:100',
+            'codigo' => 'required|string|max:16|unique:productos,codigo,' . $this->route('producto'),
             'descripcion' => 'nullable|string|max:255',
             'precio' => 'required|numeric|min:0',
-            'stock' => 'required|int|min:0',
-            'imagen'       => [
-                $this->isMethod('POST') ? 'nullable' : 'nullable',
-                'image',
-                'mimes:jpg,jpeg,png,webp',
-                'max:2048'
-            ],
-            'activo' => 'required'
+            'stock' => 'required|integer|min:0',
+            'imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'categorias' => 'nullable|array',
+            'categorias.*' => 'exists:categorias,id',
+            'activo' => 'sometimes|boolean',
         ];
     }
 }

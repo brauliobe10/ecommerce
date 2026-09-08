@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Producto\CreateProductoRequest;
 use App\Http\Requests\Producto\UpdateProductoRequest;
+use App\Models\Categoria;
 use App\Models\Producto;
-use Illuminate\Http\Request;
-use ProductoService;
+use App\Services\Producto\ProductoService;
 
 class ProductoController extends Controller
 {
@@ -17,8 +17,8 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $this->service->getAll();
-        return view('producto.index');
+        $productos = $this->service->getAll();
+        return view('producto.index', compact('productos'));
     }
 
     /**
@@ -26,7 +26,8 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        return view('producto.action', ['producto' => new Producto()]);
+        $categorias = Categoria::where('estado', 'activo')->get();
+        return view('producto.action', ['producto' => new Producto(), 'categorias' => $categorias]);
     }
 
     /**
@@ -34,8 +35,19 @@ class ProductoController extends Controller
      */
     public function store(CreateProductoRequest $request)
     {
-        $producto = $this->service->store($request->validated());
-        return redirect()->route('producto.index')->with('Producto' . $producto->name . 'agregado correctamente');
+        $data = $request->validated();
+
+        if ($request->hasFile('imagen')) {
+            $data['imagen'] = $request->file('imagen')->store('productos', 'public');
+        }
+
+        $producto = $this->service->store($data);
+
+        if (!empty($data['categorias'])) {
+            $producto->categorias()->sync($data['categorias']);
+        }
+
+        return redirect()->route('productos.index')->with('mensaje', 'Producto ' . $producto->nombre . ' agregado correctamente');
     }
 
     /**
@@ -43,8 +55,7 @@ class ProductoController extends Controller
      */
     public function show(int $id)
     {
-        $producto = $this->service->find($id);
-        return view('producto.index', ['producto' => $producto]);
+        return redirect()->route('productos.index');
     }
 
     /**
@@ -53,7 +64,8 @@ class ProductoController extends Controller
     public function edit(int $id)
     {
         $producto = $this->service->find($id);
-        return view('producto.action', compact('producto'));
+        $categorias = Categoria::where('estado', 'activo')->get();
+        return view('producto.action', compact('producto', 'categorias'));
     }
 
     /**
@@ -61,9 +73,21 @@ class ProductoController extends Controller
      */
     public function update(UpdateProductoRequest $request, int $id)
     {
-        $producto = $this->service->update($id, $request->validated());
+        $data = $request->validated();
 
-        return redirect()->route('productos.index')->with('mensaje', 'Producto ' . $producto->nombre . ' actualizada correctamente');
+        if ($request->hasFile('imagen')) {
+            $data['imagen'] = $request->file('imagen')->store('productos', 'public');
+        } elseif (array_key_exists('imagen', $data) && empty($data['imagen'])) {
+            unset($data['imagen']);
+        }
+
+        $producto = $this->service->update($id, $data);
+
+        if (array_key_exists('categorias', $data)) {
+            $producto->categorias()->sync($data['categorias']);
+        }
+
+        return redirect()->route('productos.index')->with('mensaje', 'Producto ' . $producto->nombre . ' actualizado correctamente');
     }
 
     /**

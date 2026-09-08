@@ -1,31 +1,43 @@
 <?php
 
-use App\Models\Producto;
+namespace App\Services\Producto;
 
-class ProductoService {
-    public function getAll() : Producto
+use Illuminate\Contracts\Pagination\LengthAwarePaginator as PaginationLengthAwarePaginator;
+
+use App\Models\Producto;
+use RecursiveArrayIterator;
+
+class ProductoService
+{
+    public function getAll(array $filters = []): PaginationLengthAwarePaginator
     {
-        return Producto::latest();
+        $query = Producto::latest();
+
+        if (!empty($filters['activo'])) {
+            $query->where('activo', filter_var($filters['activo'], FILTER_VALIDATE_BOOLEAN));
+        }
+
+        return $query->paginate(Producto::PAGINATION);
     }
 
-    public function find(int $id) : Producto 
+    public function find(int $id): Producto
     {
         return Producto::findOrFail($id);
     }
 
-    public function store(array $data) : Producto
+    public function store(array $data): Producto
     {
         return Producto::create($data);
     }
 
-    public function update(int $id ,array $data) : Producto
+    public function update(int $id, array $data): Producto
     {
         $producto = $this->find($id);
         $producto->update($data);
         return $producto;
     }
 
-    public function destroy(int $id) : Producto
+    public function destroy(int $id): Producto
     {
         $producto = $this->find($id);
         $producto->delete();
@@ -35,11 +47,8 @@ class ProductoService {
     public function toggleStatus(Producto $producto): Producto
     {
         // Cambiar entre 'activo' e 'inactivo'
-        $producto->estado = ($producto->estado === 'activo') ? 'inactivo' : 'activo';
+        $producto->activo = !$producto->activo;
         $producto->save();
         return $producto;
     }
-
-
-
 }
