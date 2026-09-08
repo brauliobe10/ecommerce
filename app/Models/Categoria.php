@@ -18,10 +18,10 @@ class Categoria extends Model
     public function productos(): BelongsToMany
     {
         return $this->belongsToMany(
-            Categoria::class,      // 1. Modelo relacionado
+            Producto::class,       // 1. Modelo relacionado
             'categoria_producto',  // 2. Nombre de la tabla pivote
-            'producto_id',         // 3. Clave foránea de ESTE modelo en la pivote
-            'categoria_id'         // 4. Clave foránea del OTRO modelo en la pivote 
-        );       
+            'categoria_id',        // 3. Clave foránea de ESTE modelo en la pivote
+            'producto_id'          // 4. Clave foránea del OTRO modelo en la pivote
+        );
     }
 }

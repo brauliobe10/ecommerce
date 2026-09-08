@@ -34,8 +34,7 @@ class CategoriaController extends Controller
 
     public function show(int $id)
     {
-        $categoria = $this->service->find($id);
-        return view('categoria.index', ['categoria' => $categoria]);
+        return redirect()->route('categorias.index');
     }
 
     public function edit(int $id)

@@ -1,78 +1,115 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Categorías</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-
-<body class="bg-gray-100 p-8">
-    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow">
-
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">Categorías</h1>
-            <a href="{{ route('categorias.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+<x-layouts::app :title="__('Categorías')">
+    <div class="mx-auto max-w-6xl p-6">
+        <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+                <h1 class="ui-title">Categorías</h1>
+                <p class="ui-subtitle">Organiza tus productos en categorías</p>
+            </div>
+            <a href="{{ route('categorias.create') }}" class="ui-btn-success shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
                 Nueva Categoría
             </a>
         </div>
 
-        @if(session('mensaje'))
-        <div class="mb-4 p-4 bg-green-100 border-l-4 border-green-500 text-green-700">
-            {{ session('mensaje') }}
-        </div>
+        @if (session('mensaje'))
+            <div class="ui-alert-success">
+                <svg xmlns="http://www.w3.org/2000/svg" class="size-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {{ session('mensaje') }}
+            </div>
         @endif
 
-        <table class="w-full border-collapse border border-gray-200">
-            <thead>
-                <tr class="bg-gray-50 border-b">
-                    <th class="p-3 text-left">ID</th>
-                    <th class="p-3 text-left">Nombre</th>
-                    <th class="p-3 text-left">Descripción</th>
-                    <th class="p-3 text-center">Productos</th>
-                    <th class="p-3 text-center">Estado</th>
-                    <th class="p-3 text-center">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($categorias ?? [] as $cat)
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="p-3">{{ $cat->id }}</td>
-                    <td class="p-3 font-semibold">{{ $cat->nombre ?? $cat->name }}</td>
-                    <td class="p-3 text-gray-600">{{ $cat->descripcion ?? '-' }}</td>
-                    <td class="p-3 text-center">{{ $cat->productos_count ?? 0 }}</td>
-                    <td class="p-3 text-center">
-                        <form action="{{ route('categorias.toggleStatus', $cat->id) }}" method="POST" class="inline">
-                            @csrf
-                            @method('PATCH')
-                            <button type="submit"
-                                class="px-2 py-1 text-xs font-bold rounded {{ $cat->estado === 'activo' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                {{ ucfirst($cat->estado) }}
-                            </button>
-                        </form>
-                    </td>
-                    <td class="p-3 text-center">
-                        <div class="flex justify-center space-x-2">
-                            <a href="{{ route('categorias.edit', $cat->id) }}" class="text-blue-600 hover:underline">Editar</a>
-                            <form action="{{ route('categorias.destroy', $cat->id) }}" method="POST" onsubmit="return confirm('¿Eliminar esta categoría?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:underline">Eliminar</button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="6" class="p-4 text-center text-gray-500">
-                        No hay categorías enviadas a la vista. 
-                    </td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
-</body>
+        @if (session('error'))
+            <div class="ui-alert-error">
+                <svg xmlns="http://www.w3.org/2000/svg" class="size-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                </svg>
+                {{ session('error') }}
+            </div>
+        @endif
 
-</html>
+        <div class="mb-6 flex flex-wrap items-center gap-2">
+            @foreach (['' => 'Todas', 'activo' => 'Activas', 'inactivo' => 'Inactivas'] as $value => $label)
+                @php $active = (request('estado') ?? '') === $value; @endphp
+                <a href="{{ route('categorias.index', $value ? ['estado' => $value] : []) }}"
+                    class="{{ $active ? 'ui-badge-info' : 'ui-btn-secondary !px-4 !py-1.5 text-xs !font-semibold' }}">
+                    {{ $label }}
+                </a>
+            @endforeach
+        </div>
+
+        <div class="ui-card overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="ui-th">ID</th>
+                            <th scope="col" class="ui-th">Nombre</th>
+                            <th scope="col" class="ui-th">Descripción</th>
+                            <th scope="col" class="ui-th text-center">Estado</th>
+                            <th scope="col" class="ui-th text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($categorias as $categoria)
+                            <tr class="transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
+                                <td class="ui-td font-mono text-zinc-400 dark:text-zinc-500">{{ $categoria->id }}</td>
+                                <td class="ui-td">
+                                    <span class="font-medium text-indigo-700 dark:text-indigo-400">{{ $categoria->nombre }}</span>
+                                </td>
+                                <td class="ui-td">{{ $categoria->descripcion ?? '-' }}</td>
+                                <td class="ui-td">
+                                    <div class="flex justify-center">
+                                        <form action="{{ route('categorias.toggleStatus', $categoria->id) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="{{ $categoria->estado === 'activo' ? 'ui-badge-success' : 'ui-badge-danger' }} cursor-pointer transition-transform hover:scale-105">
+                                                <span class="size-1.5 rounded-full {{ $categoria->estado === 'activo' ? 'bg-emerald-500' : 'bg-red-500' }}"></span>
+                                                {{ ucfirst($categoria->estado) }}
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td class="ui-td">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <a href="{{ route('categorias.edit', $categoria->id) }}" class="ui-btn-edit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                            </svg>
+                                            Editar
+                                        </a>
+                                        <form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar la categoría {{ $categoria->nombre }}?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="ui-btn-danger">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                                </svg>
+                                                Eliminar
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="px-6 py-16 text-center text-zinc-500 dark:text-zinc-400">
+                                    No hay categorías registradas.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        @if ($categorias->hasPages())
+            <div class="mt-6">
+                {{ $categorias->links() }}
+            </div>
+        @endif
+    </div>
+</x-layouts::app>
