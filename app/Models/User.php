@@ -29,6 +29,8 @@ use Illuminate\Support\Str;
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable
 {
+    public const PAGINATION = 10;
+
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 

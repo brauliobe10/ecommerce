@@ -3,12 +3,13 @@
 namespace App\Services\User;
 
 use App\Models\User;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator as PaginationLengthAwarePaginator;
 
 class UserService
 {
-    public function getAll()
+    public function getAll(): PaginationLengthAwarePaginator
     {
-        User::latest();
+        return User::latest()->paginate(User::PAGINATION);
     }
 
     public function find(int $id) : User
@@ -18,7 +19,7 @@ class UserService
 
     public function store(array $data) : User
     {
-        return User::store($data);
+        return User::create($data);
     }
 
     public function update(int $id, array $data) : User
