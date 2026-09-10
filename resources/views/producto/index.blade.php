@@ -31,15 +31,25 @@
             </div>
         @endif
 
+        <div class="mb-4 flex items-center justify-between gap-4">
+            <p class="text-sm text-zinc-500 dark:text-zinc-400">
+                Mostrando
+                <span class="font-semibold text-zinc-700 dark:text-zinc-200">{{ $productos->firstItem() ?? 0 }}</span>–
+                <span class="font-semibold text-zinc-700 dark:text-zinc-200">{{ $productos->lastItem() ?? 0 }}</span>
+                de
+                <span class="font-semibold text-zinc-700 dark:text-zinc-200">{{ $productos->total() }}</span>
+            </p>
+        </div>
+
         <div class="ui-card overflow-hidden">
             <div class="overflow-x-auto">
-                <table class="min-w-full">
+                <table class="w-full">
                     <thead>
                         <tr>
-                            <th scope="col" class="ui-th">ID</th>
-                            <th scope="col" class="ui-th">Imagen</th>
-                            <th scope="col" class="ui-th">Nombre</th>
-                            <th scope="col" class="ui-th">Código</th>
+                            <th scope="col" class="ui-th text-left">ID</th>
+                            <th scope="col" class="ui-th text-center">Imagen</th>
+                            <th scope="col" class="ui-th text-left">Nombre</th>
+                            <th scope="col" class="ui-th text-left">Código</th>
                             <th scope="col" class="ui-th text-right">Precio</th>
                             <th scope="col" class="ui-th text-center">Stock</th>
                             <th scope="col" class="ui-th text-center">Estado</th>
@@ -49,9 +59,9 @@
                     <tbody>
                         @forelse ($productos as $producto)
                             <tr class="transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
-                                <td class="ui-td font-mono text-zinc-400 dark:text-zinc-500">{{ $producto->id }}</td>
-                                <td class="ui-td">
-                                    <div class="flex items-center justify-center">
+                                <td class="ui-td whitespace-nowrap font-mono text-zinc-400 dark:text-zinc-500">{{ $producto->id }}</td>
+                                <td class="ui-td text-center">
+                                    <div class="flex justify-center">
                                         @if ($producto->imagen)
                                             <img src="{{ asset('storage/' . $producto->imagen) }}" alt="{{ $producto->nombre }}" class="size-12 rounded-xl object-cover ring-1 ring-zinc-200 dark:ring-zinc-700">
                                         @else
@@ -63,29 +73,37 @@
                                         @endif
                                     </div>
                                 </td>
-                                <td class="ui-td font-medium text-indigo-700 dark:text-indigo-400">{{ $producto->nombre }}</td>
-                                <td class="ui-td font-mono">{{ $producto->codigo }}</td>
-                                <td class="ui-td text-right font-semibold text-indigo-700 dark:text-indigo-400">${{ number_format($producto->precio, 2) }}</td>
                                 <td class="ui-td">
-                                    <div class="flex justify-center">
-                                        <span class="ui-badge-info">{{ $producto->stock }}</span>
-                                    </div>
+                                    <span class="block max-w-xs truncate font-medium text-indigo-700 dark:text-indigo-400">{{ $producto->nombre }}</span>
                                 </td>
                                 <td class="ui-td">
+                                    <span class="block max-w-xs truncate font-mono" title="{{ $producto->codigo }}">{{ $producto->codigo }}</span>
+                                </td>
+                                <td class="ui-td whitespace-nowrap text-right font-semibold tabular-nums text-indigo-700 dark:text-indigo-400">${{ number_format($producto->precio, 2) }}</td>
+                                <td class="ui-td text-center">
+                                    <div class="flex justify-center">
+                                        @php
+                                            $stock = $producto->stock;
+                                            $stockBadge = $stock <= 0 ? 'ui-badge-danger' : ($stock < 10 ? 'ui-badge-warning' : 'ui-badge-success');
+                                        @endphp
+                                        <span class="{{ $stockBadge }} whitespace-nowrap">{{ $stock }}</span>
+                                    </div>
+                                </td>
+                                <td class="ui-td text-center">
                                     <div class="flex justify-center">
                                         <form action="{{ route('productos.toggleStatus', $producto->id) }}" method="POST">
                                             @csrf
                                             @method('PATCH')
-                                            <button type="submit" class="{{ $producto->activo ? 'ui-badge-success' : 'ui-badge-danger' }} cursor-pointer transition-transform hover:scale-105">
+                                            <button type="submit" class="{{ $producto->activo ? 'ui-badge-success' : 'ui-badge-danger' }} cursor-pointer whitespace-nowrap transition-transform hover:scale-105">
                                                 <span class="size-1.5 rounded-full {{ $producto->activo ? 'bg-emerald-500' : 'bg-red-500' }}"></span>
                                                 {{ $producto->activo ? 'Activo' : 'Inactivo' }}
                                             </button>
                                         </form>
                                     </div>
                                 </td>
-                                <td class="ui-td">
-                                    <div class="flex items-center justify-center gap-2">
-                                        <a href="{{ route('productos.edit', $producto->id) }}" class="ui-btn-edit">
+                                <td class="ui-td text-center">
+                                    <div class="flex items-center justify-center gap-1.5">
+                                        <a href="{{ route('productos.edit', $producto->id) }}" title="Editar" class="ui-btn-edit">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                             </svg>
@@ -94,7 +112,7 @@
                                         <form action="{{ route('productos.destroy', $producto->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar el producto {{ $producto->nombre }}?')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="ui-btn-danger">
+                                            <button type="submit" title="Eliminar" class="ui-btn-danger">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                                 </svg>
@@ -106,8 +124,18 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="px-6 py-16 text-center text-zinc-500 dark:text-zinc-400">
-                                    No hay productos registrados.
+                                <td colspan="8">
+                                    <div class="flex flex-col items-center justify-center gap-4 px-6 py-20 text-center">
+                                        <div class="ui-empty-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="size-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-zinc-700 dark:text-zinc-200">No hay productos registrados</p>
+                                            <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Crea tu primer producto para comenzar a gestionar el catálogo.</p>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         @endforelse
