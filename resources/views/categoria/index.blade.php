@@ -43,7 +43,7 @@
             </div>
             <p class="text-sm text-zinc-500 dark:text-zinc-400">
                 Mostrando
-                <span class="font-semibold text-zinc-700 dark:text-zinc-200">{{ $categorias->firstItem() ?? 0 }}</span>–
+                <span class="font-semibold text-zinc-700 dark:text-zinc-200">{{ $categorias->firstItem() ?? 0 }}</span> –
                 <span class="font-semibold text-zinc-700 dark:text-zinc-200">{{ $categorias->lastItem() ?? 0 }}</span>
                 de
                 <span class="font-semibold text-zinc-700 dark:text-zinc-200">{{ $categorias->total() }}</span>
