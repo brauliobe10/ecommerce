@@ -49,6 +49,9 @@ trait ProfileValidationRules
         ];
     }
 
+    /**
+     * @return array<string, string>
+     */
     protected function messages(?int $userId = null): array
     {
         return [
@@ -58,7 +61,7 @@ trait ProfileValidationRules
 
             'email.required' => 'El email es requerido',
             'email.email' => 'Ingresa un correo valido',
-            'email.unique' => 'El correo ingresado ya esta registrado'
+            'email.unique' => 'El correo ingresado ya esta registrado',
         ];
     }
 }

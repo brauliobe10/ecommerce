@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Producto extends Model
 {
-
     public const PAGINATION = 10;
 
     protected $fillable = [
@@ -17,9 +16,12 @@ class Producto extends Model
         'precio',
         'stock',
         'imagen',
-        'activo'
+        'activo',
     ];
 
+    /**
+     * @return BelongsToMany<Categoria, $this>
+     */
     public function categorias(): BelongsToMany
     {
         return $this->belongsToMany(

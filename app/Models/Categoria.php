@@ -12,9 +12,12 @@ class Categoria extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
-        'estado'
+        'estado',
     ];
 
+    /**
+     * @return BelongsToMany<Producto, $this>
+     */
     public function productos(): BelongsToMany
     {
         return $this->belongsToMany(

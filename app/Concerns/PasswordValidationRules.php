@@ -27,7 +27,10 @@ trait PasswordValidationRules
         return ['required', 'string', 'current_password'];
     }
 
-    protected function messages()
+    /**
+     * @return array<string, string>
+     */
+    protected function messages(): array
     {
         return [
             'password.required' => 'La contraseña es obligatoria',

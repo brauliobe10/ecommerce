@@ -31,6 +31,14 @@
                     <flux:sidebar.item icon="shopping-bag" :href="route('productos.index')" :current="request()->routeIs('productos.*')" wire:navigate>
                         {{ __('Productos') }}
                     </flux:sidebar.item>
+
+                    <flux:sidebar.item icon="user-group" :href="route('clientes.index')" :current="request()->routeIs('clientes.*')" wire:navigate>
+                        {{ __('Clientes') }}
+                    </flux:sidebar.item>
+
+                    <flux:sidebar.item icon="shopping-cart" :href="route('ventas.index')" :current="request()->routeIs('ventas.*')" wire:navigate>
+                        {{ __('Ventas') }}
+                    </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 

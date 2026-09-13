@@ -23,9 +23,9 @@ class UpdateCategoyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre'      => 'required|string|max:100',
+            'nombre' => 'required|string|max:100',
             'descripcion' => 'nullable|string|max:255',
-            'estado'      => 'required|in:activo,inactivo'
+            'estado' => 'required|in:activo,inactivo',
         ];
     }
 }

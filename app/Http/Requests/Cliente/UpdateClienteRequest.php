@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Categoria;
+namespace App\Http\Requests\Cliente;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateCategoryRequest extends FormRequest
+class UpdateClienteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class CreateCategoryRequest extends FormRequest
     {
         return [
             'nombre' => 'required|string|max:100',
-            'descripcion' => 'nullable|string|max:255',
-            'estado' => 'required|in:activo,inactivo',
+            'email' => 'nullable|string|email|max:150|unique:clientes,email,'.$this->route('cliente'),
+            'telefono' => 'nullable|string|max:20',
         ];
     }
 }

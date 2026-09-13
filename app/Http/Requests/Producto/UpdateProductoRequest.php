@@ -24,7 +24,7 @@ class UpdateProductoRequest extends FormRequest
     {
         return [
             'nombre' => 'required|string|max:100',
-            'codigo' => 'required|string|max:16|unique:productos,codigo,' . $this->route('producto'),
+            'codigo' => 'required|string|max:16|unique:productos,codigo,'.$this->route('producto'),
             'descripcion' => 'nullable|string|max:255',
             'precio' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',

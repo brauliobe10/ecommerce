@@ -48,12 +48,32 @@
                     </div>
                 </div>
             </a>
+
+            @php
+                $ventasCompletadas = \App\Models\Venta::where('estado', 'completada')->get();
+                $totalVentas = $ventasCompletadas->count();
+                $montoVentas = $ventasCompletadas->sum('total');
+            @endphp
+            <a href="{{ route('ventas.index') }}" class="ui-card p-6 transition-all hover:-translate-y-0.5 hover:shadow-md">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Ventas</p>
+                        <p class="mt-2 text-4xl font-bold text-indigo-700 dark:text-indigo-400">{{ $totalVentas }}</p>
+                        <p class="mt-1 text-sm font-semibold text-emerald-600 dark:text-emerald-400">${{ number_format($montoVentas, 2) }}</p>
+                    </div>
+                    <div class="flex size-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 2.25h1.5c.621 0 1.125.504 1.125 1.125v13.5c0 .621.504 1.125 1.125 1.125h15M5.25 15.75h15l-2.25-4.5-2.25 3-3.75-4.5-3 6-2.25-3-1.5 3z" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
         </div>
 
         <div class="ui-card mt-4 p-6">
             <h2 class="text-lg font-semibold text-indigo-700 dark:text-indigo-400">Bienvenido, {{ auth()->user()->name }}</h2>
             <p class="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-                Usa el menú lateral para gestionar usuarios, categorías y productos.
+                Usa el menú lateral para gestionar usuarios, categorías, productos, clientes y ventas.
             </p>
         </div>
     </div>
