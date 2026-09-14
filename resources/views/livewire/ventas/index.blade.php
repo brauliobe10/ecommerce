@@ -30,57 +30,27 @@
         </div>
     @endif
 
-    <div class="mb-4 flex flex-wrap items-center justify-between gap-4">
-        <div class="flex flex-1 flex-wrap items-center gap-3">
-            <flux:input
-                wire:model.live.debounce.300ms="search"
-                icon="magnifying-glass"
-                clearable
-                placeholder="Buscar por # de venta o cliente..."
-                autocomplete="off"
-                spellcheck="false"
-                class="w-full sm:w-72"
-            />
+    <div class="ui-card mb-4 p-4 sm:p-5">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div class="w-full flex-1">
+                <label for="buscar-venta" class="ui-label">Buscar</label>
+                <flux:input
+                    wire:model.live.debounce.300ms="search"
+                    id="buscar-venta"
+                    icon="magnifying-glass"
+                    clearable
+                    placeholder="Por # de venta o cliente..."
+                    autocomplete="off"
+                    spellcheck="false"
+                    class="w-full sm:max-w-md"
+                />
+            </div>
 
-            <flux:select
-                wire:model.live="estado"
-                class="w-full sm:w-44"
-            >
-                <option value="">Todos los estados</option>
-                @foreach ($estados as $value => $label)
-                    <option value="{{ $value }}">{{ $label }}</option>
-                @endforeach
-            </flux:select>
-
-            <flux:select
-                wire:model.live="metodo_pago"
-                class="w-full sm:w-52"
-            >
-                <option value="">Todos los métodos</option>
-                @foreach ($metodosPago as $value => $label)
-                    <option value="{{ $value }}">{{ $label }}</option>
-                @endforeach
-            </flux:select>
-
-            <flux:input
-                wire:model.live="fecha_desde"
-                type="date"
-                class="w-full sm:w-44"
-                aria-label="Fecha desde"
-            />
-
-            <flux:input
-                wire:model.live="fecha_hasta"
-                type="date"
-                class="w-full sm:w-44"
-                aria-label="Fecha hasta"
-            />
-
-            @if ($search !== '' || $estado !== '' || $metodo_pago !== '' || $fecha_desde !== '' || $fecha_hasta !== '')
+            @if ($this->hasActiveFilters())
                 <button
                     type="button"
                     wire:click="clearFilters"
-                    class="inline-flex items-center gap-1.5 rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-600 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                    class="ui-btn-secondary shrink-0 justify-center"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -88,6 +58,147 @@
                     Limpiar filtros
                 </button>
             @endif
+        </div>
+
+        <div class="mt-4 grid gap-4 md:grid-cols-3">
+            <div>
+                <span class="ui-label">Estado</span>
+                <div class="inline-flex flex-wrap items-center gap-1 rounded-xl bg-zinc-100 p-1 dark:bg-zinc-800">
+                    <button
+                        type="button"
+                        wire:click="$set('estado', '')"
+                        class="rounded-lg px-3 py-1.5 text-sm font-medium transition-all {{ $estado === '' ? 'bg-white text-indigo-700 shadow-sm dark:bg-zinc-700 dark:text-indigo-400' : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
+                    >
+                        Todos
+                    </button>
+                    @foreach ($estados as $value => $label)
+                        <button
+                            type="button"
+                            wire:click="$set('estado', '{{ $value }}')"
+                            class="rounded-lg px-3 py-1.5 text-sm font-medium transition-all {{ $estado === $value ? 'bg-white text-indigo-700 shadow-sm dark:bg-zinc-700 dark:text-indigo-400' : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
+                        >
+                            {{ $label }}
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+
+            <div>
+                <span class="ui-label">Método de pago</span>
+                <div class="inline-flex flex-wrap items-center gap-1 rounded-xl bg-zinc-100 p-1 dark:bg-zinc-800">
+                    <button
+                        type="button"
+                        wire:click="$set('metodo_pago', '')"
+                        class="rounded-lg px-3 py-1.5 text-sm font-medium transition-all {{ $metodo_pago === '' ? 'bg-white text-indigo-700 shadow-sm dark:bg-zinc-700 dark:text-indigo-400' : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
+                    >
+                        Todos
+                    </button>
+                    @foreach ($metodosPago as $value => $label)
+                        <button
+                            type="button"
+                            wire:click="$set('metodo_pago', '{{ $value }}')"
+                            class="rounded-lg px-3 py-1.5 text-sm font-medium transition-all {{ $metodo_pago === $value ? 'bg-white text-indigo-700 shadow-sm dark:bg-zinc-700 dark:text-indigo-400' : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
+                        >
+                            {{ $label }}
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+
+            <div>
+                <span class="ui-label">Fecha</span>
+                <div class="flex flex-wrap items-center gap-1.5">
+                    @foreach (['hoy' => 'Hoy', '7dias' => '7 días', 'este_mes' => 'Este mes', 'este_anio' => 'Este año'] as $value => $label)
+                        @php
+                            [$desde, $hasta] = $this->datePresetRange($value);
+                            $active = $fecha_desde === $desde && $fecha_hasta === $hasta;
+                        @endphp
+                        <button
+                            type="button"
+                            wire:click="applyDatePreset('{{ $value }}')"
+                            class="rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-all {{ $active ? 'border-indigo-500 bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-400' : 'border-zinc-200 text-zinc-500 hover:border-zinc-300 hover:text-zinc-700 dark:border-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
+                        >
+                            {{ $label }}
+                        </button>
+                    @endforeach
+                </div>
+                <div class="mt-2 flex flex-col gap-2 sm:flex-row">
+                    <flux:input.group>
+                        <flux:input wire:model.live="fecha_desde" type="date" aria-label="Fecha desde" />
+                    </flux:input.group>
+                    <flux:input.group>
+                        <flux:input wire:model.live="fecha_hasta" type="date" aria-label="Fecha hasta" />
+                    </flux:input.group>
+                </div>
+                <p class="ui-note">Se aplica el rango completo de cada día seleccionado.</p>
+            </div>
+        </div>
+
+        @if ($this->hasActiveFilters())
+            <div class="mt-4 border-t border-zinc-100 pt-3 dark:border-zinc-800">
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                        {{ $this->activeFiltersCount() }} {{ $this->activeFiltersCount() === 1 ? 'filtro aplicado' : 'filtros aplicados' }}
+                    </span>
+                    @if ($search !== '')
+                        <button type="button" wire:click="resetOneFilter('search')" class="ui-badge-info cursor-pointer transition-transform hover:scale-105">
+                            Búsqueda: "{{ $search }}"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    @endif
+                    @if ($estado !== '')
+                        <button type="button" wire:click="resetOneFilter('estado')" class="ui-badge-info cursor-pointer transition-transform hover:scale-105">
+                            Estado: {{ $estados[$estado] ?? ucfirst($estado) }}
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    @endif
+                    @if ($metodo_pago !== '')
+                        <button type="button" wire:click="resetOneFilter('metodo_pago')" class="ui-badge-info cursor-pointer transition-transform hover:scale-105">
+                            Método: {{ $metodosPago[$metodo_pago] ?? ucfirst($metodo_pago) }}
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    @endif
+                    @if ($fecha_desde !== '')
+                        <button type="button" wire:click="resetOneFilter('fecha_desde')" class="ui-badge-info cursor-pointer transition-transform hover:scale-105">
+                            Desde: {{ \Carbon\CarbonImmutable::parse($fecha_desde)->format('d/m/Y') }}
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    @endif
+                    @if ($fecha_hasta !== '')
+                        <button type="button" wire:click="resetOneFilter('fecha_hasta')" class="ui-badge-info cursor-pointer transition-transform hover:scale-105">
+                            Hasta: {{ \Carbon\CarbonImmutable::parse($fecha_hasta)->format('d/m/Y') }}
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    @endif
+                </div>
+            </div>
+        @endif
+    </div>
+
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex flex-wrap items-center gap-2">
+            <span class="ui-badge-info whitespace-nowrap">
+                <svg xmlns="http://www.w3.org/2000/svg" class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                </svg>
+                {{ number_format($resumen['cantidad']) }} {{ $resumen['cantidad'] === 1 ? 'venta' : 'ventas' }}
+            </span>
+            <span class="ui-badge-success whitespace-nowrap">
+                <svg xmlns="http://www.w3.org/2000/svg" class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Total: ${{ number_format($resumen['total'], 2) }}
+            </span>
         </div>
 
         <p class="text-sm text-zinc-500 dark:text-zinc-400">
@@ -167,9 +278,26 @@
                                         </svg>
                                     </div>
                                     <div>
-                                        <p class="font-medium text-zinc-700 dark:text-zinc-200">No hay ventas registradas</p>
-                                        <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Registra tu primera venta para comenzar a llevar el historial.</p>
+                                        @if ($this->hasActiveFilters())
+                                            <p class="font-medium text-zinc-700 dark:text-zinc-200">No hay ventas que coincidan con los filtros</p>
+                                            <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Ajusta los filtros aplicados o límpialos para ver todas las ventas.</p>
+                                        @else
+                                            <p class="font-medium text-zinc-700 dark:text-zinc-200">No hay ventas registradas</p>
+                                            <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Registra tu primera venta para comenzar a llevar el historial.</p>
+                                        @endif
                                     </div>
+                                    @if ($this->hasActiveFilters())
+                                        <button
+                                            type="button"
+                                            wire:click="clearFilters"
+                                            class="ui-btn-secondary"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            Limpiar filtros
+                                        </button>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

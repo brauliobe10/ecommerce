@@ -5,6 +5,7 @@ namespace App\Services\Venta;
 use App\Models\Producto;
 use App\Models\Venta;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as PaginationLengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -16,8 +17,35 @@ class VentaService
      */
     public function getAll(array $filters = []): PaginationLengthAwarePaginator
     {
-        $query = Venta::query()->with(['cliente:id,nombre', 'usuario:id,name']);
+        return $this
+            ->applyFilters(Venta::query(), $filters)
+            ->latest('fecha_venta')
+            ->paginate(Venta::PAGINATION);
+    }
 
+    /**
+     * @param  array<string, mixed>  $filters
+     * @return array{cantidad: int, total: float}
+     */
+    public function resumen(array $filters = []): array
+    {
+        $row = $this->applyFilters(Venta::query(), $filters)
+            ->selectRaw('COUNT(*) as cantidad, COALESCE(SUM(total), 0) as total')
+            ->first();
+
+        return [
+            'cantidad' => (int) ($row->cantidad ?? 0),
+            'total' => round((float) ($row->total ?? 0), 2),
+        ];
+    }
+
+    /**
+     * @param  Builder<Venta>  $query
+     * @param  array<string, mixed>  $filters
+     * @return Builder<Venta>
+     */
+    private function applyFilters(Builder $query, array $filters): Builder
+    {
         if (isset($filters['search']) && is_string($filters['search']) && $filters['search'] !== '') {
             $search = '%'.addcslashes(mb_strtolower(trim($filters['search'])), '%_').'%';
             $query->where(fn ($q) => $q
@@ -41,7 +69,7 @@ class VentaService
             $query->whereDate('fecha_venta', '<=', $filters['fecha_hasta']);
         }
 
-        return $query->latest('fecha_venta')->paginate(Venta::PAGINATION);
+        return $query;
     }
 
     public function find(int $id): Venta
