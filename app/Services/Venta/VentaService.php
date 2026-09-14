@@ -30,6 +30,7 @@ class VentaService
     public function resumen(array $filters = []): array
     {
         $row = $this->applyFilters(Venta::query(), $filters)
+            ->toBase()
             ->selectRaw('COUNT(*) as cantidad, COALESCE(SUM(total), 0) as total')
             ->first();
 
@@ -46,28 +47,30 @@ class VentaService
      */
     private function applyFilters(Builder $query, array $filters): Builder
     {
-        if (isset($filters['search']) && is_string($filters['search']) && $filters['search'] !== '') {
-            $search = '%'.addcslashes(mb_strtolower(trim($filters['search'])), '%_').'%';
-            $query->where(fn ($q) => $q
-                ->whereHas('cliente', fn ($q) => $q->whereRaw('LOWER(nombre) LIKE ?', [$search]))
-                ->orWhereRaw('CAST(id AS CHAR) LIKE ?', [$search]));
-        }
+        // 1. Búsqueda por ID o Relación (Optimizada)
+        $query->when(filled($filters['search'] ?? null), function ($q) use ($filters) {
+            $search = trim($filters['search']);
 
-        if (! empty($filters['estado'])) {
-            $query->where('estado', $filters['estado']);
-        }
+            $q->where(function ($sub) use ($search) {
+                // Si el término es numérico, usa un 'where' exacto súper rápido por ID
+                if (is_numeric($search)) {
+                    $sub->where('id', (int) $search);
+                }
 
-        if (! empty($filters['metodo_pago'])) {
-            $query->where('metodo_pago', $filters['metodo_pago']);
-        }
+                // Búsqueda en cliente por LIKE (usa sintaxis estándar de Eloquent)
+                $sub->orWhereHas('cliente', function ($qClient) use ($search) {
+                    $qClient->where('nombre', 'LIKE', '%' . addcslashes($search, '%_') . '%');
+                });
+            });
+        });
 
-        if (! empty($filters['fecha_desde'])) {
-            $query->whereDate('fecha_venta', '>=', $filters['fecha_desde']);
-        }
+        // 2. Filtros de igualdad simples (usando when)
+        $query->when($filters['estado'] ?? null, fn($q, $estado) => $q->where('estado', $estado));
+        $query->when($filters['metodo_pago'] ?? null, fn($q, $metodo) => $q->where('metodo_pago', $metodo));
 
-        if (! empty($filters['fecha_hasta'])) {
-            $query->whereDate('fecha_venta', '<=', $filters['fecha_hasta']);
-        }
+        // 3. Rangos de Fecha (Optimizado para usar ÍNDICES)
+        $query->when($filters['fecha_desde'] ?? null, fn($q, $desde) => $q->where('fecha_venta', '>=', $desde . ' 00:00:00'));
+        $query->when($filters['fecha_hasta'] ?? null, fn($q, $hasta) => $q->where('fecha_venta', '<=', $hasta . ' 23:59:59'));
 
         return $query;
     }
@@ -85,44 +88,53 @@ class VentaService
     public function store(array $data, array $items): Venta
     {
         return DB::transaction(function () use ($data, $items) {
-            $productos = collect($items)->map(function (array $item) {
-                $producto = Producto::findOrFail((int) $item['producto_id']);
-                $cantidad = (int) $item['cantidad'];
+            $itemsMap = collect($items)->keyBy('producto_id');
 
+            // 1. Cargar y BLOQUEAR todos los productos en 1 sola consulta
+            $productos = Producto::whereIn('id', $itemsMap->keys())
+                ->lockForUpdate()
+                ->get();
+
+            $detalles = [];
+            $total = 0;
+
+            foreach ($productos as $producto) {
+                $cantidad = (int) $itemsMap[$producto->id]['cantidad'];
+
+                // 2. Validación de stock en tiempo real
                 if ($producto->stock < $cantidad) {
                     throw ValidationException::withMessages([
                         'items' => "Stock insuficiente para el producto {$producto->nombre}.",
                     ]);
                 }
 
-                return [
-                    'producto' => $producto,
-                    'cantidad' => $cantidad,
-                    'subtotal' => round($producto->precio * $cantidad, 2),
+                $subtotal = round($producto->precio * $cantidad, 2);
+                $total += $subtotal;
+
+                // Preparamos los datos para inserción masiva
+                $detalles[] = [
+                    'producto_id'     => $producto->id,
+                    'cantidad'        => $cantidad,
+                    'precio_unitario' => $producto->precio,
+                    'subtotal'        => $subtotal,
                 ];
-            });
 
-            $total = round($productos->sum('subtotal'), 2);
+                // 3. Descuento de stock directo en BD
+                $producto->decrement('stock', $cantidad);
+            }
 
+            // 4. Crear la cabecera de la venta
             $venta = Venta::create([
-                'cliente_id' => $data['cliente_id'] ?? null,
-                'usuario_id' => auth()->id(),
+                'cliente_id'  => $data['cliente_id'] ?? null,
+                'usuario_id'  => auth()->id(),
                 'fecha_venta' => $data['fecha_venta'] ?? now(),
-                'total' => $total,
+                'total'       => round($total, 2),
                 'metodo_pago' => $data['metodo_pago'],
-                'estado' => $data['estado'] ?? Venta::ESTADO_COMPLETADA,
+                'estado'      => $data['estado'] ?? Venta::ESTADO_COMPLETADA,
             ]);
 
-            foreach ($productos as $item) {
-                $venta->detalleVentas()->create([
-                    'producto_id' => $item['producto']->id,
-                    'cantidad' => $item['cantidad'],
-                    'precio_unitario' => $item['producto']->precio,
-                    'subtotal' => $item['subtotal'],
-                ]);
-
-                $item['producto']->decrement('stock', $item['cantidad']);
-            }
+            // 5. Inserción masiva de detalles en 1 sola consulta
+            $venta->detalleVentas()->createMany($detalles);
 
             return $venta;
         });
@@ -131,17 +143,29 @@ class VentaService
     public function anular(Venta $venta): Venta
     {
         return DB::transaction(function () use ($venta) {
+            // 1. Bloqueo pesimista sobre la venta para evitar peticiones concurrentes
+            $venta = Venta::where('id', $venta->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
             if ($venta->estado === Venta::ESTADO_ANULADA) {
                 throw ValidationException::withMessages([
                     'estado' => 'La venta ya se encuentra anulada.',
                 ]);
             }
 
-            $venta->estado = Venta::ESTADO_ANULADA;
-            $venta->save();
+            // 2. Actualizar estado de la venta
+            $venta->update([
+                'estado' => Venta::ESTADO_ANULADA,
+            ]);
 
-            foreach ($venta->detalleVentas as $detalle) {
-                $detalle->producto->increment('stock', $detalle->cantidad);
+            // 3. Cargar los detalles de la venta
+            $detalles = $venta->detalleVentas()->get(['producto_id', 'cantidad']);
+
+            // 4. Reponer stock masivamente directo en BD (Evita loop de N+1)
+            foreach ($detalles as $detalle) {
+                Producto::where('id', $detalle->producto_id)
+                    ->increment('stock', $detalle->cantidad);
             }
 
             return $venta;
