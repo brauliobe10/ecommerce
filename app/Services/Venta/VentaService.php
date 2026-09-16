@@ -162,7 +162,7 @@ class VentaService
             // 3. Cargar los detalles de la venta
             $detalles = $venta->detalleVentas()->get(['producto_id', 'cantidad']);
 
-            // 4. Reponer stock masivamente directo en BD (Evita loop de N+1)
+            // 4. Reponer stock masivamente directo en BD 
             foreach ($detalles as $detalle) {
                 Producto::where('id', $detalle->producto_id)
                     ->increment('stock', $detalle->cantidad);
