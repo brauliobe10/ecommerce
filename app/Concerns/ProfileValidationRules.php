@@ -57,7 +57,7 @@ trait ProfileValidationRules
         return [
             'name.required' => 'El nombre es requerido',
             'name.string' => 'El nombre debe ser una cadena de texto',
-            'name.max' => 'El nombre no debe pasar los 255 caracteres',
+            'name.max' => 'El nombre no excede el limite de caracteres',
 
             'email.required' => 'El email es requerido',
             'email.email' => 'Ingresa un correo valido',
