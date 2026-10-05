@@ -19,25 +19,33 @@
             </flux:sidebar.nav>
 
             <flux:sidebar.nav>
-                <flux:sidebar.group :heading="__('Gestión')" class="grid">
+                <flux:sidebar.group heading="Gestión de usuarios" class="grid">
                     <flux:sidebar.item icon="users" :href="route('usuarios.index')" :current="request()->routeIs('usuarios.*')" wire:navigate>
-                        {{ __('Usuarios') }}
-                    </flux:sidebar.item>
-
-                    <flux:sidebar.item icon="tag" :href="route('categorias.index')" :current="request()->routeIs('categorias.*')" wire:navigate>
-                        {{ __('Categorías') }}
-                    </flux:sidebar.item>
-
-                    <flux:sidebar.item icon="shopping-bag" :href="route('productos.index')" :current="request()->routeIs('productos.*')" wire:navigate>
-                        {{ __('Productos') }}
+                        Usuarios
                     </flux:sidebar.item>
 
                     <flux:sidebar.item icon="user-group" :href="route('clientes.index')" :current="request()->routeIs('clientes.*')" wire:navigate>
-                        {{ __('Clientes') }}
+                        Clientes
+                    </flux:sidebar.item>
+                </flux:sidebar.group>
+            </flux:sidebar.nav>
+
+            <flux:sidebar.nav>
+                <flux:sidebar.group heading="Gestión de productos" class="grid">
+                    <flux:sidebar.item icon="tag" :href="route('categorias.index')" :current="request()->routeIs('categorias.*')" wire:navigate>
+                        Categorías
                     </flux:sidebar.item>
 
+                    <flux:sidebar.item icon="shopping-bag" :href="route('productos.index')" :current="request()->routeIs('productos.*')" wire:navigate>
+                        Productos
+                    </flux:sidebar.item>
+                </flux:sidebar.group>
+            </flux:sidebar.nav>
+
+            <flux:sidebar.nav>
+                <flux:sidebar.group heading="POSVenta" class="grid">
                     <flux:sidebar.item icon="shopping-cart" :href="route('ventas.index')" :current="request()->routeIs('ventas.*')" wire:navigate>
-                        {{ __('Ventas') }}
+                        POS / Ventas
                     </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
