@@ -31,7 +31,7 @@ class ProductoService
             $query->where('activo', filter_var($filters['activo'], FILTER_VALIDATE_BOOLEAN));
         }
 
-        return $query->latest()->paginate(Producto::PAGINATION);
+        return $query->with('categorias')->latest()->paginate(Producto::PAGINATION);
     }
 
     public function find(int $id): Producto

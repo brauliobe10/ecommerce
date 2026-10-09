@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Tienda\Carrito;
+use App\Livewire\Tienda\CarritoPagina;
 use App\Livewire\Tienda\Catalogo;
 use App\Livewire\Tienda\Checkout;
 use App\Models\Pedido;
@@ -124,4 +125,109 @@ test('the cart badge reflects the number of items', function () {
 
     Livewire::test(Carrito::class)
         ->assertSet('cantidad', 2);
+});
+
+test('the cart drawer lists the selected products with their images', function () {
+    $producto = Producto::create([
+        'nombre' => 'Cafe',
+        'codigo' => 'CAF-001',
+        'precio' => 50,
+        'stock' => 10,
+        'activo' => true,
+        'imagen' => 'productos/cafe.jpg',
+    ]);
+
+    app(CarritoService::class)->add($producto->id, 2);
+
+    Livewire::test(Carrito::class)
+        ->call('refresh')
+        ->assertSet('cantidad', 2)
+        ->assertSee('Cafe')
+        ->assertSee('storage/productos/cafe.jpg')
+        ->assertSee('$100.00')
+        ->assertDontSee('Tu carrito está vacío.');
+});
+
+test('adding a product from the catalog dispatches the cart events', function () {
+    $producto = Producto::create([
+        'nombre' => 'Cafe',
+        'codigo' => 'CAF-001',
+        'precio' => 50,
+        'stock' => 10,
+        'activo' => true,
+    ]);
+
+    Livewire::test(Catalogo::class)
+        ->call('addToCart', $producto->id)
+        ->assertDispatched('carrito-actualizado')
+        ->assertDispatched('abrir-carrito');
+
+    Livewire::test(Carrito::class)
+        ->assertDontSee('Tu carrito está vacío.')
+        ->assertSee('Cafe');
+});
+
+test('the cart page shows the empty state', function () {
+    $this->get(route('tienda.carrito'))
+        ->assertOk()
+        ->assertSee('Tu carrito está vacío.');
+});
+
+test('the cart page lists the selected products with subtotal and total', function () {
+    $producto = Producto::create([
+        'nombre' => 'Cafe',
+        'codigo' => 'CAF-001',
+        'precio' => 50,
+        'stock' => 10,
+        'activo' => true,
+        'imagen' => 'productos/cafe.jpg',
+    ]);
+
+    app(CarritoService::class)->add($producto->id, 2);
+
+    $this->get(route('tienda.carrito'))
+        ->assertOk()
+        ->assertSee('Cafe')
+        ->assertSee('storage/productos/cafe.jpg')
+        ->assertSee('Subtotal')
+        ->assertSee('Total')
+        ->assertSee('$100.00')
+        ->assertDontSee('Tu carrito está vacío.');
+});
+
+test('the cart page component updates and removes items', function () {
+    $producto = Producto::create([
+        'nombre' => 'Cafe',
+        'codigo' => 'CAF-001',
+        'precio' => 50,
+        'stock' => 10,
+        'activo' => true,
+    ]);
+
+    app(CarritoService::class)->add($producto->id, 2);
+
+    Livewire::test(CarritoPagina::class)
+        ->assertSet('cantidad', 2)
+        ->call('increment', $producto->id)
+        ->assertSet('cantidad', 3)
+        ->call('decrement', $producto->id)
+        ->assertSet('cantidad', 2)
+        ->call('remove', $producto->id)
+        ->assertSet('cantidad', 0);
+
+    expect(app(CarritoService::class)->count())->toBe(0);
+});
+
+test('the about page is visible', function () {
+    $this->get(route('tienda.sobre'))
+        ->assertOk()
+        ->assertSee('Sobre nosotros')
+        ->assertSee(config('app.name', 'KodeTech'));
+});
+
+test('the contact page is visible', function () {
+    $this->get(route('tienda.contacto'))
+        ->assertOk()
+        ->assertSee('Contactanos')
+        ->assertSee('WhatsApp');
 });

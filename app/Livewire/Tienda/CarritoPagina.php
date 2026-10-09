@@ -7,7 +7,7 @@ use App\Services\Carrito\CarritoService;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
-class Carrito extends Component
+class CarritoPagina extends Component
 {
     use GestionaCarrito;
 
@@ -15,6 +15,6 @@ class Carrito extends Component
     {
         $this->items = app(CarritoService::class)->all();
 
-        return view('livewire.tienda.carrito');
+        return view('livewire.tienda.carrito-pagina');
     }
 }

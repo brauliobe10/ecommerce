@@ -70,6 +70,34 @@ select:focus[data-flux-control] {
     @apply rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900;
 }
 
+.ui-glass {
+    @apply rounded-3xl border border-white/40 bg-white/60 shadow-lg shadow-indigo-950/5 backdrop-blur-2xl dark:border-white/10 dark:bg-zinc-900/50;
+}
+
+.ui-glass-chip {
+    @apply inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-full border border-white/40 bg-white/60 px-4 py-2 text-sm font-medium text-zinc-700 backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:text-indigo-700 dark:border-white/10 dark:bg-zinc-900/50 dark:text-zinc-300 dark:hover:text-indigo-300;
+}
+
+.ui-glass-chip-active {
+    @apply border-transparent bg-gradient-to-r from-indigo-600 to-fuchsia-600 text-white shadow-lg shadow-indigo-500/30 hover:border-transparent hover:text-white dark:border-transparent dark:from-indigo-500 dark:to-fuchsia-500 dark:text-white dark:hover:text-white;
+}
+
+.ui-glass-chip-count {
+    @apply inline-flex size-5 items-center justify-center rounded-full bg-zinc-200/70 text-[11px] font-semibold text-zinc-600 dark:bg-white/10 dark:text-zinc-300;
+}
+
+.ui-glass-chip-active .ui-glass-chip-count {
+    @apply bg-white/25 text-white;
+}
+
+.ui-skeleton {
+    @apply animate-pulse rounded-2xl bg-zinc-200/80 dark:bg-zinc-800/70;
+}
+
+.ui-orb {
+    @apply pointer-events-none absolute rounded-full blur-3xl;
+}
+
 .ui-title {
     @apply text-3xl font-bold text-indigo-700 dark:text-indigo-400;
 }

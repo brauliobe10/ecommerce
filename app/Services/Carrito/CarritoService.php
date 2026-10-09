@@ -10,7 +10,7 @@ class CarritoService
     private const SESSION_KEY = 'carrito';
 
     /**
-     * @return array<int, array{producto_id: int, nombre: string, codigo: string, precio: float, cantidad: int, imagen: string|null}>
+     * @return array<int, array{producto_id: int, nombre: string, codigo: string, precio: float, cantidad: int, stock: int, imagen: string|null}>
      */
     public function all(): array
     {
@@ -20,7 +20,7 @@ class CarritoService
     }
 
     /**
-     * @param  array<int, array{producto_id: int, nombre: string, codigo: string, precio: float, cantidad: int, imagen: string|null}>  $items
+     * @param  array<int, array{producto_id: int, nombre: string, codigo: string, precio: float, cantidad: int, stock: int, imagen: string|null}>  $items
      */
     private function persist(array $items): void
     {
@@ -55,6 +55,7 @@ class CarritoService
             'codigo' => $producto->codigo,
             'precio' => (float) $producto->precio,
             'cantidad' => $nueva,
+            'stock' => (int) $producto->stock,
             'imagen' => $producto->imagen,
         ];
 
@@ -79,6 +80,7 @@ class CarritoService
 
         if ($producto) {
             $cantidad = min($cantidad, max($producto->stock, 1));
+            $items[$productoId]['stock'] = (int) $producto->stock;
         }
 
         $items[$productoId]['cantidad'] = $cantidad;

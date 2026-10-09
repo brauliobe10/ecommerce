@@ -26,6 +26,9 @@ class Producto extends Component
 
     public int $cantidad = 1;
 
+    /** @var list<array{id: int, nombre: string}> */
+    public array $categorias = [];
+
     public function mount(int $producto): void
     {
         $model = ProductoModel::findOrFail($producto);
@@ -43,6 +46,10 @@ class Producto extends Component
         $this->precio = (float) $model->precio;
         $this->stock = (int) $model->stock;
         $this->imagen = $model->imagen;
+        $this->categorias = [];
+        foreach ($model->categorias as $cat) {
+            $this->categorias[] = ['id' => $cat->id, 'nombre' => $cat->nombre];
+        }
     }
 
     public function addToCart(): void

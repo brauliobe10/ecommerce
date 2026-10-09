@@ -33,4 +33,19 @@ class TiendaController extends Controller
 
         return view('tienda.checkout');
     }
+
+    public function carrito(): View
+    {
+        return view('tienda.carrito');
+    }
+
+    public function sobreNosotros(): View
+    {
+        return view('tienda.sobre');
+    }
+
+    public function contacto(): View
+    {
+        return view('tienda.contacto');
+    }
 }

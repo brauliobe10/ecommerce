@@ -24,10 +24,14 @@
     @endif
 
     <div class="grid gap-8 lg:grid-cols-2">
-        <div class="ui-card overflow-hidden">
-            <div class="aspect-square w-full bg-zinc-100 dark:bg-zinc-800">
+        <div class="ui-glass relative overflow-hidden">
+            <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+                <div class="ui-orb -right-16 -top-16 size-64 bg-fuchsia-400/20 dark:bg-fuchsia-600/15"></div>
+                <div class="ui-orb -bottom-16 -left-16 size-64 bg-indigo-400/20 dark:bg-indigo-600/15"></div>
+            </div>
+            <div class="relative aspect-square w-full bg-white/30 dark:bg-zinc-900/30">
                 @if ($imagen)
-                    <img src="{{ asset('storage/'.$imagen) }}" alt="{{ $nombre }}" class="size-full object-cover">
+                    <img src="{{ asset('storage/'.$imagen) }}" alt="{{ $nombre }}" class="size-full object-cover transition duration-500 hover:scale-105">
                 @else
                     <div class="flex size-full items-center justify-center text-zinc-300 dark:text-zinc-600">
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
@@ -38,9 +42,19 @@
             </div>
         </div>
 
-        <div class="flex flex-col">
+        <div class="ui-glass flex flex-col p-6 sm:p-8">
             <span class="font-mono text-xs text-zinc-400 dark:text-zinc-500">{{ $codigo }}</span>
             <h1 class="mt-1 text-3xl font-bold text-zinc-900 dark:text-white">{{ $nombre }}</h1>
+
+            @if (count($categorias) > 0)
+                <div class="mt-3 flex flex-wrap gap-2">
+                    @foreach ($categorias as $cat)
+                        <a href="{{ route('home', ['categoria' => $cat['id']]) }}" wire:navigate class="rounded-full border border-white/40 bg-white/70 px-3 py-1 text-xs font-semibold text-zinc-700 backdrop-blur-xl transition hover:border-indigo-300 hover:text-indigo-700 dark:border-white/10 dark:bg-zinc-900/50 dark:text-zinc-300 dark:hover:text-indigo-300">
+                            {{ $cat['nombre'] }}
+                        </a>
+                    @endforeach
+                </div>
+            @endif
 
             <div class="mt-3 flex items-center gap-3">
                 @if ($stock > 0)

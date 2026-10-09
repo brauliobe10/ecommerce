@@ -11,7 +11,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [TiendaController::class, 'index'])->name('home');
 Route::get('producto/{producto}', [TiendaController::class, 'show'])->name('tienda.producto');
+Route::get('carrito', [TiendaController::class, 'carrito'])->name('tienda.carrito');
 Route::get('checkout', [TiendaController::class, 'checkout'])->name('tienda.checkout');
+Route::get('sobre-nosotros', [TiendaController::class, 'sobreNosotros'])->name('tienda.sobre');
+Route::get('contacto', [TiendaController::class, 'contacto'])->name('tienda.contacto');
 
 Route::resource('usuarios', UserController::class);
 

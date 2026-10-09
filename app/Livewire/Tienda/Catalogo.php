@@ -3,6 +3,7 @@
 namespace App\Livewire\Tienda;
 
 use App\Models\Categoria;
+use App\Models\Producto;
 use App\Services\Carrito\CarritoService;
 use App\Services\Producto\ProductoService;
 use Illuminate\Contracts\View\View;
@@ -35,6 +36,13 @@ class Catalogo extends Component
         $this->resetPage();
     }
 
+    public function filtrarCategoria(?int $id = null): void
+    {
+        $this->categoria = $id ? (string) $id : '';
+
+        $this->resetPage();
+    }
+
     public function addToCart(int $productoId): void
     {
         try {
@@ -59,8 +67,14 @@ class Catalogo extends Component
             'activo' => true,
         ]);
 
-        $categorias = Categoria::orderBy('nombre')->get();
+        $categorias = Categoria::query()
+            ->where('estado', 'activo')
+            ->withCount(['productos as cantidad_productos' => fn ($q) => $q->where('productos.activo', true)])
+            ->orderBy('nombre')
+            ->get();
 
-        return view('livewire.tienda.catalogo', compact('productos', 'categorias'));
+        $total = Producto::where('activo', true)->count();
+
+        return view('livewire.tienda.catalogo', compact('productos', 'categorias', 'total'));
     }
 }
