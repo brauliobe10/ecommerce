@@ -59,18 +59,18 @@ class VentaService
 
                 // Búsqueda en cliente por LIKE (usa sintaxis estándar de Eloquent)
                 $sub->orWhereHas('cliente', function ($qClient) use ($search) {
-                    $qClient->where('nombre', 'LIKE', '%' . addcslashes($search, '%_') . '%');
+                    $qClient->where('nombre', 'LIKE', '%'.addcslashes($search, '%_').'%');
                 });
             });
         });
 
         // 2. Filtros de igualdad simples (usando when)
-        $query->when($filters['estado'] ?? null, fn($q, $estado) => $q->where('estado', $estado));
-        $query->when($filters['metodo_pago'] ?? null, fn($q, $metodo) => $q->where('metodo_pago', $metodo));
+        $query->when($filters['estado'] ?? null, fn ($q, $estado) => $q->where('estado', $estado));
+        $query->when($filters['metodo_pago'] ?? null, fn ($q, $metodo) => $q->where('metodo_pago', $metodo));
 
         // 3. Rangos de Fecha (Optimizado para usar ÍNDICES)
-        $query->when($filters['fecha_desde'] ?? null, fn($q, $desde) => $q->where('fecha_venta', '>=', $desde . ' 00:00:00'));
-        $query->when($filters['fecha_hasta'] ?? null, fn($q, $hasta) => $q->where('fecha_venta', '<=', $hasta . ' 23:59:59'));
+        $query->when($filters['fecha_desde'] ?? null, fn ($q, $desde) => $q->where('fecha_venta', '>=', $desde.' 00:00:00'));
+        $query->when($filters['fecha_hasta'] ?? null, fn ($q, $hasta) => $q->where('fecha_venta', '<=', $hasta.' 23:59:59'));
 
         return $query;
     }
@@ -113,10 +113,10 @@ class VentaService
 
                 // Preparamos los datos para inserción masiva
                 $detalles[] = [
-                    'producto_id'     => $producto->id,
-                    'cantidad'        => $cantidad,
+                    'producto_id' => $producto->id,
+                    'cantidad' => $cantidad,
                     'precio_unitario' => $producto->precio,
-                    'subtotal'        => $subtotal,
+                    'subtotal' => $subtotal,
                 ];
 
                 // 3. Descuento de stock directo en BD
@@ -125,12 +125,12 @@ class VentaService
 
             // 4. Crear la cabecera de la venta
             $venta = Venta::create([
-                'cliente_id'  => $data['cliente_id'] ?? null,
-                'usuario_id'  => auth()->id(),
+                'cliente_id' => $data['cliente_id'] ?? null,
+                'usuario_id' => auth()->id(),
                 'fecha_venta' => $data['fecha_venta'] ?? now(),
-                'total'       => round($total, 2),
+                'total' => round($total, 2),
                 'metodo_pago' => $data['metodo_pago'],
-                'estado'      => $data['estado'] ?? Venta::ESTADO_COMPLETADA,
+                'estado' => $data['estado'] ?? Venta::ESTADO_COMPLETADA,
             ]);
 
             // 5. Inserción masiva de detalles en 1 sola consulta
@@ -162,7 +162,7 @@ class VentaService
             // 3. Cargar los detalles de la venta
             $detalles = $venta->detalleVentas()->get(['producto_id', 'cantidad']);
 
-            // 4. Reponer stock masivamente directo en BD 
+            // 4. Reponer stock masivamente directo en BD
             foreach ($detalles as $detalle) {
                 Producto::where('id', $detalle->producto_id)
                     ->increment('stock', $detalle->cantidad);

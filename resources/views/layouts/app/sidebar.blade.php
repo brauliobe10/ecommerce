@@ -47,6 +47,10 @@
                     <flux:sidebar.item icon="shopping-cart" :href="route('ventas.index')" :current="request()->routeIs('ventas.*')" wire:navigate>
                         POS / Ventas
                     </flux:sidebar.item>
+
+                    <flux:sidebar.item icon="clipboard-document-list" :href="route('pedidos.index')" :current="request()->routeIs('pedidos.*')" wire:navigate>
+                        Pedidos
+                    </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 

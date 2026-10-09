@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Venta extends Model
 {
@@ -58,5 +59,13 @@ class Venta extends Model
     public function detalleVentas(): HasMany
     {
         return $this->hasMany(DetalleVenta::class);
+    }
+
+    /**
+     * @return HasOne<Pedido, $this>
+     */
+    public function pedido(): HasOne
+    {
+        return $this->hasOne(Pedido::class);
     }
 }

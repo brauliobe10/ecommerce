@@ -7,6 +7,7 @@ use App\Models\Venta;
 use App\Services\Venta\VentaService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class VentaController extends Controller
@@ -18,9 +19,11 @@ class VentaController extends Controller
         return view('venta.index');
     }
 
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('venta.create');
+        $pedidoId = $request->integer('pedido') ?: null;
+
+        return view('venta.create', compact('pedidoId'));
     }
 
     public function store(CreateVentaRequest $request): RedirectResponse
