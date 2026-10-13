@@ -10,6 +10,7 @@ use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [TiendaController::class, 'index'])->name('home');
+Route::get('catalogo', [TiendaController::class, 'catalogo'])->name('tienda.catalogo');
 Route::get('producto/{producto}', [TiendaController::class, 'show'])->name('tienda.producto');
 Route::get('carrito', [TiendaController::class, 'carrito'])->name('tienda.carrito');
 Route::get('checkout', [TiendaController::class, 'checkout'])->name('tienda.checkout');

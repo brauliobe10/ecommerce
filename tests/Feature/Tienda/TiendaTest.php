@@ -9,7 +9,7 @@ use App\Models\Producto;
 use App\Services\Carrito\CarritoService;
 use Livewire\Livewire;
 
-test('the store home page shows the catalog', function () {
+test('the store home page shows the featured products', function () {
     Producto::create([
         'nombre' => 'Cafe',
         'codigo' => 'CAF-001',
@@ -21,6 +21,21 @@ test('the store home page shows the catalog', function () {
     $this->get(route('home'))
         ->assertOk()
         ->assertSee('Catálogo')
+        ->assertSee('Cafe');
+});
+
+test('the catalog page lists the products', function () {
+    Producto::create([
+        'nombre' => 'Cafe',
+        'codigo' => 'CAF-001',
+        'precio' => 50,
+        'stock' => 10,
+        'activo' => true,
+    ]);
+
+    $this->get(route('tienda.catalogo'))
+        ->assertOk()
+        ->assertSee('Catálogo de productos')
         ->assertSee('Cafe');
 });
 

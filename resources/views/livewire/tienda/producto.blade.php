@@ -1,6 +1,6 @@
 <div>
     <nav class="mb-6 flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-        <a href="{{ route('home') }}" wire:navigate class="transition hover:text-indigo-600 dark:hover:text-indigo-400">Catálogo</a>
+        <a href="{{ route('tienda.catalogo') }}" wire:navigate class="transition hover:text-indigo-600 dark:hover:text-indigo-400">Catálogo</a>
         <span>/</span>
         <span class="truncate text-zinc-700 dark:text-zinc-200">{{ $nombre }}</span>
     </nav>
@@ -49,7 +49,7 @@
             @if (count($categorias) > 0)
                 <div class="mt-3 flex flex-wrap gap-2">
                     @foreach ($categorias as $cat)
-                        <a href="{{ route('home', ['categoria' => $cat['id']]) }}" wire:navigate class="rounded-full border border-white/40 bg-white/70 px-3 py-1 text-xs font-semibold text-zinc-700 backdrop-blur-xl transition hover:border-indigo-300 hover:text-indigo-700 dark:border-white/10 dark:bg-zinc-900/50 dark:text-zinc-300 dark:hover:text-indigo-300">
+                        <a href="{{ route('tienda.catalogo', ['categoria' => $cat['id']]) }}" wire:navigate class="rounded-full border border-white/40 bg-white/70 px-3 py-1 text-xs font-semibold text-zinc-700 backdrop-blur-xl transition hover:border-indigo-300 hover:text-indigo-700 dark:border-white/10 dark:bg-zinc-900/50 dark:text-zinc-300 dark:hover:text-indigo-300">
                             {{ $cat['nombre'] }}
                         </a>
                     @endforeach

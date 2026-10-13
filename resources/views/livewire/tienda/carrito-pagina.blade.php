@@ -7,7 +7,7 @@
                 · Revisá el detalle antes de confirmar tu pedido
             </p>
         </div>
-        <a href="{{ route('home') }}#catalogo" wire:navigate class="ui-btn-secondary justify-center">
+        <a href="{{ route('tienda.catalogo') }}" wire:navigate class="ui-btn-secondary justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
             </svg>
@@ -24,7 +24,7 @@
             </div>
             <h2 class="text-lg font-semibold text-zinc-800 dark:text-zinc-100">Tu carrito está vacío.</h2>
             <p class="max-w-sm text-sm text-zinc-500 dark:text-zinc-400">Explorá el catálogo y agregá tus productos favoritos para comenzar.</p>
-            <a href="{{ route('home') }}#catalogo" wire:navigate class="ui-btn-success mt-2 justify-center">Ver catálogo</a>
+            <a href="{{ route('tienda.catalogo') }}" wire:navigate class="ui-btn-success mt-2 justify-center">Ver catálogo</a>
         </div>
     @else
         <div class="grid gap-8 lg:grid-cols-3">

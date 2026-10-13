@@ -79,7 +79,7 @@ select:focus[data-flux-control] {
 }
 
 .ui-glass-chip-active {
-    @apply border-transparent bg-gradient-to-r from-indigo-600 to-fuchsia-600 text-white shadow-lg shadow-indigo-500/30 hover:border-transparent hover:text-white dark:border-transparent dark:from-indigo-500 dark:to-fuchsia-500 dark:text-white dark:hover:text-white;
+    @apply border-transparent bg-indigo-600 text-white shadow-sm hover:border-transparent hover:bg-indigo-700 hover:text-white dark:border-transparent dark:bg-indigo-500 dark:text-white dark:hover:bg-indigo-400 dark:hover:text-white;
 }
 
 .ui-glass-chip-count {
@@ -136,6 +136,18 @@ select:focus[data-flux-control] {
 
 .ui-btn-secondary {
     @apply inline-flex items-center gap-2 rounded-xl border border-zinc-300 bg-white px-5 py-2.5 font-medium text-zinc-700 transition-all hover:-translate-y-0.5 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700;
+}
+
+.ui-btn-primary {
+    @apply inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 font-medium text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-indigo-700 hover:shadow dark:bg-indigo-500 dark:hover:bg-indigo-400;
+}
+
+.ui-section-eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400;
+}
+
+.ui-card-hover {
+    @apply transition-all hover:-translate-y-1 hover:border-zinc-300 hover:shadow-md dark:hover:border-zinc-700;
 }
 
 .ui-badge-success {

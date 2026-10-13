@@ -17,17 +17,14 @@
         </div>
     @endif
 
-    <div class="ui-glass -mx-4 px-4 py-5 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+    <div class="ui-card -mx-4 px-4 py-5 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
         <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-                <h2 class="text-2xl font-bold text-zinc-900 dark:text-white">Catálogo de productos</h2>
-                <p class="ui-subtitle">
-                    <span wire:loading.remove wire:target="search, categoria, filtrarCategoria">
-                        {{ $productos->total() === 1 ? '1 producto' : $productos->total().' productos' }} disponibles
-                    </span>
-                    <span wire:loading wire:target="search, categoria, filtrarCategoria">Buscando...</span>
-                </p>
-            </div>
+            <p class="ui-subtitle !mt-0">
+                <span wire:loading.remove wire:target="search, categoria, filtrarCategoria">
+                    {{ $productos->total() === 1 ? '1 producto' : $productos->total().' productos' }} disponibles
+                </span>
+                <span wire:loading wire:target="search, categoria, filtrarCategoria">Buscando...</span>
+            </p>
 
             <flux:input
                 wire:model.live.debounce.300ms="search"
@@ -75,7 +72,7 @@
 
     <div wire:loading.block wire:target="search, categoria, filtrarCategoria" class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         @for ($i = 0; $i < 8; $i++)
-            <div class="ui-glass overflow-hidden">
+            <div class="ui-card overflow-hidden">
                 <div class="ui-skeleton aspect-square rounded-none"></div>
                 <div class="space-y-3 p-5">
                     <div class="ui-skeleton h-4 w-2/3"></div>
@@ -88,7 +85,7 @@
 
     <div wire:loading.remove wire:target="search, categoria, filtrarCategoria" class="mt-8">
         @if ($productos->isEmpty())
-            <div class="ui-glass flex flex-col items-center justify-center gap-4 px-6 py-20 text-center">
+            <div class="ui-card flex flex-col items-center justify-center gap-4 px-6 py-20 text-center">
                 <div class="ui-empty-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" class="size-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
@@ -102,7 +99,7 @@
         @else
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 @foreach ($productos as $producto)
-                    <div class="ui-glass group flex flex-col overflow-hidden transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/10 dark:hover:shadow-indigo-900/20">
+                    <div class="ui-card ui-card-hover group flex flex-col overflow-hidden">
                         <div class="relative">
                             <a href="{{ route('tienda.producto', $producto->id) }}" wire:navigate class="block aspect-square overflow-hidden bg-zinc-100/60 dark:bg-zinc-800/60">
                                 @if ($producto->imagen)

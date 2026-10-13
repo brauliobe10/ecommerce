@@ -115,7 +115,7 @@
                             </svg>
                         </div>
                         <p class="text-sm text-zinc-500 dark:text-zinc-400">Tu carrito está vacío.</p>
-                        <a href="{{ route('home') }}#catalogo" wire:navigate class="ui-btn-secondary !px-4 !py-2 text-sm">Ver catálogo</a>
+                        <a href="{{ route('tienda.catalogo') }}" wire:navigate class="ui-btn-secondary !px-4 !py-2 text-sm">Ver catálogo</a>
                     </div>
                 @endforelse
             </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categoria;
 use App\Models\Producto;
 use App\Services\Carrito\CarritoService;
 use Illuminate\Contracts\View\View;
@@ -13,7 +14,28 @@ class TiendaController extends Controller
 
     public function index(): View
     {
-        return view('tienda.index');
+        $categoriasDestacadas = Categoria::query()
+            ->where('estado', 'activo')
+            ->whereHas('productos', fn ($q) => $q->where('productos.activo', true))
+            ->withCount(['productos as cantidad_productos' => fn ($q) => $q->where('productos.activo', true)])
+            ->orderByDesc('cantidad_productos')
+            ->orderBy('nombre')
+            ->limit(6)
+            ->get();
+
+        $productosDestacados = Producto::query()
+            ->where('activo', true)
+            ->with('categorias')
+            ->orderByDesc('created_at')
+            ->limit(8)
+            ->get();
+
+        return view('tienda.index', compact('categoriasDestacadas', 'productosDestacados'));
+    }
+
+    public function catalogo(): View
+    {
+        return view('tienda.catalogo');
     }
 
     public function show(Producto $producto): View|RedirectResponse
