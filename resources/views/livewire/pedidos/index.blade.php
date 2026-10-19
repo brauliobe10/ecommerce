@@ -59,7 +59,7 @@
                 <button
                     type="button"
                     wire:click="$set('estado', '')"
-                    class="rounded-lg px-3 py-1.5 text-sm font-medium transition-all {{ $estado === '' ? 'bg-white text-indigo-700 shadow-sm dark:bg-zinc-700 dark:text-indigo-400' : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
+                    class="rounded-lg px-3 py-1.5 text-sm font-medium transition-all {{ $estado === '' ? 'bg-white text-zinc-800 shadow-sm dark:bg-zinc-700 dark:text-zinc-400' : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
                 >
                     Todos
                 </button>
@@ -67,7 +67,7 @@
                     <button
                         type="button"
                         wire:click="$set('estado', '{{ $value }}')"
-                        class="rounded-lg px-3 py-1.5 text-sm font-medium transition-all {{ $estado === $value ? 'bg-white text-indigo-700 shadow-sm dark:bg-zinc-700 dark:text-indigo-400' : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
+                        class="rounded-lg px-3 py-1.5 text-sm font-medium transition-all {{ $estado === $value ? 'bg-white text-zinc-800 shadow-sm dark:bg-zinc-700 dark:text-zinc-400' : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
                     >
                         {{ $label }}
                     </button>
@@ -95,12 +95,12 @@
                         <tr class="transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
                             <td class="ui-td whitespace-nowrap font-mono text-zinc-400 dark:text-zinc-500">#{{ $pedido->id }}</td>
                             <td class="ui-td">
-                                <span class="block max-w-xs truncate font-medium text-indigo-700 dark:text-indigo-400">{{ $pedido->nombre_cliente }}</span>
+                                <span class="block max-w-xs truncate font-medium text-zinc-800 dark:text-zinc-400">{{ $pedido->nombre_cliente }}</span>
                                 <span class="block text-xs text-zinc-400 dark:text-zinc-500">{{ $pedido->created_at->format('d/m/Y H:i') }}</span>
                             </td>
                             <td class="ui-td whitespace-nowrap tabular-nums">{{ $pedido->telefono }}</td>
                             <td class="ui-td text-center">{{ $pedido->detalle_pedidos_count }}</td>
-                            <td class="ui-td whitespace-nowrap text-right font-semibold tabular-nums text-indigo-700 dark:text-indigo-400">${{ number_format($pedido->total, 2) }}</td>
+                            <td class="ui-td whitespace-nowrap text-right font-semibold tabular-nums text-zinc-800 dark:text-zinc-400">${{ number_format($pedido->total, 2) }}</td>
                             <td class="ui-td text-center">
                                 <div class="flex justify-center">
                                     @php

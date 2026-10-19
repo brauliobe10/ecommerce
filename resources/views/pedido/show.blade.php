@@ -66,7 +66,7 @@
                 <div>
                     <p class="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Venta asociada</p>
                     @if ($pedido->venta)
-                        <a href="{{ route('ventas.show', $pedido->venta->id) }}" class="mt-1 inline-block font-medium text-indigo-600 underline-offset-4 hover:underline dark:text-indigo-400">
+                        <a href="{{ route('ventas.show', $pedido->venta->id) }}" class="mt-1 inline-block font-medium text-accent underline-offset-4 hover:underline dark:text-zinc-400">
                             Venta #{{ $pedido->venta->id }}
                         </a>
                     @else
@@ -89,7 +89,7 @@
                         @forelse ($pedido->detallePedidos as $detalle)
                             <tr class="transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
                                 <td class="ui-td">
-                                    <span class="block max-w-sm truncate font-medium text-indigo-700 dark:text-indigo-400">{{ $detalle->producto->nombre }}</span>
+                                    <span class="block max-w-sm truncate font-medium text-zinc-800 dark:text-zinc-400">{{ $detalle->producto->nombre }}</span>
                                     <span class="block font-mono text-xs text-zinc-400 dark:text-zinc-500">{{ $detalle->producto->codigo }}</span>
                                 </td>
                                 <td class="ui-td text-center">{{ $detalle->cantidad }}</td>
@@ -108,7 +108,7 @@
             <div class="flex items-center justify-end border-t border-zinc-200 px-6 py-5 dark:border-zinc-700">
                 <div class="text-right">
                     <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total del pedido</p>
-                    <p class="mt-1 text-3xl font-bold tabular-nums text-indigo-700 dark:text-indigo-400">${{ number_format($pedido->total, 2) }}</p>
+                    <p class="mt-1 text-3xl font-bold tabular-nums text-zinc-800 dark:text-zinc-400">${{ number_format($pedido->total, 2) }}</p>
                 </div>
             </div>
         </div>

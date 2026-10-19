@@ -62,7 +62,7 @@
                     </div>
                     <div class="mt-2">
                         <span class="{{ $venta->estado === 'completada' ? 'ui-badge-success' : 'ui-badge-danger' }}">
-                            <span class="size-1.5 rounded-full {{ $venta->estado === 'completada' ? 'bg-emerald-500' : 'bg-red-500' }}"></span>
+                            <span class="size-1.5 rounded-full {{ $venta->estado === 'completada' ? 'bg-[#5F7050]' : 'bg-[#9E4B3F]' }}"></span>
                             {{ ucfirst($venta->estado) }}
                         </span>
                     </div>
@@ -83,7 +83,7 @@
                         @forelse ($venta->detalleVentas as $detalle)
                             <tr class="transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
                                 <td class="ui-td">
-                                    <span class="block max-w-sm truncate font-medium text-indigo-700 dark:text-indigo-400">{{ $detalle->producto->nombre }}</span>
+                                    <span class="block max-w-sm truncate font-medium text-zinc-800 dark:text-zinc-400">{{ $detalle->producto->nombre }}</span>
                                     <span class="block font-mono text-xs text-zinc-400 dark:text-zinc-500">{{ $detalle->producto->codigo }}</span>
                                 </td>
                                 <td class="ui-td text-center">{{ $detalle->cantidad }}</td>
@@ -102,7 +102,7 @@
             <div class="flex items-center justify-end border-t border-zinc-200 px-6 py-5 dark:border-zinc-700">
                 <div class="text-right">
                     <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total de la venta</p>
-                    <p class="mt-1 text-3xl font-bold tabular-nums text-indigo-700 dark:text-indigo-400">${{ number_format($venta->total, 2) }}</p>
+                    <p class="mt-1 text-3xl font-bold tabular-nums text-zinc-800 dark:text-zinc-400">${{ number_format($venta->total, 2) }}</p>
                 </div>
             </div>
         </div>

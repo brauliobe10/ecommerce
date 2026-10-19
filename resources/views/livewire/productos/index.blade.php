@@ -95,12 +95,12 @@
                                 </div>
                             </td>
                             <td class="ui-td">
-                                <span class="block max-w-xs truncate font-medium text-indigo-700 dark:text-indigo-400">{{ $producto->nombre }}</span>
+                                <span class="block max-w-xs truncate font-medium text-zinc-800 dark:text-zinc-400">{{ $producto->nombre }}</span>
                             </td>
                             <td class="ui-td">
                                 <span class="block max-w-xs truncate font-mono" title="{{ $producto->codigo }}">{{ $producto->codigo }}</span>
                             </td>
-                            <td class="ui-td whitespace-nowrap text-right font-semibold tabular-nums text-indigo-700 dark:text-indigo-400">${{ number_format($producto->precio, 2) }}</td>
+                            <td class="ui-td whitespace-nowrap text-right font-semibold tabular-nums text-zinc-800 dark:text-zinc-400">${{ number_format($producto->precio, 2) }}</td>
                             <td class="ui-td text-center">
                                 <div class="flex justify-center">
                                     @php
@@ -116,7 +116,7 @@
                                         @csrf
                                         @method('PATCH')
                                         <button type="submit" class="{{ $producto->activo ? 'ui-badge-success' : 'ui-badge-danger' }} cursor-pointer whitespace-nowrap transition-transform hover:scale-105">
-                                            <span class="size-1.5 rounded-full {{ $producto->activo ? 'bg-emerald-500' : 'bg-red-500' }}"></span>
+                                            <span class="size-1.5 rounded-full {{ $producto->activo ? 'bg-[#5F7050]' : 'bg-[#9E4B3F]' }}"></span>
                                             {{ $producto->activo ? 'Activo' : 'Inactivo' }}
                                         </button>
                                     </form>

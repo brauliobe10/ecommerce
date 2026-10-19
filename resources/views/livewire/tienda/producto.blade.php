@@ -1,6 +1,6 @@
 <div>
     <nav class="mb-6 flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-        <a href="{{ route('tienda.catalogo') }}" wire:navigate class="transition hover:text-indigo-600 dark:hover:text-indigo-400">Catálogo</a>
+        <a href="{{ route('tienda.catalogo') }}" wire:navigate class="transition hover:text-accent dark:hover:text-zinc-400">Catálogo</a>
         <span>/</span>
         <span class="truncate text-zinc-700 dark:text-zinc-200">{{ $nombre }}</span>
     </nav>
@@ -26,8 +26,9 @@
     <div class="grid gap-8 lg:grid-cols-2">
         <div class="ui-glass relative overflow-hidden">
             <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-                <div class="ui-orb -right-16 -top-16 size-64 bg-fuchsia-400/20 dark:bg-fuchsia-600/15"></div>
-                <div class="ui-orb -bottom-16 -left-16 size-64 bg-indigo-400/20 dark:bg-indigo-600/15"></div>
+                <div class="ui-orb -right-16 -top-16 size-64 bg-accent/20 dark:bg-accent/15"></div>
+                <div class="ui-orb -bottom-16 -left-16 size-64 bg-arena/70 dark:bg-arena/20"></div>
+                <div class="ui-orb bottom-1/3 right-1/4 size-40 bg-accent/15 dark:bg-accent/10"></div>
             </div>
             <div class="relative aspect-square w-full bg-white/30 dark:bg-zinc-900/30">
                 @if ($imagen)
@@ -49,7 +50,7 @@
             @if (count($categorias) > 0)
                 <div class="mt-3 flex flex-wrap gap-2">
                     @foreach ($categorias as $cat)
-                        <a href="{{ route('tienda.catalogo', ['categoria' => $cat['id']]) }}" wire:navigate class="rounded-full border border-white/40 bg-white/70 px-3 py-1 text-xs font-semibold text-zinc-700 backdrop-blur-xl transition hover:border-indigo-300 hover:text-indigo-700 dark:border-white/10 dark:bg-zinc-900/50 dark:text-zinc-300 dark:hover:text-indigo-300">
+                        <a href="{{ route('tienda.catalogo', ['categoria' => $cat['id']]) }}" wire:navigate class="rounded-full border border-white/40 bg-white/70 px-3 py-1 text-xs font-semibold text-zinc-700 backdrop-blur-xl transition hover:border-arena hover:text-zinc-800 dark:border-white/10 dark:bg-zinc-900/50 dark:text-zinc-300 dark:hover:text-zinc-300">
                             {{ $cat['nombre'] }}
                         </a>
                     @endforeach
@@ -64,7 +65,7 @@
                 @endif
             </div>
 
-            <p class="mt-4 text-3xl font-bold tabular-nums text-indigo-700 dark:text-indigo-400">${{ number_format($precio, 2) }}</p>
+            <p class="mt-4 text-3xl font-extrabold tabular-nums ui-text-gradient">${{ number_format($precio, 2) }}</p>
 
             @if ($descripcion !== '')
                 <p class="mt-4 whitespace-pre-line text-zinc-600 dark:text-zinc-300">{{ $descripcion }}</p>
@@ -91,7 +92,7 @@
                     type="button"
                     wire:click="addToCart"
                     @disabled($stock <= 0)
-                    class="ui-btn-success flex-1 justify-center sm:flex-none disabled:cursor-not-allowed disabled:opacity-50"
+                    class="ui-btn-cta flex-1 justify-center sm:flex-none disabled:cursor-not-allowed disabled:opacity-50"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />

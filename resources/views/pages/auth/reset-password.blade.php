@@ -45,9 +45,9 @@
             />
 
             <div class="flex items-center justify-end">
-                <flux:button type="submit" variant="primary" class="w-full" data-test="reset-password-button">
+                <button type="submit" class="ui-btn-primary w-full justify-center" data-test="reset-password-button">
                     {{ __('Reset password') }}
-                </flux:button>
+                </button>
             </div>
         </form>
     </div>

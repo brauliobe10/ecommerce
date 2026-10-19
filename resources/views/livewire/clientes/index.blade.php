@@ -70,7 +70,7 @@
                         <tr class="transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
                             <td class="ui-td whitespace-nowrap font-mono text-zinc-400 dark:text-zinc-500">{{ $cliente->id }}</td>
                             <td class="ui-td">
-                                <span class="block max-w-xs truncate font-medium text-indigo-700 dark:text-indigo-400">{{ $cliente->nombre }}</span>
+                                <span class="block max-w-xs truncate font-medium text-zinc-800 dark:text-zinc-400">{{ $cliente->nombre }}</span>
                             </td>
                             <td class="ui-td">
                                 <span class="block max-w-xs truncate" title="{{ $cliente->email }}">{{ $cliente->email ?? '-' }}</span>

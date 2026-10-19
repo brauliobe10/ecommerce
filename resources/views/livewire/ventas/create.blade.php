@@ -64,7 +64,7 @@
 
             <div class="border-t border-zinc-200 pt-6 dark:border-zinc-700">
                 <div class="mb-4 flex items-center justify-between">
-                    <h2 class="text-sm font-semibold uppercase tracking-wider text-indigo-800 dark:text-indigo-300">Productos</h2>
+                    <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-800 dark:text-zinc-300">Productos</h2>
                     <button type="button" wire:click="addItem" class="ui-btn-secondary !px-4 !py-2 text-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -76,7 +76,7 @@
                 @if ($productos->isEmpty())
                     <div class="rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-6 text-center dark:border-zinc-700 dark:bg-zinc-800/60">
                         <p class="text-sm text-zinc-600 dark:text-zinc-300">No hay productos activos disponibles para vender.</p>
-                        <a href="{{ route('productos.create') }}" class="mt-2 inline-block text-sm font-medium text-indigo-600 underline hover:text-indigo-500 dark:text-indigo-400">Crear un producto</a>
+                        <a href="{{ route('productos.create') }}" class="mt-2 inline-block text-sm font-medium text-accent underline hover:text-accent dark:text-zinc-400">Crear un producto</a>
                     </div>
                 @else
                     <div class="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
@@ -154,7 +154,7 @@
                         <div class="flex items-center gap-6 sm:gap-10">
                             <div class="text-right">
                                 <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total a cobrar</p>
-                                <p class="mt-1 text-3xl font-bold tabular-nums text-indigo-700 dark:text-indigo-400">${{ number_format($this->total, 2) }}</p>
+                                <p class="mt-1 text-3xl font-bold tabular-nums text-zinc-800 dark:text-zinc-400">${{ number_format($this->total, 2) }}</p>
                             </div>
                             <button type="submit" class="ui-btn-success !px-6">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

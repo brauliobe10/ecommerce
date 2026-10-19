@@ -85,7 +85,7 @@
                             @endif
                         </div>
                         <div class="w-full">
-                            <input type="file" name="imagen" id="imagen" accept="image/*" class="ui-input cursor-pointer file:mr-3 file:rounded-lg file:border-0 file:bg-emerald-600 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-white hover:file:bg-emerald-700">
+                            <input type="file" name="imagen" id="imagen" accept="image/*" class="ui-input cursor-pointer file:mr-3 file:rounded-lg file:border-0 file:bg-navy file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-white hover:file:bg-zinc-800">
                             <p class="ui-note">Formatos permitidos: JPG, JPEG, PNG, WEBP. Máximo 2MB.</p>
                             @error('imagen')
                                 <span class="ui-note text-red-600 dark:text-red-400">{{ $message }}</span>
@@ -101,11 +101,11 @@
                             <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800/60 dark:hover:bg-zinc-800">
                                 <input type="checkbox" name="categorias[]" value="{{ $categoria->id }}"
                                     @if (in_array($categoria->id, old('categorias', $producto->exists ? $producto->categorias()->pluck('categorias.id')->toArray() : []))) checked @endif
-                                    class="size-4 rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500 dark:border-zinc-600">
+                                    class="size-4 rounded border-zinc-300 text-accent focus:ring-accent dark:border-zinc-600">
                                 <span class="text-sm font-medium text-zinc-700 dark:text-zinc-200">{{ $categoria->nombre }}</span>
                             </label>
                         @empty
-                            <p class="ui-note col-span-full">No hay categorías disponibles. Crea una <a href="{{ route('categorias.create') }}" class="font-medium text-indigo-600 underline hover:text-indigo-500 dark:text-indigo-400">nueva categoría</a> primero.</p>
+                            <p class="ui-note col-span-full">No hay categorías disponibles. Crea una <a href="{{ route('categorias.create') }}" class="font-medium text-accent underline hover:text-accent dark:text-zinc-400">nueva categoría</a> primero.</p>
                         @endforelse
                     </div>
                     @error('categorias')

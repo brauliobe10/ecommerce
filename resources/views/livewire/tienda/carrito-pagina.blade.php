@@ -31,12 +31,12 @@
             <div class="space-y-4 lg:col-span-2">
                 @foreach ($items as $item)
                     @php($stock = $item['stock'] ?? null)
-                    <div class="ui-card group flex gap-4 p-4 transition hover:border-indigo-200 dark:hover:border-indigo-500/30">
-                        <div class="size-24 shrink-0 overflow-hidden rounded-2xl bg-zinc-100 ring-1 ring-zinc-200/70 dark:bg-zinc-800 dark:ring-zinc-700/70 sm:size-28">
+                    <div class="ui-card group flex gap-4 p-4 transition hover:border-accent/40 hover:shadow-[0_16px_32px_-18px_rgba(41,41,41,0.5)]">
+                        <div class="size-24 shrink-0 overflow-hidden rounded-2xl bg-arena/50 ring-1 ring-arena dark:bg-zinc-800 dark:ring-zinc-700/70 sm:size-28">
                             @if ($item['imagen'])
                                 <img src="{{ asset('storage/'.$item['imagen']) }}" alt="{{ $item['nombre'] }}" class="size-full object-cover transition duration-300 group-hover:scale-105">
                             @else
-                                <div class="flex size-full items-center justify-center text-zinc-300 dark:text-zinc-600">
+                                <div class="flex size-full items-center justify-center text-arena dark:text-zinc-300">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="size-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M18 8.25h.008v.008H18V8.25zm3 3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
@@ -56,7 +56,7 @@
                                         @endif
                                     </p>
                                 </div>
-                                <button type="button" wire:click="remove({{ $item['producto_id'] }})" class="shrink-0 rounded-lg p-1.5 text-zinc-400 transition hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-500/10 dark:hover:text-red-400" aria-label="Quitar producto">
+                                <button type="button" wire:click="remove({{ $item['producto_id'] }})" class="shrink-0 rounded-lg p-1.5 text-zinc-400 transition hover:bg-[#F5E6E1] hover:text-[#9E4B3F] dark:hover:bg-[#9E4B3F]/10 dark:hover:text-[#D49085]" aria-label="Quitar producto">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                     </svg>
@@ -87,7 +87,7 @@
 
                                 <div class="text-right">
                                     <span class="block text-[10px] font-medium uppercase tracking-wide text-zinc-400 dark:text-zinc-500">Subtotal</span>
-                                    <span class="text-lg font-bold tabular-nums text-indigo-700 dark:text-indigo-400">${{ number_format($item['precio'] * $item['cantidad'], 2) }}</span>
+                                    <span class="text-lg font-extrabold tabular-nums ui-text-gradient">${{ number_format($item['precio'] * $item['cantidad'], 2) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +104,7 @@
 
             <aside class="lg:col-span-1">
                 <div class="ui-card sticky top-24 p-6">
-                    <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Resumen del pedido</h2>
+                    <h2 class="text-sm font-semibold uppercase tracking-wider text-accent dark:text-zinc-300">Resumen del pedido</h2>
 
                     <dl class="mt-5 space-y-3">
                         <div class="flex items-center justify-between text-sm">
@@ -113,16 +113,16 @@
                         </div>
                         <div class="flex items-center justify-between text-sm">
                             <dt class="text-zinc-500 dark:text-zinc-400">Envío</dt>
-                            <dd class="text-xs font-medium text-emerald-600 dark:text-emerald-400">A coordinar</dd>
+                            <dd class="text-xs font-medium text-[#5F7050] dark:text-[#A3B88C]">A coordinar</dd>
                         </div>
                     </dl>
 
                     <div class="mt-5 flex items-center justify-between border-t border-zinc-200 pt-4 dark:border-zinc-800">
                         <span class="font-semibold text-zinc-800 dark:text-zinc-100">Total</span>
-                        <span class="text-3xl font-bold tabular-nums text-indigo-700 dark:text-indigo-400">${{ number_format($this->subtotal, 2) }}</span>
+                        <span class="text-3xl font-extrabold tabular-nums ui-text-gradient">${{ number_format($this->subtotal, 2) }}</span>
                     </div>
 
-                    <a href="{{ route('tienda.checkout') }}" wire:navigate class="ui-btn-success mt-5 w-full justify-center">
+                    <a href="{{ route('tienda.checkout') }}" wire:navigate class="ui-btn-cta mt-5 w-full justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>

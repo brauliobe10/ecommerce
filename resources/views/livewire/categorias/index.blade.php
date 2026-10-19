@@ -38,7 +38,7 @@
                     <button
                         type="button"
                         wire:click="$set('estado', '{{ $value }}')"
-                        class="rounded-lg px-4 py-1.5 text-sm font-medium transition-all {{ $active ? 'bg-white text-indigo-700 shadow-sm dark:bg-zinc-700 dark:text-indigo-400' : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
+                        class="rounded-lg px-4 py-1.5 text-sm font-medium transition-all {{ $active ? 'bg-white text-zinc-800 shadow-sm dark:bg-zinc-700 dark:text-zinc-400' : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
                     >
                         {{ $label }}
                     </button>
@@ -82,7 +82,7 @@
                         <tr class="transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
                             <td class="ui-td whitespace-nowrap font-mono text-zinc-400 dark:text-zinc-500">{{ $categoria->id }}</td>
                             <td class="ui-td">
-                                <span class="block max-w-xs truncate font-medium text-indigo-700 dark:text-indigo-400">{{ $categoria->nombre }}</span>
+                                <span class="block max-w-xs truncate font-medium text-zinc-800 dark:text-zinc-400">{{ $categoria->nombre }}</span>
                             </td>
                             <td class="ui-td">
                                 <span class="block max-w-md truncate" title="{{ $categoria->descripcion }}">{{ $categoria->descripcion ?? '-' }}</span>
@@ -93,7 +93,7 @@
                                         @csrf
                                         @method('PATCH')
                                         <button type="submit" class="{{ $categoria->estado === 'activo' ? 'ui-badge-success' : 'ui-badge-danger' }} cursor-pointer whitespace-nowrap transition-transform hover:scale-105">
-                                            <span class="size-1.5 rounded-full {{ $categoria->estado === 'activo' ? 'bg-emerald-500' : 'bg-red-500' }}"></span>
+                                            <span class="size-1.5 rounded-full {{ $categoria->estado === 'activo' ? 'bg-[#5F7050]' : 'bg-[#9E4B3F]' }}"></span>
                                             {{ ucfirst($categoria->estado) }}
                                         </button>
                                     </form>

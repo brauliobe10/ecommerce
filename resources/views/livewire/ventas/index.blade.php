@@ -67,7 +67,7 @@
                     <button
                         type="button"
                         wire:click="$set('estado', '')"
-                        class="rounded-lg px-3 py-1.5 text-sm font-medium transition-all {{ $estado === '' ? 'bg-white text-indigo-700 shadow-sm dark:bg-zinc-700 dark:text-indigo-400' : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
+                        class="rounded-lg px-3 py-1.5 text-sm font-medium transition-all {{ $estado === '' ? 'bg-white text-zinc-800 shadow-sm dark:bg-zinc-700 dark:text-zinc-400' : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
                     >
                         Todos
                     </button>
@@ -75,7 +75,7 @@
                         <button
                             type="button"
                             wire:click="$set('estado', '{{ $value }}')"
-                            class="rounded-lg px-3 py-1.5 text-sm font-medium transition-all {{ $estado === $value ? 'bg-white text-indigo-700 shadow-sm dark:bg-zinc-700 dark:text-indigo-400' : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
+                            class="rounded-lg px-3 py-1.5 text-sm font-medium transition-all {{ $estado === $value ? 'bg-white text-zinc-800 shadow-sm dark:bg-zinc-700 dark:text-zinc-400' : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
                         >
                             {{ $label }}
                         </button>
@@ -89,7 +89,7 @@
                     <button
                         type="button"
                         wire:click="$set('metodo_pago', '')"
-                        class="rounded-lg px-3 py-1.5 text-sm font-medium transition-all {{ $metodo_pago === '' ? 'bg-white text-indigo-700 shadow-sm dark:bg-zinc-700 dark:text-indigo-400' : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
+                        class="rounded-lg px-3 py-1.5 text-sm font-medium transition-all {{ $metodo_pago === '' ? 'bg-white text-zinc-800 shadow-sm dark:bg-zinc-700 dark:text-zinc-400' : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
                     >
                         Todos
                     </button>
@@ -97,7 +97,7 @@
                         <button
                             type="button"
                             wire:click="$set('metodo_pago', '{{ $value }}')"
-                            class="rounded-lg px-3 py-1.5 text-sm font-medium transition-all {{ $metodo_pago === $value ? 'bg-white text-indigo-700 shadow-sm dark:bg-zinc-700 dark:text-indigo-400' : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
+                            class="rounded-lg px-3 py-1.5 text-sm font-medium transition-all {{ $metodo_pago === $value ? 'bg-white text-zinc-800 shadow-sm dark:bg-zinc-700 dark:text-zinc-400' : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
                         >
                             {{ $label }}
                         </button>
@@ -116,7 +116,7 @@
                         <button
                             type="button"
                             wire:click="applyDatePreset('{{ $value }}')"
-                            class="rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-all {{ $active ? 'border-indigo-500 bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-400' : 'border-zinc-200 text-zinc-500 hover:border-zinc-300 hover:text-zinc-700 dark:border-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
+                            class="rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-all {{ $active ? 'border-accent bg-arena/40 text-zinc-800 dark:bg-accent/10 dark:text-zinc-400' : 'border-zinc-200 text-zinc-500 hover:border-zinc-300 hover:text-zinc-700 dark:border-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
                         >
                             {{ $label }}
                         </button>
@@ -229,7 +229,7 @@
                         <tr class="transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
                             <td class="ui-td whitespace-nowrap font-mono text-zinc-400 dark:text-zinc-500">#{{ $venta->id }}</td>
                             <td class="ui-td">
-                                <span class="block max-w-xs truncate font-medium text-indigo-700 dark:text-indigo-400">{{ $venta->cliente?->nombre ?? 'Cliente general' }}</span>
+                                <span class="block max-w-xs truncate font-medium text-zinc-800 dark:text-zinc-400">{{ $venta->cliente?->nombre ?? 'Cliente general' }}</span>
                             </td>
                             <td class="ui-td whitespace-nowrap">
                                 <span class="tabular-nums">{{ $venta->fecha_venta->format('d/m/Y H:i') }}</span>
@@ -237,11 +237,11 @@
                             <td class="ui-td text-center">
                                 <span class="ui-badge-info whitespace-nowrap">{{ $metodosPago[$venta->metodo_pago] ?? ucfirst($venta->metodo_pago) }}</span>
                             </td>
-                            <td class="ui-td whitespace-nowrap text-right font-semibold tabular-nums text-indigo-700 dark:text-indigo-400">${{ number_format($venta->total, 2) }}</td>
+                            <td class="ui-td whitespace-nowrap text-right font-semibold tabular-nums text-zinc-800 dark:text-zinc-400">${{ number_format($venta->total, 2) }}</td>
                             <td class="ui-td text-center">
                                 <div class="flex justify-center">
                                     <span class="{{ $venta->estado === 'completada' ? 'ui-badge-success' : 'ui-badge-danger' }} whitespace-nowrap">
-                                        <span class="size-1.5 rounded-full {{ $venta->estado === 'completada' ? 'bg-emerald-500' : 'bg-red-500' }}"></span>
+                                        <span class="size-1.5 rounded-full {{ $venta->estado === 'completada' ? 'bg-[#5F7050]' : 'bg-[#9E4B3F]' }}"></span>
                                         {{ $estados[$venta->estado] ?? ucfirst($venta->estado) }}
                                     </span>
                                 </div>

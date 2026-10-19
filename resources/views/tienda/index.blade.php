@@ -1,25 +1,31 @@
 <x-layouts::tienda :title="__('Inicio')">
-    <section class="relative overflow-hidden border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+    <section class="relative overflow-hidden">
+        <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+            <div class="ui-gradient-soft absolute inset-0"></div>
+            <div class="ui-orb -left-24 -top-16 size-80 bg-arena/70 dark:bg-arena/20"></div>
+            <div class="ui-orb right-0 top-10 size-72 bg-accent/20 dark:bg-accent/15"></div>
+            <div class="ui-orb bottom-0 left-1/3 size-64 bg-accent/15 dark:bg-accent/10"></div>
+        </div>
+
         <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
             <div class="grid items-center gap-14 lg:grid-cols-2">
-                <div>
+                <div class="animate-fade-in-up">
                     <span class="ui-section-eyebrow">
-                        <span class="h-px w-6 bg-indigo-500"></span>
                         Tienda oficial
                     </span>
 
-                    <h1 class="mt-5 text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white sm:text-5xl lg:text-6xl">
-                        Todo lo que buscás en
-                        <span class="text-indigo-600 dark:text-indigo-400">{{ config('app.name', 'KodeTech') }}</span>
+                    <h1 class="mt-5 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+                        <span class="ui-text-gradient">Juguetes y moda</span>
+                        <span class="block text-text-primary">con estilo</span>
                     </h1>
 
-                    <p class="mt-5 max-w-xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-300">
+                    <p class="mt-5 max-w-xl text-lg leading-relaxed text-text-secondary">
                         Explorá nuestro catálogo, elegí tus productos y completá tu pedido en minutos.
                         Calidad y atención personalizada en cada compra.
                     </p>
 
                     <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-                        <a href="{{ route('tienda.catalogo') }}" wire:navigate class="ui-btn-primary justify-center">
+                        <a href="{{ route('tienda.catalogo') }}" wire:navigate class="ui-btn-cta justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
                             </svg>
@@ -36,44 +42,44 @@
                 </div>
 
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div class="ui-card p-5">
-                        <div class="flex size-11 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400">
+                    <div class="ui-card group p-5 transition-all duration-200 hover:-translate-y-1 hover:border-accent/40">
+                        <div class="flex size-11 items-center justify-center rounded-xl bg-navy text-white shadow-[0_8px_18px_-8px_rgba(41,41,41,0.5)] transition-transform duration-200 group-hover:scale-110">
                             <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />
                             </svg>
                         </div>
-                        <p class="mt-3 font-semibold text-zinc-800 dark:text-zinc-100">Productos seleccionados</p>
-                        <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Catálogo curado con disponibilidad en tiempo real.</p>
+                        <p class="mt-3 font-semibold text-text-primary">Productos seleccionados</p>
+                        <p class="mt-1 text-sm text-text-secondary">Catálogo curado con disponibilidad en tiempo real.</p>
                     </div>
 
-                    <div class="ui-card p-5">
-                        <div class="flex size-11 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400">
+                    <div class="ui-card group p-5 transition-all duration-200 hover:-translate-y-1 hover:border-accent/40">
+                        <div class="flex size-11 items-center justify-center rounded-xl bg-[#5F7050] text-white shadow-[0_8px_18px_-8px_rgba(41,41,41,0.45)] transition-transform duration-200 group-hover:scale-110">
                             <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
                             </svg>
                         </div>
-                        <p class="mt-3 font-semibold text-zinc-800 dark:text-zinc-100">Compra segura</p>
-                        <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Tus datos y tu pedido respaldados en cada paso.</p>
+                        <p class="mt-3 font-semibold text-text-primary">Compra segura</p>
+                        <p class="mt-1 text-sm text-text-secondary">Tus datos y tu pedido respaldados en cada paso.</p>
                     </div>
 
-                    <div class="ui-card p-5">
-                        <div class="flex size-11 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400">
+                    <div class="ui-card group p-5 transition-all duration-200 hover:-translate-y-1 hover:border-accent/40">
+                        <div class="flex size-11 items-center justify-center rounded-xl bg-accent text-navy shadow-[0_8px_18px_-8px_rgba(199,167,108,0.6)] transition-transform duration-200 group-hover:scale-110">
                             <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
                             </svg>
                         </div>
-                        <p class="mt-3 font-semibold text-zinc-800 dark:text-zinc-100">Atención personalizada</p>
-                        <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Te acompañamos antes, durante y después de tu compra.</p>
+                        <p class="mt-3 font-semibold text-text-primary">Atención personalizada</p>
+                        <p class="mt-1 text-sm text-text-secondary">Te acompañamos antes, durante y después de tu compra.</p>
                     </div>
 
-                    <div class="ui-card p-5">
-                        <div class="flex size-11 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400">
+                    <div class="ui-card group p-5 transition-all duration-200 hover:-translate-y-1 hover:border-accent/40">
+                        <div class="flex size-11 items-center justify-center rounded-xl bg-[#9E4B3F] text-white shadow-[0_8px_18px_-8px_rgba(41,41,41,0.45)] transition-transform duration-200 group-hover:scale-110">
                             <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                             </svg>
                         </div>
-                        <p class="mt-3 font-semibold text-zinc-800 dark:text-zinc-100">Entrega coordinada</p>
-                        <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Enviamos y coordinamos la entrega de tu pedido.</p>
+                        <p class="mt-3 font-semibold text-text-primary">Entrega coordinada</p>
+                        <p class="mt-1 text-sm text-text-secondary">Enviamos y coordinamos la entrega de tu pedido.</p>
                     </div>
                 </div>
             </div>
@@ -85,9 +91,9 @@
             <div class="flex flex-wrap items-end justify-between gap-4">
                 <div>
                     <span class="ui-section-eyebrow">Explorá</span>
-                    <h2 class="mt-2 text-2xl font-bold text-zinc-900 dark:text-white sm:text-3xl">Categorías destacadas</h2>
+                    <h2 class="mt-2 text-2xl font-bold text-text-primary sm:text-3xl">Categorías destacadas</h2>
                 </div>
-                <a href="{{ route('tienda.catalogo') }}" wire:navigate class="inline-flex items-center gap-1 text-sm font-medium text-indigo-600 transition hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300">
+                <a href="{{ route('tienda.catalogo') }}" wire:navigate class="inline-flex items-center gap-1 text-sm font-semibold text-accent transition-colors hover:text-accent">
                     Ver catálogo completo
                     <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
@@ -95,20 +101,32 @@
                 </a>
             </div>
 
+            @php
+                $categoriaColores = [
+                    ['bg-navy', 'text-white'],
+                    ['bg-accent', 'text-navy'],
+                    ['bg-[#5F7050]', 'text-white'],
+                    ['bg-[#9E4B3F]', 'text-white'],
+                    ['bg-accent-soft', 'text-white'],
+                    ['bg-arena', 'text-zinc-700'],
+                ];
+            @endphp
+
             <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
                 @foreach ($categoriasDestacadas as $categoria)
+                    @php $color = $categoriaColores[$loop->index % count($categoriaColores)]; @endphp
                     <a
                         href="{{ route('tienda.catalogo', ['categoria' => $categoria->id]) }}"
                         class="ui-card ui-card-hover group flex flex-col items-center gap-2 p-5 text-center"
                     >
-                        <span class="flex size-12 items-center justify-center rounded-xl bg-zinc-100 text-indigo-600 transition group-hover:bg-indigo-50 dark:bg-zinc-800 dark:text-indigo-400 dark:group-hover:bg-indigo-500/10">
+                        <span class="flex size-12 items-center justify-center rounded-xl {{ $color[0] }} {{ $color[1] }} shadow-[0_8px_18px_-8px_rgba(41,41,41,0.35)] transition-transform duration-200 group-hover:scale-110">
                             <svg xmlns="http://www.w3.org/2000/svg" class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z" />
                             </svg>
                         </span>
-                        <span class="text-sm font-semibold text-zinc-800 transition group-hover:text-indigo-600 dark:text-zinc-100 dark:group-hover:text-indigo-400">{{ $categoria->nombre }}</span>
-                        <span class="text-xs text-zinc-500 dark:text-zinc-400">{{ $categoria->cantidad_productos }} {{ $categoria->cantidad_productos === 1 ? 'producto' : 'productos' }}</span>
+                        <span class="text-sm font-semibold text-text-primary transition-colors group-hover:text-accent">{{ $categoria->nombre }}</span>
+                        <span class="text-xs text-text-tertiary">{{ $categoria->cantidad_productos }} {{ $categoria->cantidad_productos === 1 ? 'producto' : 'productos' }}</span>
                     </a>
                 @endforeach
             </div>
@@ -116,14 +134,15 @@
     @endif
 
     @if ($productosDestacados->isNotEmpty())
-        <section class="border-y border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
-            <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+        <section class="relative overflow-hidden border-y border-border dark:border-zinc-800">
+            <div class="ui-gradient-soft absolute inset-0" aria-hidden="true"></div>
+            <div class="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
                 <div class="flex flex-wrap items-end justify-between gap-4">
                     <div>
                         <span class="ui-section-eyebrow">Novedades</span>
-                        <h2 class="mt-2 text-2xl font-bold text-zinc-900 dark:text-white sm:text-3xl">Productos destacados</h2>
+                        <h2 class="mt-2 text-2xl font-bold text-text-primary sm:text-3xl">Productos destacados</h2>
                     </div>
-                    <a href="{{ route('tienda.catalogo') }}" wire:navigate class="inline-flex items-center gap-1 text-sm font-medium text-indigo-600 transition hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300">
+                    <a href="{{ route('tienda.catalogo') }}" wire:navigate class="inline-flex items-center gap-1 text-sm font-semibold text-accent transition-colors hover:text-accent">
                         Ver todo el catálogo
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
@@ -135,36 +154,40 @@
                     @foreach ($productosDestacados as $producto)
                         <a
                             href="{{ route('tienda.producto', $producto->id) }}"
-                            class="ui-card ui-card-hover group flex flex-col overflow-hidden"
+                            class="ui-card ui-card-hover group relative flex flex-col overflow-hidden"
                         >
-                            <div class="relative aspect-square overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+                            <div class="relative aspect-square overflow-hidden bg-arena/50 dark:bg-zinc-800">
                                 @if ($producto->imagen)
-                                    <img src="{{ asset('storage/'.$producto->imagen) }}" alt="{{ $producto->nombre }}" class="size-full object-cover transition duration-500 group-hover:scale-105">
+                                    <img src="{{ asset('storage/'.$producto->imagen) }}" alt="{{ $producto->nombre }}" class="size-full object-cover transition-transform duration-300 ease-out group-hover:scale-105">
                                 @else
-                                    <div class="flex size-full items-center justify-center text-zinc-300 dark:text-zinc-600">
+                                    <div class="flex size-full items-center justify-center text-arena dark:text-zinc-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="size-14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M18 8.25h.008v.008H18V8.25zm3 3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                     </div>
                                 @endif
 
+                                @if ($producto->created_at >= now()->subDays(7))
+                                    <span class="ui-badge-new absolute left-3 top-3 z-10">Nuevo</span>
+                                @endif
+
                                 @if ($producto->stock <= 0)
-                                    <span class="absolute right-3 top-3 rounded-full bg-zinc-900/80 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm dark:bg-zinc-950/80">Agotado</span>
+                                    <span class="absolute right-3 top-3 rounded-full bg-navy/80 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">Agotado</span>
                                 @endif
                             </div>
 
                             <div class="flex flex-1 flex-col p-4">
                                 @if ($producto->categorias->isNotEmpty())
-                                    <span class="text-xs font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">{{ $producto->categorias->first()->nombre }}</span>
+                                    <span class="text-xs font-bold uppercase tracking-wider text-accent">{{ $producto->categorias->first()->nombre }}</span>
                                 @endif
 
-                                <p class="mt-1 line-clamp-2 font-semibold text-zinc-800 transition group-hover:text-indigo-600 dark:text-zinc-100 dark:group-hover:text-indigo-400">
+                                <p class="mt-1 line-clamp-2 font-semibold text-text-primary transition-colors group-hover:text-accent">
                                     {{ $producto->nombre }}
                                 </p>
 
-                                <div class="mt-4 flex items-center justify-between border-t border-zinc-100 pt-3 dark:border-zinc-800">
-                                    <span class="text-lg font-bold tabular-nums text-zinc-900 dark:text-white">${{ number_format($producto->precio, 2) }}</span>
-                                    <span class="text-xs font-medium text-zinc-400 dark:text-zinc-500">Ver detalle</span>
+                                <div class="mt-4 flex items-center justify-between border-t border-border pt-3 dark:border-zinc-800">
+                                    <span class="text-lg font-extrabold tabular-nums ui-text-gradient">${{ number_format($producto->precio, 2) }}</span>
+                                    <span class="text-xs font-semibold text-text-tertiary transition-colors group-hover:text-accent">Ver detalle</span>
                                 </div>
                             </div>
                         </a>
