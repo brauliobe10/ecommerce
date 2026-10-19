@@ -25,7 +25,7 @@
                         Tu tienda, más simple<br>y más colorida.
                     </h2>
                     <p class="mt-3 max-w-sm text-white/80">
-                        Gestioná productos, clientes, ventas y pedidos desde un solo panel, rápido y claro.
+                        Gestiona productos, clientes, ventas y pedidos desde un solo panel, rápido y claro.
                     </p>
                     <div class="mt-8 flex flex-wrap gap-3">
                         <span class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-medium backdrop-blur-xl">

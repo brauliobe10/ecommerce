@@ -10,12 +10,12 @@
                 </span>
 
                 <h1 class="mt-5 text-4xl font-extrabold tracking-tight sm:text-5xl">
-                    Contactanos en
+                    Contáctanos en
                     <span class="ui-text-gradient">{{ config('app.name', 'KodeTech') }}</span>
                 </h1>
 
                 <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-text-secondary">
-                    Tenés dudas sobre un producto, tu pedido o querés hacer un encargo. Estamos para ayudarte.
+                    Tienes dudas sobre un producto, tu pedido o quieres hacer un encargo. Estamos para ayudarte.
                 </p>
 
                 @php($whatsapp = preg_replace('/\D+/', '', (string) config('services.whatsapp.number')))

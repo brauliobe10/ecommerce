@@ -12,7 +12,7 @@
             </h1>
 
             <p class="mt-3 max-w-2xl text-base leading-relaxed text-text-secondary">
-                Explorá todos nuestros productos disponibles, filtrá por categoría y agregá lo que necesites al carrito.
+                Explora todos nuestros productos disponibles, filtra por categoría y agrega lo que necesites al carrito.
             </p>
         </div>
     </section>

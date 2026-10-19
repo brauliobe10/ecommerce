@@ -20,7 +20,7 @@
                     </h1>
 
                     <p class="mt-5 max-w-xl text-lg leading-relaxed text-text-secondary">
-                        Explorá nuestro catálogo, elegí tus productos y completá tu pedido en minutos.
+                        Explora nuestro catálogo, elige tus productos y completa tu pedido en minutos.
                         Calidad y atención personalizada en cada compra.
                     </p>
 
@@ -90,7 +90,7 @@
         <section class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
             <div class="flex flex-wrap items-end justify-between gap-4">
                 <div>
-                    <span class="ui-section-eyebrow">Explorá</span>
+                    <span class="ui-section-eyebrow">Explora</span>
                     <h2 class="mt-2 text-2xl font-bold text-text-primary sm:text-3xl">Categorías destacadas</h2>
                 </div>
                 <a href="{{ route('tienda.catalogo') }}" wire:navigate class="inline-flex items-center gap-1 text-sm font-semibold text-accent transition-colors hover:text-accent">

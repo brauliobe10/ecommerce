@@ -4,7 +4,7 @@
             <h1 class="ui-title">Tu carrito</h1>
             <p class="ui-subtitle">
                 {{ $this->cantidad }} {{ $this->cantidad === 1 ? 'artículo' : 'artículos' }}
-                · Revisá el detalle antes de confirmar tu pedido
+                · Revisa el detalle antes de confirmar tu pedido
             </p>
         </div>
         <a href="{{ route('tienda.catalogo') }}" wire:navigate class="ui-btn-secondary justify-center">
@@ -23,7 +23,7 @@
                 </svg>
             </div>
             <h2 class="text-lg font-semibold text-zinc-800 dark:text-zinc-100">Tu carrito está vacío.</h2>
-            <p class="max-w-sm text-sm text-zinc-500 dark:text-zinc-400">Explorá el catálogo y agregá tus productos favoritos para comenzar.</p>
+            <p class="max-w-sm text-sm text-zinc-500 dark:text-zinc-400">Explora el catálogo y agrega tus productos favoritos para comenzar.</p>
             <a href="{{ route('tienda.catalogo') }}" wire:navigate class="ui-btn-success mt-2 justify-center">Ver catálogo</a>
         </div>
     @else

@@ -10,12 +10,12 @@
                 </span>
 
                 <h1 class="mt-5 text-4xl font-extrabold tracking-tight sm:text-5xl">
-                    Conocé
+                    Conoce
                     <span class="ui-text-gradient">{{ config('app.name', 'KodeTech') }}</span>
                 </h1>
 
                 <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-text-secondary">
-                    Somos tu tienda de confianza. Elegí de nuestro catálogo, armá tu pedido y completá tu compra
+                    Somos tu tienda de confianza. Elige de nuestro catálogo, arma tu pedido y completa tu compra
                     de forma simple, rápida y segura.
                 </p>
 
