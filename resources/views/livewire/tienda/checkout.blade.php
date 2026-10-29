@@ -70,7 +70,7 @@
         </form>
 
         <aside class="ui-card h-fit p-6 lg:col-span-2">
-            <h2 class="text-sm font-semibold uppercase tracking-wider text-accent dark:text-zinc-300">Resumen del pedido</h2>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-accent">Resumen del pedido</h2>
 
             <ul class="mt-4 space-y-3">
                 @forelse ($items as $item)
@@ -88,7 +88,7 @@
 
             <div class="mt-5 flex items-center justify-between border-t border-zinc-200 pt-4 dark:border-zinc-800">
                 <span class="font-medium text-zinc-600 dark:text-zinc-300">Total</span>
-                <span class="text-2xl font-extrabold tabular-nums ui-text-gradient">${{ number_format($total, 2) }}</span>
+                <span class="text-2xl font-extrabold tabular-nums text-navy dark:text-white">${{ number_format($total, 2) }}</span>
             </div>
 
             <a href="{{ route('home') }}" wire:navigate class="mt-4 block text-center text-sm text-zinc-500 underline-offset-4 transition hover:text-accent hover:underline dark:text-zinc-400 dark:hover:text-zinc-400">

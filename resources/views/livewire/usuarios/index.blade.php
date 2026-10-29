@@ -70,7 +70,7 @@
                             <td class="ui-td whitespace-nowrap font-mono text-zinc-400 dark:text-zinc-500">{{ $user->id }}</td>
                             <td class="ui-td">
                                 <div class="flex items-center gap-3">
-                                    <div class="flex size-9 shrink-0 items-center justify-center rounded-full bg-arena font-semibold text-zinc-800 dark:bg-accent/15 dark:text-zinc-400">
+                                    <div class="flex size-9 shrink-0 items-center justify-center rounded-full bg-surface-muted font-semibold text-navy dark:bg-accent/15 dark:text-zinc-300">
                                         {{ $user->initials() }}
                                     </div>
                                     <span class="block max-w-xs truncate font-medium text-zinc-800 dark:text-zinc-400">{{ $user->name }}</span>

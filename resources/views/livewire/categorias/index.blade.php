@@ -92,8 +92,8 @@
                                     <form action="{{ route('categorias.toggleStatus', $categoria->id) }}" method="POST">
                                         @csrf
                                         @method('PATCH')
-                                        <button type="submit" class="{{ $categoria->estado === 'activo' ? 'ui-badge-success' : 'ui-badge-danger' }} cursor-pointer whitespace-nowrap transition-transform hover:scale-105">
-                                            <span class="size-1.5 rounded-full {{ $categoria->estado === 'activo' ? 'bg-[#5F7050]' : 'bg-[#9E4B3F]' }}"></span>
+                                        <button type="submit" class="{{ $categoria->estado === 'activo' ? 'ui-badge-success' : 'ui-badge-danger' }} cursor-pointer whitespace-nowrap transition-colors hover:opacity-80">
+                                            <span class="size-1.5 rounded-full {{ $categoria->estado === 'activo' ? 'bg-emerald-600' : 'bg-red-600' }}"></span>
                                             {{ ucfirst($categoria->estado) }}
                                         </button>
                                     </form>

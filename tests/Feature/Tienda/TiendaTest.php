@@ -243,6 +243,6 @@ test('the about page is visible', function () {
 test('the contact page is visible', function () {
     $this->get(route('tienda.contacto'))
         ->assertOk()
-        ->assertSee('Contactanos')
+        ->assertSee('Contáctanos')
         ->assertSee('WhatsApp');
 });

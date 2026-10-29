@@ -116,7 +116,7 @@
                         <button
                             type="button"
                             wire:click="applyDatePreset('{{ $value }}')"
-                            class="rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-all {{ $active ? 'border-accent bg-arena/40 text-zinc-800 dark:bg-accent/10 dark:text-zinc-400' : 'border-zinc-200 text-zinc-500 hover:border-zinc-300 hover:text-zinc-700 dark:border-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200' }}"
+                            class="rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-colors {{ $active ? 'border-accent bg-accent/10 text-accent-strong dark:bg-accent/15 dark:text-accent' : 'border-border text-text-secondary hover:border-navy hover:text-navy dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-accent dark:hover:text-accent' }}"
                         >
                             {{ $label }}
                         </button>
@@ -141,7 +141,7 @@
                         {{ $this->activeFiltersCount() }} {{ $this->activeFiltersCount() === 1 ? 'filtro aplicado' : 'filtros aplicados' }}
                     </span>
                     @if ($search !== '')
-                        <button type="button" wire:click="resetOneFilter('search')" class="ui-badge-info cursor-pointer transition-transform hover:scale-105">
+                        <button type="button" wire:click="resetOneFilter('search')" class="ui-badge-info cursor-pointer transition-colors hover:opacity-80">
                             Búsqueda: "{{ $search }}"
                             <svg xmlns="http://www.w3.org/2000/svg" class="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -149,7 +149,7 @@
                         </button>
                     @endif
                     @if ($estado !== '')
-                        <button type="button" wire:click="resetOneFilter('estado')" class="ui-badge-info cursor-pointer transition-transform hover:scale-105">
+                        <button type="button" wire:click="resetOneFilter('estado')" class="ui-badge-info cursor-pointer transition-colors hover:opacity-80">
                             Estado: {{ $estados[$estado] ?? ucfirst($estado) }}
                             <svg xmlns="http://www.w3.org/2000/svg" class="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -157,7 +157,7 @@
                         </button>
                     @endif
                     @if ($metodo_pago !== '')
-                        <button type="button" wire:click="resetOneFilter('metodo_pago')" class="ui-badge-info cursor-pointer transition-transform hover:scale-105">
+                        <button type="button" wire:click="resetOneFilter('metodo_pago')" class="ui-badge-info cursor-pointer transition-colors hover:opacity-80">
                             Método: {{ $metodosPago[$metodo_pago] ?? ucfirst($metodo_pago) }}
                             <svg xmlns="http://www.w3.org/2000/svg" class="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -165,7 +165,7 @@
                         </button>
                     @endif
                     @if ($fecha_desde !== '')
-                        <button type="button" wire:click="resetOneFilter('fecha_desde')" class="ui-badge-info cursor-pointer transition-transform hover:scale-105">
+                        <button type="button" wire:click="resetOneFilter('fecha_desde')" class="ui-badge-info cursor-pointer transition-colors hover:opacity-80">
                             Desde: {{ \Carbon\CarbonImmutable::parse($fecha_desde)->format('d/m/Y') }}
                             <svg xmlns="http://www.w3.org/2000/svg" class="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -173,7 +173,7 @@
                         </button>
                     @endif
                     @if ($fecha_hasta !== '')
-                        <button type="button" wire:click="resetOneFilter('fecha_hasta')" class="ui-badge-info cursor-pointer transition-transform hover:scale-105">
+                        <button type="button" wire:click="resetOneFilter('fecha_hasta')" class="ui-badge-info cursor-pointer transition-colors hover:opacity-80">
                             Hasta: {{ \Carbon\CarbonImmutable::parse($fecha_hasta)->format('d/m/Y') }}
                             <svg xmlns="http://www.w3.org/2000/svg" class="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -241,14 +241,14 @@
                             <td class="ui-td text-center">
                                 <div class="flex justify-center">
                                     <span class="{{ $venta->estado === 'completada' ? 'ui-badge-success' : 'ui-badge-danger' }} whitespace-nowrap">
-                                        <span class="size-1.5 rounded-full {{ $venta->estado === 'completada' ? 'bg-[#5F7050]' : 'bg-[#9E4B3F]' }}"></span>
+                                        <span class="size-1.5 rounded-full {{ $venta->estado === 'completada' ? 'bg-emerald-600' : 'bg-red-600' }}"></span>
                                         {{ $estados[$venta->estado] ?? ucfirst($venta->estado) }}
                                     </span>
                                 </div>
                             </td>
                             <td class="ui-td text-center">
                                 <div class="flex items-center justify-center gap-1.5">
-                                    <a href="{{ route('ventas.show', $venta->id) }}" title="Ver detalle" class="ui-btn-edit">
+                                    <a href="{{ route('ventas.show', $venta->id) }}" title="Ver detalle" class="ui-btn-view">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />

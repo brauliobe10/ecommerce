@@ -62,7 +62,7 @@
                     </div>
                     <div class="mt-2">
                         <span class="{{ $venta->estado === 'completada' ? 'ui-badge-success' : 'ui-badge-danger' }}">
-                            <span class="size-1.5 rounded-full {{ $venta->estado === 'completada' ? 'bg-[#5F7050]' : 'bg-[#9E4B3F]' }}"></span>
+                            <span class="size-1.5 rounded-full {{ $venta->estado === 'completada' ? 'bg-emerald-600' : 'bg-red-600' }}"></span>
                             {{ ucfirst($venta->estado) }}
                         </span>
                     </div>

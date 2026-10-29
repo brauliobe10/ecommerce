@@ -40,23 +40,23 @@
             <button
                 type="button"
                 wire:click="filtrarCategoria"
-                @class(['ui-glass-chip', 'ui-glass-chip-active' => $categoria === ''])
+                @class(['ui-filter-tab', 'ui-filter-tab-active' => $categoria === ''])
             >
                 <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                 </svg>
                 Todas
-                <span class="ui-glass-chip-count">{{ $total }}</span>
+                <span class="ui-filter-tab-count">{{ $total }}</span>
             </button>
 
             @foreach ($categorias as $cat)
                 <button
                     type="button"
                     wire:click="filtrarCategoria({{ $cat->id }})"
-                    @class(['ui-glass-chip', 'ui-glass-chip-active' => $categoria === (string) $cat->id])
+                    @class(['ui-filter-tab', 'ui-filter-tab-active' => $categoria === (string) $cat->id])
                 >
                     {{ $cat->nombre }}
-                    <span class="ui-glass-chip-count">{{ $cat->cantidad_productos }}</span>
+                    <span class="ui-filter-tab-count">{{ $cat->cantidad_productos }}</span>
                 </button>
             @endforeach
         </div>
@@ -101,11 +101,11 @@
                 @foreach ($productos as $producto)
                     <div class="ui-card ui-card-hover group flex flex-col overflow-hidden">
                         <div class="relative">
-                            <a href="{{ route('tienda.producto', $producto->id) }}" wire:navigate class="block aspect-square overflow-hidden bg-arena/50 dark:bg-zinc-800">
+                            <a href="{{ route('tienda.producto', $producto->id) }}" wire:navigate class="block aspect-square overflow-hidden bg-surface-muted dark:bg-zinc-800">
                                 @if ($producto->imagen)
-                                    <img src="{{ asset('storage/'.$producto->imagen) }}" alt="{{ $producto->nombre }}" class="size-full object-cover transition duration-500 group-hover:scale-110">
+                                    <img src="{{ asset('storage/'.$producto->imagen) }}" alt="{{ $producto->nombre }}" class="size-full object-cover transition duration-500 group-hover:scale-105">
                                 @else
-                                    <div class="flex size-full items-center justify-center text-arena dark:text-zinc-300">
+                                    <div class="flex size-full items-center justify-center text-text-tertiary dark:text-zinc-400">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="size-16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M18 8.25h.008v.008H18V8.25zm3 3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
@@ -115,26 +115,26 @@
 
                             <div class="absolute left-3 top-3 flex items-center gap-2">
                                 @foreach ($producto->categorias->take(1) as $cat)
-                                    <span class="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-zinc-800 ring-1 ring-inset ring-accent/25 backdrop-blur-xl dark:bg-zinc-950/60 dark:text-zinc-300 dark:ring-accent/25">{{ $cat->nombre }}</span>
+                                    <span class="rounded-md bg-white/95 px-2.5 py-1 text-xs font-semibold text-navy ring-1 ring-inset ring-border dark:bg-zinc-900/95 dark:text-zinc-100 dark:ring-zinc-700">{{ $cat->nombre }}</span>
                                 @endforeach
                             </div>
 
                             @if ($producto->stock > 0)
-                                <span class="absolute right-3 top-3 rounded-full bg-[#5F7050] px-3 py-1 text-xs font-bold text-white shadow-[0_6px_16px_-8px_rgba(41,41,41,0.4)] backdrop-blur-xl">En stock</span>
+                                <span class="absolute right-3 top-3 rounded-md bg-emerald-600 px-2.5 py-1 text-xs font-bold text-white">En stock</span>
                             @else
-                                <span class="absolute right-3 top-3 rounded-full bg-[#9E4B3F] px-3 py-1 text-xs font-bold text-white shadow-[0_6px_16px_-8px_rgba(41,41,41,0.4)] backdrop-blur-xl">Agotado</span>
+                                <span class="absolute right-3 top-3 rounded-md bg-red-600 px-2.5 py-1 text-xs font-bold text-white">Agotado</span>
                             @endif
                         </div>
 
                         <div class="flex flex-1 flex-col p-5">
                             <span class="font-mono text-xs text-zinc-400 dark:text-zinc-500">{{ $producto->codigo }}</span>
 
-                            <a href="{{ route('tienda.producto', $producto->id) }}" wire:navigate class="mt-2 line-clamp-2 font-semibold text-zinc-800 transition hover:text-accent dark:text-zinc-100 dark:hover:text-zinc-400">
+                            <a href="{{ route('tienda.producto', $producto->id) }}" wire:navigate class="mt-2 line-clamp-2 font-semibold text-navy transition hover:text-accent dark:text-zinc-100 dark:hover:text-accent">
                                 {{ $producto->nombre }}
                             </a>
 
                             <div class="mt-3 flex items-center justify-between">
-                                <span class="text-xl font-extrabold tabular-nums ui-text-gradient">${{ number_format($producto->precio, 2) }}</span>
+                                <span class="text-xl font-extrabold tabular-nums text-navy dark:text-white">${{ number_format($producto->precio, 2) }}</span>
                             </div>
 
                             <div class="mt-4 flex-1"></div>

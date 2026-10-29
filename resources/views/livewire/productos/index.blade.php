@@ -115,8 +115,8 @@
                                     <form action="{{ route('productos.toggleStatus', $producto->id) }}" method="POST">
                                         @csrf
                                         @method('PATCH')
-                                        <button type="submit" class="{{ $producto->activo ? 'ui-badge-success' : 'ui-badge-danger' }} cursor-pointer whitespace-nowrap transition-transform hover:scale-105">
-                                            <span class="size-1.5 rounded-full {{ $producto->activo ? 'bg-[#5F7050]' : 'bg-[#9E4B3F]' }}"></span>
+                                        <button type="submit" class="{{ $producto->activo ? 'ui-badge-success' : 'ui-badge-danger' }} cursor-pointer whitespace-nowrap transition-colors hover:opacity-80">
+                                            <span class="size-1.5 rounded-full {{ $producto->activo ? 'bg-emerald-600' : 'bg-red-600' }}"></span>
                                             {{ $producto->activo ? 'Activo' : 'Inactivo' }}
                                         </button>
                                     </form>

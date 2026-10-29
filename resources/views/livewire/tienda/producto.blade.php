@@ -1,8 +1,8 @@
 <div>
-    <nav class="mb-6 flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-        <a href="{{ route('tienda.catalogo') }}" wire:navigate class="transition hover:text-accent dark:hover:text-zinc-400">Catálogo</a>
+    <nav class="mb-6 flex items-center gap-2 text-sm text-text-tertiary">
+        <a href="{{ route('tienda.catalogo') }}" wire:navigate class="transition-colors hover:text-accent">Catálogo</a>
         <span>/</span>
-        <span class="truncate text-zinc-700 dark:text-zinc-200">{{ $nombre }}</span>
+        <span class="truncate text-text-secondary">{{ $nombre }}</span>
     </nav>
 
     @if (session('mensaje'))
@@ -24,17 +24,12 @@
     @endif
 
     <div class="grid gap-8 lg:grid-cols-2">
-        <div class="ui-glass relative overflow-hidden">
-            <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-                <div class="ui-orb -right-16 -top-16 size-64 bg-accent/20 dark:bg-accent/15"></div>
-                <div class="ui-orb -bottom-16 -left-16 size-64 bg-arena/70 dark:bg-arena/20"></div>
-                <div class="ui-orb bottom-1/3 right-1/4 size-40 bg-accent/15 dark:bg-accent/10"></div>
-            </div>
-            <div class="relative aspect-square w-full bg-white/30 dark:bg-zinc-900/30">
+        <div class="ui-panel relative overflow-hidden">
+            <div class="relative aspect-square w-full bg-surface-muted dark:bg-zinc-900">
                 @if ($imagen)
                     <img src="{{ asset('storage/'.$imagen) }}" alt="{{ $nombre }}" class="size-full object-cover transition duration-500 hover:scale-105">
                 @else
-                    <div class="flex size-full items-center justify-center text-zinc-300 dark:text-zinc-600">
+                    <div class="flex size-full items-center justify-center text-text-tertiary dark:text-zinc-500">
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M18 8.25h.008v.008H18V8.25zm3 3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
@@ -43,14 +38,14 @@
             </div>
         </div>
 
-        <div class="ui-glass flex flex-col p-6 sm:p-8">
-            <span class="font-mono text-xs text-zinc-400 dark:text-zinc-500">{{ $codigo }}</span>
-            <h1 class="mt-1 text-3xl font-bold text-zinc-900 dark:text-white">{{ $nombre }}</h1>
+        <div class="ui-panel flex flex-col p-6 sm:p-8">
+            <span class="font-mono text-xs text-text-tertiary">{{ $codigo }}</span>
+            <h1 class="mt-1 text-3xl font-bold text-navy dark:text-white">{{ $nombre }}</h1>
 
             @if (count($categorias) > 0)
                 <div class="mt-3 flex flex-wrap gap-2">
                     @foreach ($categorias as $cat)
-                        <a href="{{ route('tienda.catalogo', ['categoria' => $cat['id']]) }}" wire:navigate class="rounded-full border border-white/40 bg-white/70 px-3 py-1 text-xs font-semibold text-zinc-700 backdrop-blur-xl transition hover:border-arena hover:text-zinc-800 dark:border-white/10 dark:bg-zinc-900/50 dark:text-zinc-300 dark:hover:text-zinc-300">
+                        <a href="{{ route('tienda.catalogo', ['categoria' => $cat['id']]) }}" wire:navigate class="rounded-md border border-border bg-surface px-3 py-1 text-xs font-semibold text-text-secondary transition-colors hover:border-navy hover:text-navy dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-accent dark:hover:text-accent">
                             {{ $cat['nombre'] }}
                         </a>
                     @endforeach
@@ -65,10 +60,10 @@
                 @endif
             </div>
 
-            <p class="mt-4 text-3xl font-extrabold tabular-nums ui-text-gradient">${{ number_format($precio, 2) }}</p>
+            <p class="mt-4 text-3xl font-extrabold tabular-nums text-navy dark:text-white">${{ number_format($precio, 2) }}</p>
 
             @if ($descripcion !== '')
-                <p class="mt-4 whitespace-pre-line text-zinc-600 dark:text-zinc-300">{{ $descripcion }}</p>
+                <p class="mt-4 whitespace-pre-line text-text-secondary">{{ $descripcion }}</p>
             @endif
 
             <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-end">

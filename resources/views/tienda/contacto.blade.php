@@ -1,17 +1,12 @@
 <x-layouts::tienda :title="__('Contacto')">
-    <section class="relative overflow-hidden border-b border-border dark:border-zinc-800">
-        <div class="ui-gradient-soft absolute inset-0" aria-hidden="true"></div>
-        <div class="ui-orb -left-16 bottom-0 size-60 bg-accent/20 dark:bg-accent/15"></div>
-        <div class="ui-orb -right-20 top-0 size-64 bg-accent/15 dark:bg-accent/10"></div>
-        <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+    <section class="border-b border-border">
+        <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
             <div class="mx-auto max-w-3xl text-center">
-                <span class="ui-section-eyebrow">
-                    ¿Hablamos?
-                </span>
+                <p class="ui-eyebrow justify-center">¿Hablamos?</p>
 
-                <h1 class="mt-5 text-4xl font-extrabold tracking-tight sm:text-5xl">
+                <h1 class="mt-5 text-4xl font-extrabold tracking-tight text-text-primary sm:text-5xl">
                     Contáctanos en
-                    <span class="ui-text-gradient">{{ config('app.name', 'KodeTech') }}</span>
+                    <span class="text-accent">{{ config('app.name', 'KodeTech') }}</span>
                 </h1>
 
                 <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-text-secondary">
@@ -31,7 +26,7 @@
 
             <div class="mt-12 grid gap-6 md:grid-cols-3">
                 <div class="ui-card ui-card-hover p-6">
-                    <div class="flex size-12 items-center justify-center rounded-xl bg-[#5F7050] text-white shadow-[0_8px_18px_-8px_rgba(41,41,41,0.45)]">
+                    <div class="flex size-12 items-center justify-center rounded-lg bg-navy text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" />
                         </svg>
@@ -41,7 +36,7 @@
                 </div>
 
                 <div class="ui-card ui-card-hover p-6">
-                    <div class="flex size-12 items-center justify-center rounded-xl bg-navy text-white shadow-[0_8px_18px_-8px_rgba(41,41,41,0.5)]">
+                    <div class="flex size-12 items-center justify-center rounded-lg bg-accent text-navy">
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" />
                         </svg>
@@ -51,7 +46,7 @@
                 </div>
 
                 <div class="ui-card ui-card-hover p-6">
-                    <div class="flex size-12 items-center justify-center rounded-xl bg-accent text-navy shadow-[0_8px_18px_-8px_rgba(199,167,108,0.6)]">
+                    <div class="flex size-12 items-center justify-center rounded-lg bg-navy text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
