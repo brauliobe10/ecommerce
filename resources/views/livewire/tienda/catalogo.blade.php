@@ -92,8 +92,8 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="font-medium text-zinc-700 dark:text-zinc-200">No se encontraron productos</p>
-                    <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Prueba con otra búsqueda o categoría.</p>
+                    <p class="font-medium text-text-primary">No se encontraron productos</p>
+                    <p class="mt-1 text-sm text-text-secondary">Prueba con otra búsqueda o categoría.</p>
                 </div>
             </div>
         @else
@@ -101,11 +101,11 @@
                 @foreach ($productos as $producto)
                     <div class="ui-card ui-card-hover group flex flex-col overflow-hidden">
                         <div class="relative">
-                            <a href="{{ route('tienda.producto', $producto->id) }}" wire:navigate class="block aspect-square overflow-hidden bg-surface-muted dark:bg-zinc-800">
+                            <a href="{{ route('tienda.producto', $producto->id) }}" wire:navigate class="block aspect-square overflow-hidden bg-surface-muted">
                                 @if ($producto->imagen)
                                     <img src="{{ asset('storage/'.$producto->imagen) }}" alt="{{ $producto->nombre }}" class="size-full object-cover transition duration-500 group-hover:scale-105">
                                 @else
-                                    <div class="flex size-full items-center justify-center text-text-tertiary dark:text-zinc-400">
+                                    <div class="flex size-full items-center justify-center text-text-tertiary">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="size-16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M18 8.25h.008v.008H18V8.25zm3 3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
@@ -115,7 +115,7 @@
 
                             <div class="absolute left-3 top-3 flex items-center gap-2">
                                 @foreach ($producto->categorias->take(1) as $cat)
-                                    <span class="rounded-md bg-white/95 px-2.5 py-1 text-xs font-semibold text-navy ring-1 ring-inset ring-border dark:bg-zinc-900/95 dark:text-zinc-100 dark:ring-zinc-700">{{ $cat->nombre }}</span>
+                                    <span class="rounded-md bg-white/95 px-2.5 py-1 text-xs font-semibold text-navy ring-1 ring-inset ring-border dark:bg-navy-soft/95 dark:text-white">{{ $cat->nombre }}</span>
                                 @endforeach
                             </div>
 
@@ -127,9 +127,9 @@
                         </div>
 
                         <div class="flex flex-1 flex-col p-5">
-                            <span class="font-mono text-xs text-zinc-400 dark:text-zinc-500">{{ $producto->codigo }}</span>
+                            <span class="font-mono text-xs text-text-tertiary">{{ $producto->codigo }}</span>
 
-                            <a href="{{ route('tienda.producto', $producto->id) }}" wire:navigate class="mt-2 line-clamp-2 font-semibold text-navy transition hover:text-accent dark:text-zinc-100 dark:hover:text-accent">
+                            <a href="{{ route('tienda.producto', $producto->id) }}" wire:navigate class="mt-2 line-clamp-2 font-semibold text-navy transition hover:text-accent dark:text-white dark:hover:text-accent">
                                 {{ $producto->nombre }}
                             </a>
 

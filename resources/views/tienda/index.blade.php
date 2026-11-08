@@ -247,14 +247,20 @@
         </section>
     @endif
 
-    <section class="bg-navy">
-        <div class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-4 py-12 sm:flex-row sm:items-center sm:px-6 lg:px-8">
-            <div>
-                <h2 class="text-2xl font-bold text-white">Encuentra tu próximo favorito</h2>
-                <p class="mt-2 text-sm text-slate-300">Explora el catálogo completo y arma tu pedido en minutos.</p>
+    <section class="relative overflow-hidden bg-navy">
+        <div class="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-accent/10 blur-3xl"></div>
+
+        <div class="relative mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 px-4 py-12 sm:px-6 lg:flex-row lg:items-center lg:px-8">
+            <div class="max-w-xl">
+                <p class="ui-eyebrow">Catálogo completo</p>
+                <h2 class="mt-3 text-2xl font-bold text-white sm:text-3xl">Encuentra tu próximo favorito</h2>
+                <p class="mt-2 text-pretty text-sm leading-relaxed text-slate-300">Explora el catálogo completo y arma tu pedido en minutos.</p>
             </div>
-            <a href="{{ route('tienda.catalogo') }}" wire:navigate class="ui-btn-cta shrink-0 justify-center">
+            <a href="{{ route('tienda.catalogo') }}" wire:navigate class="ui-btn-cta w-full shrink-0 justify-center sm:w-auto">
                 Ir al catálogo
+                <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
             </a>
         </div>
     </section>

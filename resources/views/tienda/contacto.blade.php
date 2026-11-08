@@ -42,7 +42,7 @@
                         </svg>
                     </div>
                     <h2 class="mt-4 text-lg font-semibold text-text-primary">Ubicación</h2>
-                    <p class="mt-2 text-sm text-text-secondary">Atendemos pedidos online con envíos y entrega coordinada.</p>
+                    <p class="mt-2 text-sm text-text-secondary">San Luis 246, Chiclayo 14001. Envíos y entregas coordinadas.</p>
                 </div>
 
                 <div class="ui-card ui-card-hover p-6">
@@ -53,6 +53,82 @@
                     </div>
                     <h2 class="mt-4 text-lg font-semibold text-text-primary">Horario</h2>
                     <p class="mt-2 text-sm text-text-secondary">Recibimos consultas todos los días y respondemos a la brevedad.</p>
+                </div>
+            </div>
+
+            <div class="mt-12 grid gap-6 lg:grid-cols-5">
+                <div class="ui-card flex flex-col p-6 sm:p-8 lg:col-span-2">
+                    <p class="ui-eyebrow">Visítanos</p>
+                    <h2 class="mt-3 text-2xl font-bold text-text-primary">Estamos en Chiclayo</h2>
+                    <p class="mt-3 text-sm leading-relaxed text-text-secondary">
+                        Puedes ubicarnos en San Luis 246, Chiclayo 14001. Coordinamos pedidos, envíos y entregas por WhatsApp.
+                    </p>
+
+                    <dl class="mt-6 space-y-4">
+                        <div class="flex items-start gap-3">
+                            <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-navy text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                                </svg>
+                            </span>
+                            <div>
+                                <dt class="text-sm font-semibold text-text-primary">Dirección</dt>
+                                <dd class="mt-1 text-sm text-text-secondary">San Luis 246, Chiclayo 14001 – Perú</dd>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-accent text-navy">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </span>
+                            <div>
+                                <dt class="text-sm font-semibold text-text-primary">Horario</dt>
+                                <dd class="mt-1 text-sm text-text-secondary">Consultas todos los días, respuesta a la brevedad.</dd>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-navy text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+                                </svg>
+                            </span>
+                            <div>
+                                <dt class="text-sm font-semibold text-text-primary">WhatsApp</dt>
+                                <dd class="mt-1 text-sm text-text-secondary">Atención directa para pedidos y encargos.</dd>
+                            </div>
+                        </div>
+                    </dl>
+
+                    <div class="mt-auto flex flex-col gap-3 pt-6 sm:flex-row">
+                        <a href="https://www.google.com/maps/search/?api=1&query=San+Luis+246,+Chiclayo+14001,+Peru" target="_blank" rel="noopener" class="ui-btn-primary justify-center">
+                            Cómo llegar
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                            </svg>
+                        </a>
+
+                        @if (filled($whatsapp))
+                            <a href="https://wa.me/{{ $whatsapp }}" target="_blank" rel="noopener" class="ui-btn-secondary justify-center">
+                                Escríbenos
+                            </a>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="ui-card overflow-hidden lg:col-span-3">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.007415736216!2d-79.83081472491143!3d-6.768948666193601!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x904ce92ae8050331%3A0x349eb1c1660d2fd5!2sSan%20Luis%20246%2C%20Chiclayo%2014001!5e0!3m2!1ses!2spe!4v1794112787121!5m2!1ses!2spe"
+                        class="block h-full min-h-[360px] w-full lg:min-h-[440px]"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        title="Ubicación de {{ config('app.name', 'KodeTech') }} en San Luis 246, Chiclayo"
+                    ></iframe>
                 </div>
             </div>
 

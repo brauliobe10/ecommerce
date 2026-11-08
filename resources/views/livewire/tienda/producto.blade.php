@@ -25,11 +25,11 @@
 
     <div class="grid gap-8 lg:grid-cols-2">
         <div class="ui-panel relative overflow-hidden">
-            <div class="relative aspect-square w-full bg-surface-muted dark:bg-zinc-900">
+            <div class="relative aspect-square w-full bg-surface-muted">
                 @if ($imagen)
                     <img src="{{ asset('storage/'.$imagen) }}" alt="{{ $nombre }}" class="size-full object-cover transition duration-500 hover:scale-105">
                 @else
-                    <div class="flex size-full items-center justify-center text-text-tertiary dark:text-zinc-500">
+                    <div class="flex size-full items-center justify-center text-text-tertiary">
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M18 8.25h.008v.008H18V8.25zm3 3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
@@ -45,7 +45,7 @@
             @if (count($categorias) > 0)
                 <div class="mt-3 flex flex-wrap gap-2">
                     @foreach ($categorias as $cat)
-                        <a href="{{ route('tienda.catalogo', ['categoria' => $cat['id']]) }}" wire:navigate class="rounded-md border border-border bg-surface px-3 py-1 text-xs font-semibold text-text-secondary transition-colors hover:border-navy hover:text-navy dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-accent dark:hover:text-accent">
+                        <a href="{{ route('tienda.catalogo', ['categoria' => $cat['id']]) }}" wire:navigate class="rounded-md border border-border bg-surface px-3 py-1 text-xs font-semibold text-text-secondary transition-colors hover:border-navy hover:text-navy dark:hover:border-accent dark:hover:text-accent">
                             {{ $cat['nombre'] }}
                         </a>
                     @endforeach

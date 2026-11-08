@@ -106,15 +106,15 @@ select:focus[data-flux-control] {
 }
 
 .ui-card {
-    @apply rounded-xl border border-border bg-surface shadow-[0_1px_2px_rgba(15,23,42,0.04),0_10px_28px_-20px_rgba(15,23,42,0.28)] dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-none;
+    @apply rounded-xl border border-border bg-surface shadow-[0_1px_2px_rgba(15,23,42,0.04),0_10px_28px_-20px_rgba(15,23,42,0.28)] dark:bg-navy-soft dark:shadow-none;
 }
 
 .ui-panel {
-    @apply rounded-xl border border-border bg-surface dark:border-zinc-800 dark:bg-zinc-900;
+    @apply rounded-xl border border-border bg-surface dark:bg-navy-soft;
 }
 
 .ui-filter-tab {
-    @apply inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-lg border border-border bg-surface px-4 py-2 text-sm font-semibold text-text-secondary transition-colors hover:border-navy hover:text-navy dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-accent dark:hover:text-accent;
+    @apply inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-lg border border-border bg-surface px-4 py-2 text-sm font-semibold text-text-secondary transition-colors hover:border-navy hover:text-navy dark:hover:border-accent dark:hover:text-accent;
 }
 
 .ui-filter-tab-active {
@@ -130,7 +130,7 @@ select:focus[data-flux-control] {
 }
 
 .ui-skeleton {
-    @apply animate-pulse rounded-xl bg-surface-muted dark:bg-zinc-800/70;
+    @apply animate-pulse rounded-xl bg-surface-muted;
 }
 
 .ui-title {
@@ -146,11 +146,11 @@ select:focus[data-flux-control] {
 }
 
 .ui-input {
-    @apply w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-text-primary placeholder-zinc-400 outline-none transition-colors focus:border-navy focus:ring-2 focus:ring-navy/10 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:placeholder-zinc-500 dark:focus:border-accent dark:focus:ring-accent/20;
+    @apply w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-text-primary placeholder-zinc-400 outline-none transition-colors focus:border-navy focus:ring-2 focus:ring-navy/10 dark:placeholder-text-tertiary dark:focus:border-accent dark:focus:ring-accent/20;
 }
 
 .ui-input option {
-    @apply dark:bg-zinc-800;
+    @apply dark:bg-surface;
 }
 
 .ui-note {
@@ -174,7 +174,7 @@ select:focus[data-flux-control] {
 }
 
 .ui-btn-secondary {
-    @apply inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-5 py-2.5 font-semibold text-text-primary transition-colors duration-200 hover:border-navy hover:text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/20 focus-visible:ring-offset-2 focus-visible:ring-offset-surface dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:border-accent dark:hover:text-accent;
+    @apply inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-5 py-2.5 font-semibold text-text-primary transition-colors duration-200 hover:border-navy hover:text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/20 focus-visible:ring-offset-2 focus-visible:ring-offset-surface dark:hover:border-accent dark:hover:text-accent;
 }
 
 .ui-btn-primary {

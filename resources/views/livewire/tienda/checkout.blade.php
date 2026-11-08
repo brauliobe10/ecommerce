@@ -64,7 +64,7 @@
                 Confirmar por WhatsApp
             </button>
 
-            <p class="text-center text-xs text-zinc-400 dark:text-zinc-500">
+            <p class="text-center text-xs text-text-tertiary">
                 Se abrirá WhatsApp con el resumen de tu pedido para finalizar la compra.
             </p>
         </form>
@@ -75,23 +75,23 @@
             <ul class="mt-4 space-y-3">
                 @forelse ($items as $item)
                     <li class="flex items-start justify-between gap-3 text-sm">
-                        <span class="text-zinc-600 dark:text-zinc-300">
-                            <span class="font-semibold text-zinc-800 dark:text-zinc-100">{{ $item['cantidad'] }}x</span>
+                        <span class="text-text-secondary">
+                            <span class="font-semibold text-text-primary">{{ $item['cantidad'] }}x</span>
                             {{ $item['nombre'] }}
                         </span>
-                        <span class="whitespace-nowrap tabular-nums text-zinc-700 dark:text-zinc-200">${{ number_format($item['precio'] * $item['cantidad'], 2) }}</span>
+                        <span class="whitespace-nowrap tabular-nums text-text-secondary">${{ number_format($item['precio'] * $item['cantidad'], 2) }}</span>
                     </li>
                 @empty
-                    <li class="text-sm text-zinc-500 dark:text-zinc-400">Tu carrito está vacío.</li>
+                    <li class="text-sm text-text-secondary">Tu carrito está vacío.</li>
                 @endforelse
             </ul>
 
-            <div class="mt-5 flex items-center justify-between border-t border-zinc-200 pt-4 dark:border-zinc-800">
-                <span class="font-medium text-zinc-600 dark:text-zinc-300">Total</span>
+            <div class="mt-5 flex items-center justify-between border-t border-border pt-4">
+                <span class="font-medium text-text-secondary">Total</span>
                 <span class="text-2xl font-extrabold tabular-nums text-navy dark:text-white">${{ number_format($total, 2) }}</span>
             </div>
 
-            <a href="{{ route('home') }}" wire:navigate class="mt-4 block text-center text-sm text-zinc-500 underline-offset-4 transition hover:text-accent hover:underline dark:text-zinc-400 dark:hover:text-zinc-400">
+            <a href="{{ route('home') }}" wire:navigate class="mt-4 block text-center text-sm text-text-secondary underline-offset-4 transition hover:text-accent hover:underline">
                 Seguir comprando
             </a>
         </aside>

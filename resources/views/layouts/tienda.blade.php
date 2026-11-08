@@ -100,7 +100,7 @@
                 {{ $slot }}
             </main>
 
-            <footer class="mt-16 bg-navy">
+            <footer class="border-t border-white/10 bg-navy">
                 <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 py-10 text-center sm:flex-row sm:text-left sm:px-6 lg:px-8">
                     <div>
                         <p class="text-lg font-semibold text-white">{{ config('app.name', 'KodeTech') }}</p>

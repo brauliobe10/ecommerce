@@ -15,9 +15,9 @@
             x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="translate-x-0"
             x-transition:leave-end="translate-x-full"
-            class="absolute right-0 top-0 flex h-full w-full flex-col border-l border-border bg-surface shadow-xl sm:max-w-xl dark:border-zinc-800 dark:bg-zinc-950"
+            class="absolute right-0 top-0 flex h-full w-full flex-col border-l border-border bg-surface shadow-xl sm:max-w-xl"
         >
-            <div class="flex shrink-0 items-center justify-between border-b border-border px-6 py-4 dark:border-zinc-800">
+            <div class="flex shrink-0 items-center justify-between border-b border-border px-6 py-4">
                 <div class="flex items-center gap-3">
                     <span class="flex size-10 items-center justify-center rounded-lg bg-navy text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -35,7 +35,7 @@
                         </p>
                     </div>
                 </div>
-                <button type="button" @click="open = false" class="rounded-lg p-1.5 text-text-tertiary transition-colors hover:bg-surface-muted hover:text-navy dark:hover:bg-zinc-800 dark:hover:text-zinc-200" aria-label="Cerrar carrito">
+                <button type="button" @click="open = false" class="rounded-lg p-1.5 text-text-tertiary transition-colors hover:bg-surface-muted hover:text-navy dark:hover:bg-surface-muted dark:hover:text-accent" aria-label="Cerrar carrito">
                     <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -45,12 +45,12 @@
             <div class="flex-1 min-h-0 space-y-3 overflow-y-auto overscroll-contain px-6 pt-5 pb-8">
                 @forelse ($items as $item)
                     @php($stock = $item['stock'] ?? null)
-                    <div class="group relative flex gap-4 rounded-xl border border-border bg-surface p-4 transition-colors hover:border-navy/30 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-accent/30">
-                        <div class="size-24 shrink-0 overflow-hidden rounded-lg bg-surface-muted ring-1 ring-border dark:bg-zinc-800 dark:ring-zinc-700">
+                    <div class="group relative flex gap-4 rounded-xl border border-border bg-surface p-4 transition-colors hover:border-navy/30 dark:bg-navy-soft dark:hover:border-accent/30">
+                        <div class="size-24 shrink-0 overflow-hidden rounded-lg bg-surface-muted ring-1 ring-border">
                             @if ($item['imagen'])
                                 <img src="{{ asset('storage/'.$item['imagen']) }}" alt="{{ $item['nombre'] }}" class="size-full object-cover transition duration-300 group-hover:scale-105">
                             @else
-                                <div class="flex size-full items-center justify-center text-zinc-300 dark:text-zinc-600">
+                                <div class="flex size-full items-center justify-center text-text-tertiary">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="size-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M18 8.25h.008v.008H18V8.25zm3 3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
@@ -61,8 +61,8 @@
                         <div class="flex min-w-0 flex-1 flex-col">
                             <div class="flex items-start justify-between gap-2">
                                 <div class="min-w-0">
-                                    <span class="inline-flex rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-[10px] font-medium text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">{{ $item['codigo'] }}</span>
-                                    <p class="mt-1 line-clamp-2 text-base font-semibold text-navy dark:text-zinc-100">{{ $item['nombre'] }}</p>
+                                    <span class="inline-flex rounded-md bg-surface-muted px-1.5 py-0.5 font-mono text-[10px] font-medium text-text-tertiary">{{ $item['codigo'] }}</span>
+                                    <p class="mt-1 line-clamp-2 text-base font-semibold text-navy dark:text-white">{{ $item['nombre'] }}</p>
                                 </div>
                                 <button type="button" wire:click="remove({{ $item['producto_id'] }})" class="shrink-0 rounded-lg p-1 text-text-tertiary transition-colors hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-500/10 dark:hover:text-red-300" aria-label="Quitar">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
@@ -79,21 +79,21 @@
                             </p>
 
                             <div class="mt-auto flex items-end justify-between pt-2">
-                                <div class="flex items-center gap-1 rounded-lg border border-border bg-surface p-0.5 dark:border-zinc-700 dark:bg-zinc-900">
+                                <div class="flex items-center gap-1 rounded-lg border border-border bg-surface p-0.5">
                                     <button
                                         type="button"
                                         wire:click="decrement({{ $item['producto_id'] }})"
-                                        class="flex size-8 items-center justify-center rounded-md text-text-secondary transition-colors hover:bg-surface-muted hover:text-navy dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-accent"
+                                        class="flex size-8 items-center justify-center rounded-md text-text-secondary transition-colors hover:bg-surface-muted hover:text-navy dark:text-text-secondary dark:hover:bg-surface-muted dark:hover:text-accent"
                                         aria-label="Quitar una unidad"
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" /></svg>
                                     </button>
-                                    <span class="w-9 text-center text-sm font-semibold tabular-nums text-zinc-800 dark:text-zinc-100">{{ $item['cantidad'] }}</span>
+                                    <span class="w-9 text-center text-sm font-semibold tabular-nums text-text-primary">{{ $item['cantidad'] }}</span>
                                     <button
                                         type="button"
                                         wire:click="increment({{ $item['producto_id'] }})"
                                         @disabled($stock !== null && $item['cantidad'] >= $stock)
-                                        class="flex size-8 items-center justify-center rounded-md text-text-secondary transition-colors hover:bg-surface-muted hover:text-navy disabled:cursor-not-allowed disabled:opacity-40 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                                        class="flex size-8 items-center justify-center rounded-md text-text-secondary transition-colors hover:bg-surface-muted hover:text-navy disabled:cursor-not-allowed disabled:opacity-40 dark:text-text-secondary dark:hover:bg-surface-muted"
                                         aria-label="Agregar una unidad"
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
@@ -121,11 +121,11 @@
             </div>
 
             @if ($this->cantidad > 0)
-                <div class="shrink-0 border-t border-border px-6 py-5 dark:border-zinc-800">
+                <div class="shrink-0 border-t border-border px-6 py-5">
                     <dl class="space-y-2">
                         <div class="flex items-center justify-between text-sm">
                             <dt class="text-text-secondary">Subtotal ({{ $this->cantidad }} {{ $this->cantidad === 1 ? 'producto' : 'productos' }})</dt>
-                            <dd class="font-medium tabular-nums text-navy dark:text-zinc-200">${{ number_format($this->subtotal, 2) }}</dd>
+                            <dd class="font-medium tabular-nums text-navy dark:text-text-primary">${{ number_format($this->subtotal, 2) }}</dd>
                         </div>
                         <div class="flex items-center justify-between text-sm">
                             <dt class="text-text-secondary">Envío</dt>
@@ -133,8 +133,8 @@
                         </div>
                     </dl>
 
-                    <div class="mt-3 flex items-center justify-between border-t border-border pt-3 dark:border-zinc-800">
-                        <span class="font-semibold text-navy dark:text-zinc-100">Total</span>
+                    <div class="mt-3 flex items-center justify-between border-t border-border pt-3">
+                        <span class="font-semibold text-navy dark:text-white">Total</span>
                         <span class="text-2xl font-extrabold tabular-nums text-navy dark:text-white">${{ number_format($this->subtotal, 2) }}</span>
                     </div>
 

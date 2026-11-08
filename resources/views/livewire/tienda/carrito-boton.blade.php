@@ -1,7 +1,7 @@
 <button
     type="button"
     @click="$dispatch('abrir-carrito')"
-    class="relative inline-flex size-10 items-center justify-center rounded-lg border border-border bg-surface text-text-secondary transition-colors hover:border-navy hover:text-navy dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-accent dark:hover:text-accent"
+    class="relative inline-flex size-10 items-center justify-center rounded-lg border border-border bg-surface text-text-secondary transition-colors hover:border-navy hover:text-navy dark:hover:border-accent dark:hover:text-accent"
     aria-label="Abrir carrito"
 >
     <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

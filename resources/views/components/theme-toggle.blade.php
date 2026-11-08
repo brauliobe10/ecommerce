@@ -2,7 +2,7 @@
     type="button"
     x-data
     x-on:click="$flux.dark = ! $flux.dark"
-    class="inline-flex size-10 items-center justify-center rounded-lg border border-border bg-surface text-text-secondary transition-colors hover:border-navy hover:text-navy dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-accent dark:hover:text-accent"
+    class="inline-flex size-10 items-center justify-center rounded-lg border border-border bg-surface text-text-secondary transition-colors hover:border-navy hover:text-navy dark:hover:border-accent dark:hover:text-accent"
     data-test="theme-toggle"
     aria-label="Cambiar tema"
     title="Cambiar tema"

@@ -237,12 +237,17 @@ test('the about page is visible', function () {
     $this->get(route('tienda.sobre'))
         ->assertOk()
         ->assertSee('Sobre nosotros')
-        ->assertSee(config('app.name', 'KodeTech'));
+        ->assertSee(config('app.name', 'KodeTech'))
+        ->assertSee('Nuestra historia')
+        ->assertSee('Cómo comprar')
+        ->assertSee('Tu pedido en cuatro pasos');
 });
 
 test('the contact page is visible', function () {
     $this->get(route('tienda.contacto'))
         ->assertOk()
         ->assertSee('Contáctanos')
-        ->assertSee('WhatsApp');
+        ->assertSee('WhatsApp')
+        ->assertSee('San Luis 246, Chiclayo 14001')
+        ->assertSee('google.com/maps/embed');
 });
