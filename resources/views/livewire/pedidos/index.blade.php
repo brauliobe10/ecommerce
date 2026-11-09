@@ -81,7 +81,7 @@
             <table class="w-full">
                 <thead>
                     <tr>
-                        <th scope="col" class="ui-th text-left">#</th>
+                        <th scope="col" class="ui-th text-left">ID</th>
                         <th scope="col" class="ui-th text-left">Cliente</th>
                         <th scope="col" class="ui-th text-left">Teléfono</th>
                         <th scope="col" class="ui-th text-center">Productos</th>
@@ -93,7 +93,7 @@
                 <tbody>
                     @forelse ($pedidos as $pedido)
                         <tr class="transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
-                            <td class="ui-td whitespace-nowrap font-mono text-zinc-400 dark:text-zinc-500">#{{ $pedido->id }}</td>
+                            <td class="ui-td whitespace-nowrap font-mono text-zinc-400 dark:text-zinc-500">{{ $pedido->id }}</td>
                             <td class="ui-td">
                                 <span class="block max-w-xs truncate font-medium text-zinc-800 dark:text-zinc-400">{{ $pedido->nombre_cliente }}</span>
                                 <span class="block text-xs text-zinc-400 dark:text-zinc-500">{{ $pedido->created_at->format('d/m/Y H:i') }}</span>

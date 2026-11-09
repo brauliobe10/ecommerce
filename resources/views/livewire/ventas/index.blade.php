@@ -215,7 +215,7 @@
             <table class="w-full">
                 <thead>
                     <tr>
-                        <th scope="col" class="ui-th text-left">#</th>
+                        <th scope="col" class="ui-th text-left">ID</th>
                         <th scope="col" class="ui-th text-left">Cliente</th>
                         <th scope="col" class="ui-th text-left">Fecha</th>
                         <th scope="col" class="ui-th text-center">Método</th>
@@ -227,7 +227,7 @@
                 <tbody>
                     @forelse ($ventas as $venta)
                         <tr class="transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
-                            <td class="ui-td whitespace-nowrap font-mono text-zinc-400 dark:text-zinc-500">#{{ $venta->id }}</td>
+                            <td class="ui-td whitespace-nowrap font-mono text-zinc-400 dark:text-zinc-500">{{ $venta->id }}</td>
                             <td class="ui-td">
                                 <span class="block max-w-xs truncate font-medium text-zinc-800 dark:text-zinc-400">{{ $venta->cliente?->nombre ?? 'Cliente general' }}</span>
                             </td>
