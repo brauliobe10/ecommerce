@@ -9,6 +9,8 @@ class Producto extends Model
 {
     public const PAGINATION = 10;
 
+    public const STOCK_BAJO = 5;
+
     protected $fillable = [
         'nombre',
         'codigo',

@@ -223,15 +223,15 @@ select:focus[data-flux-control] {
 }
 
 .ui-th {
-    @apply border-b border-border bg-surface-muted px-4 py-4 text-xs font-bold uppercase tracking-wider text-text-secondary dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300;
+    @apply border-b border-border bg-surface-muted px-4 py-4 text-xs font-bold uppercase tracking-wider text-text-secondary dark:border-border dark:bg-surface-muted dark:text-text-secondary;
 }
 
 .ui-td {
-    @apply border-b border-border/70 px-4 py-4 align-middle text-sm text-text-secondary dark:border-zinc-800/60 dark:text-zinc-200;
+    @apply border-b border-border/70 px-4 py-4 align-middle text-sm text-text-secondary dark:border-border/60 dark:text-text-secondary;
 }
 
 .ui-td:hover {
-    @apply bg-surface-muted dark:bg-zinc-800/40;
+    @apply bg-surface-muted dark:bg-white/5;
 }
 
 .ui-empty-icon {
