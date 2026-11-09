@@ -132,7 +132,7 @@
                     Confirmar en POS
                 </a>
 
-                <form action="{{ route('pedidos.cancelar', $pedido->id) }}" method="POST" onsubmit="return confirm('¿Cancelar el pedido #{{ $pedido->id }}?')">
+                <form action="{{ route('pedidos.cancelar', $pedido->id) }}" method="POST" data-confirm="¿Cancelar el pedido #{{ $pedido->id }}?">
                     @csrf
                     @method('PATCH')
                     <button type="submit" class="ui-btn-danger !px-5 !py-2.5 !text-sm">

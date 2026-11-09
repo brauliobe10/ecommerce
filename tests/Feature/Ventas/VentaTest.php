@@ -6,6 +6,7 @@ use App\Models\Cliente;
 use App\Models\Producto;
 use App\Models\User;
 use App\Models\Venta;
+use App\Services\Venta\VentaService;
 use Livewire\Livewire;
 
 test('guests are redirected to the login page', function () {
@@ -137,4 +138,53 @@ test('sales can be filtered by state and method of payment', function () {
     Livewire::test(Index::class)
         ->set('metodo_pago', Venta::METODO_EFECTIVO)
         ->assertViewHas('ventas', fn ($ventas) => $ventas->total() === 1 && $ventas->first()->id === $completada->id);
+});
+
+test('duplicate product rows are grouped into a single sale detail', function () {
+    $this->actingAs(User::factory()->create());
+
+    $producto = Producto::create([
+        'nombre' => 'Cafe',
+        'codigo' => 'CAF-001',
+        'precio' => 50,
+        'stock' => 10,
+        'activo' => true,
+    ]);
+
+    Livewire::test(Create::class)
+        ->set('metodo_pago', Venta::METODO_EFECTIVO)
+        ->set('items', [
+            ['key' => 0, 'producto_id' => (string) $producto->id, 'cantidad' => '2'],
+            ['key' => 1, 'producto_id' => (string) $producto->id, 'cantidad' => '3'],
+        ])
+        ->call('store')
+        ->assertHasNoErrors();
+
+    $venta = Venta::firstOrFail();
+
+    expect($venta->detalleVentas)->toHaveCount(1);
+    expect($venta->detalleVentas->first()->cantidad)->toBe(5);
+    expect((float) $venta->total)->toBe(250.0);
+    expect($producto->fresh()->stock)->toBe(5);
+});
+
+test('a new sale is always completed even if an annulled state is provided', function () {
+    $this->actingAs(User::factory()->create());
+
+    $producto = Producto::create([
+        'nombre' => 'Cafe',
+        'codigo' => 'CAF-001',
+        'precio' => 50,
+        'stock' => 10,
+        'activo' => true,
+    ]);
+
+    $venta = app(VentaService::class)->store([
+        'metodo_pago' => Venta::METODO_EFECTIVO,
+        'estado' => Venta::ESTADO_ANULADA,
+    ], [
+        ['producto_id' => $producto->id, 'cantidad' => 1],
+    ]);
+
+    expect($venta->estado)->toBe(Venta::ESTADO_COMPLETADA);
 });

@@ -27,6 +27,7 @@ class Checkout extends Component
         if (auth()->check()) {
             $this->nombre = (string) auth()->user()->name;
             $this->email = (string) auth()->user()->email;
+            $this->telefono = (string) (auth()->user()->cliente->telefono ?? '');
         }
     }
 
@@ -42,6 +43,14 @@ class Checkout extends Component
             return;
         }
 
+        $whatsapp = app(WhatsAppService::class);
+
+        if (! $whatsapp->isConfigured()) {
+            $this->addError('items', 'El número de WhatsApp de la tienda no está configurado. Contáctanos por otro medio.');
+
+            return;
+        }
+
         try {
             $pedido = app(PedidoService::class)->store([
                 'nombre' => $this->nombre,
@@ -51,12 +60,12 @@ class Checkout extends Component
                 'notas' => $this->notas !== '' ? $this->notas : null,
             ], $carrito->toItems());
         } catch (ValidationException $e) {
-            $this->addError('items', $e->getMessage());
+            $this->addError('items', $e->validator->errors()->first());
 
             return;
         }
 
-        $url = app(WhatsAppService::class)->urlPedido($pedido);
+        $url = $whatsapp->urlPedido($pedido);
 
         $carrito->clear();
 

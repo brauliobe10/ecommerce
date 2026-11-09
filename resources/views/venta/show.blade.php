@@ -109,7 +109,7 @@
 
         @if ($venta->estado === 'completada')
             <div class="mt-6 flex justify-end print:hidden">
-                <form action="{{ route('ventas.anular', $venta->id) }}" method="POST" onsubmit="return confirm('¿Anular la venta #{{ $venta->id }}? El stock de los productos será restaurado.')">
+                <form action="{{ route('ventas.anular', $venta->id) }}" method="POST" data-confirm="¿Anular la venta #{{ $venta->id }}? El stock de los productos será restaurado.">
                     @csrf
                     <button type="submit" class="ui-btn-danger">
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

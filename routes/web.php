@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\CuentaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MisPedidosController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\TiendaController;
@@ -18,14 +20,8 @@ Route::get('checkout', [TiendaController::class, 'checkout'])->name('tienda.chec
 Route::get('sobre-nosotros', [TiendaController::class, 'sobreNosotros'])->name('tienda.sobre');
 Route::get('contacto', [TiendaController::class, 'contacto'])->name('tienda.contacto');
 
-Route::resource('usuarios', UserController::class);
-
-Route::patch('categorias/{categoria}/toggle-status', [CategoriaController::class, 'toggleStatus'])->name('categorias.toggleStatus');
-Route::resource('categorias', CategoriaController::class);
-
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'role:admin,vendedor'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('usuarios', UserController::class);
 
     Route::patch('categorias/{categoria}/toggle-status', [CategoriaController::class, 'toggleStatus'])->name('categorias.toggleStatus');
     Route::resource('categorias', CategoriaController::class);
@@ -40,6 +36,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('ventas/{venta}/anular', [VentaController::class, 'anular'])->name('ventas.anular');
     Route::resource('ventas', VentaController::class)->only(['index', 'create', 'store', 'show']);
+});
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::resource('usuarios', UserController::class);
+});
+
+Route::middleware(['auth', 'role:cliente'])->prefix('mi-cuenta')->name('cliente.')->group(function () {
+    Route::get('/', [CuentaController::class, 'index'])->name('cuenta');
+
+    Route::get('pedidos', [MisPedidosController::class, 'index'])->name('pedidos.index');
+    Route::get('pedidos/{pedido}', [MisPedidosController::class, 'show'])->name('pedidos.show');
+    Route::patch('pedidos/{pedido}/cancelar', [MisPedidosController::class, 'cancelar'])->name('pedidos.cancelar');
 });
 
 require __DIR__.'/settings.php';

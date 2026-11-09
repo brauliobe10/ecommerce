@@ -3,11 +3,23 @@
 namespace App\Services\WhatsApp;
 
 use App\Models\Pedido;
+use Illuminate\Validation\ValidationException;
 
 class WhatsAppService
 {
+    public function isConfigured(): bool
+    {
+        return strlen($this->number()) >= 8;
+    }
+
     public function urlPedido(Pedido $pedido): string
     {
+        if (! $this->isConfigured()) {
+            throw ValidationException::withMessages([
+                'whatsapp' => 'El número de WhatsApp de la tienda no está configurado.',
+            ]);
+        }
+
         $pedido->loadMissing('detallePedidos.producto');
 
         $lineas = [];

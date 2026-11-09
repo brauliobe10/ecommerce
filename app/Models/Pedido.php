@@ -58,4 +58,17 @@ class Pedido extends Model
     {
         return $this->hasMany(PedidoDetalle::class);
     }
+
+    /**
+     * Determine whether the order belongs to the given customer account.
+     */
+    public function perteneceA(User $user): bool
+    {
+        if ($this->cliente_id !== null) {
+            return $this->cliente?->user_id === $user->id;
+        }
+
+        return filled($this->email)
+            && mb_strtolower((string) $this->email) === mb_strtolower($user->email);
+    }
 }

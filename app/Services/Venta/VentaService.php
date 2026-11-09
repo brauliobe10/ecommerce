@@ -18,7 +18,7 @@ class VentaService
     public function getAll(array $filters = []): PaginationLengthAwarePaginator
     {
         return $this
-            ->applyFilters(Venta::query(), $filters)
+            ->applyFilters(Venta::query()->with('cliente'), $filters)
             ->latest('fecha_venta')
             ->paginate(Venta::PAGINATION);
     }
@@ -88,18 +88,32 @@ class VentaService
     public function store(array $data, array $items): Venta
     {
         return DB::transaction(function () use ($data, $items) {
-            $itemsMap = collect($items)->keyBy('producto_id');
+            $itemsMap = collect($items)
+                ->groupBy('producto_id')
+                ->map(fn ($rows) => (int) collect($rows)->sum('cantidad'));
 
             // 1. Cargar y BLOQUEAR todos los productos en 1 sola consulta
             $productos = Producto::whereIn('id', $itemsMap->keys())
                 ->lockForUpdate()
                 ->get();
 
+            if ($productos->count() !== $itemsMap->count()) {
+                throw ValidationException::withMessages([
+                    'items' => 'Uno o más productos del carrito ya no existen.',
+                ]);
+            }
+
             $detalles = [];
             $total = 0;
 
             foreach ($productos as $producto) {
-                $cantidad = (int) $itemsMap[$producto->id]['cantidad'];
+                $cantidad = (int) $itemsMap->get($producto->id, 0);
+
+                if ($cantidad < 1) {
+                    throw ValidationException::withMessages([
+                        'items' => "La cantidad del producto {$producto->nombre} debe ser mayor que cero.",
+                    ]);
+                }
 
                 // 2. Validación de stock en tiempo real
                 if ($producto->stock < $cantidad) {
@@ -123,14 +137,20 @@ class VentaService
                 $producto->decrement('stock', $cantidad);
             }
 
-            // 4. Crear la cabecera de la venta
+            if ($detalles === []) {
+                throw ValidationException::withMessages([
+                    'items' => 'La venta debe incluir al menos un producto válido.',
+                ]);
+            }
+
+            // 4. Crear la cabecera de la venta. Una venta nueva siempre nace completada.
             $venta = Venta::create([
                 'cliente_id' => $data['cliente_id'] ?? null,
                 'usuario_id' => auth()->id(),
                 'fecha_venta' => $data['fecha_venta'] ?? now(),
                 'total' => round($total, 2),
                 'metodo_pago' => $data['metodo_pago'],
-                'estado' => $data['estado'] ?? Venta::ESTADO_COMPLETADA,
+                'estado' => Venta::ESTADO_COMPLETADA,
             ]);
 
             // 5. Inserción masiva de detalles en 1 sola consulta

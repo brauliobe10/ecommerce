@@ -7,6 +7,8 @@ use App\Services\User\UserService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -27,7 +29,8 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'role' => ['required', 'in:admin,vendedor'],
+            'password' => ['required', 'string', Password::default(), 'confirmed'],
         ]);
 
         $user = $this->service->store($validated);
@@ -52,21 +55,32 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$id],
-            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'role' => ['required', 'in:admin,vendedor'],
+            'password' => ['nullable', 'string', Password::default(), 'confirmed'],
         ]);
 
         if (empty($validated['password'])) {
             unset($validated['password']);
         }
 
-        $user = $this->service->update($id, $validated);
+        try {
+            $user = $this->service->update($id, $validated);
+        } catch (ValidationException $e) {
+            return redirect()->route('usuarios.edit', $id)
+                ->withErrors($e->errors())
+                ->withInput();
+        }
 
         return redirect()->route('usuarios.index')->with('mensaje', 'Usuario '.$user->name.' actualizado correctamente');
     }
 
     public function destroy(int $id): RedirectResponse
     {
-        $user = $this->service->destroy($id);
+        try {
+            $user = $this->service->destroy($id);
+        } catch (ValidationException $e) {
+            return redirect()->route('usuarios.index')->with('error', $e->getMessage());
+        }
 
         return redirect()->route('usuarios.index')->with('mensaje', 'Usuario '.$user->name.' eliminado correctamente');
     }

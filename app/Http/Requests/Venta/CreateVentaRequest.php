@@ -26,7 +26,6 @@ class CreateVentaRequest extends FormRequest
             'cliente_id' => 'nullable|integer|exists:clientes,id',
             'fecha_venta' => 'sometimes|date',
             'metodo_pago' => 'required|in:efectivo,tarjeta,transferencia',
-            'estado' => 'sometimes|in:completada,anulada',
             'items' => 'required|array|min:1',
             'items.*.producto_id' => 'required|integer|exists:productos,id',
             'items.*.cantidad' => 'required|integer|min:1',

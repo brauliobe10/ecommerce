@@ -9,6 +9,8 @@ use App\Models\Producto;
 use App\Services\Producto\ProductoService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class ProductoController extends Controller
 {
@@ -77,6 +79,8 @@ class ProductoController extends Controller
     public function update(UpdateProductoRequest $request, int $id): RedirectResponse
     {
         $data = $request->validated();
+        $producto = $this->service->find($id);
+        $imagenAnterior = $producto->imagen;
 
         if ($request->hasFile('imagen')) {
             $data['imagen'] = $request->file('imagen')->store('productos', 'public');
@@ -85,6 +89,10 @@ class ProductoController extends Controller
         }
 
         $producto = $this->service->update($id, $data);
+
+        if (isset($data['imagen']) && filled($imagenAnterior) && $imagenAnterior !== $data['imagen']) {
+            Storage::disk('public')->delete($imagenAnterior);
+        }
 
         if (array_key_exists('categorias', $data)) {
             $producto->categorias()->sync($data['categorias']);
@@ -98,7 +106,11 @@ class ProductoController extends Controller
      */
     public function destroy(int $id): RedirectResponse
     {
-        $producto = $this->service->destroy($id);
+        try {
+            $producto = $this->service->destroy($id);
+        } catch (ValidationException $e) {
+            return redirect()->route('productos.index')->with('error', $e->getMessage());
+        }
 
         return redirect()->route('productos.index')->with('mensaje', 'Producto '.$producto->nombre.' eliminado correctamente');
     }

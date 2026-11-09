@@ -5,11 +5,13 @@ namespace App\Services\Pedido;
 use App\Models\Cliente;
 use App\Models\Pedido;
 use App\Models\Producto;
+use App\Models\User;
 use App\Models\Venta;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as PaginationLengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class PedidoService
@@ -23,6 +25,49 @@ class PedidoService
         return $this->applyFilters(Pedido::query()->withCount('detallePedidos'), $filters)
             ->latest()
             ->paginate(Pedido::PAGINATION);
+    }
+
+    /**
+     * @return PaginationLengthAwarePaginator<int, Pedido>
+     */
+    public function getAllForCliente(User $user): PaginationLengthAwarePaginator
+    {
+        return $this->queryParaCliente($user)
+            ->withCount('detallePedidos')
+            ->latest()
+            ->paginate(Pedido::PAGINATION);
+    }
+
+    /**
+     * @return Collection<int, Pedido>
+     */
+    public function recientesParaCliente(User $user, int $limit = 5): Collection
+    {
+        return $this->queryParaCliente($user)
+            ->withCount('detallePedidos')
+            ->latest()
+            ->limit($limit)
+            ->get();
+    }
+
+    /**
+     * @return Builder<Pedido>
+     */
+    private function queryParaCliente(User $user): Builder
+    {
+        $clienteId = $user->cliente?->id;
+        $email = mb_strtolower($user->email);
+
+        return Pedido::query()->where(function (Builder $query) use ($clienteId, $email) {
+            if ($clienteId !== null) {
+                $query->where('cliente_id', $clienteId);
+            }
+
+            $query->orWhere(function (Builder $query) use ($email) {
+                $query->whereNull('cliente_id')
+                    ->whereRaw('LOWER(email) = ?', [$email]);
+            });
+        });
     }
 
     /**
@@ -64,16 +109,20 @@ class PedidoService
     public function store(array $data, array $items): Pedido
     {
         return DB::transaction(function () use ($data, $items) {
-            $itemsMap = collect($items)->keyBy('producto_id');
+            $itemsMap = collect($items)
+                ->groupBy('producto_id')
+                ->map(fn ($rows) => (int) collect($rows)->sum('cantidad'));
 
             /** @var Collection<int, Producto> $productos */
-            $productos = Producto::whereIn('id', $itemsMap->keys())->get();
+            $productos = Producto::whereIn('id', $itemsMap->keys())
+                ->lockForUpdate()
+                ->get();
 
             $detalles = [];
             $total = 0;
 
             foreach ($productos as $producto) {
-                $cantidad = (int) $itemsMap[$producto->id]['cantidad'];
+                $cantidad = (int) $itemsMap->get($producto->id, 0);
 
                 if ($cantidad < 1) {
                     continue;
@@ -82,6 +131,12 @@ class PedidoService
                 if (! $producto->activo) {
                     throw ValidationException::withMessages([
                         'items' => "El producto {$producto->nombre} no está disponible.",
+                    ]);
+                }
+
+                if ($producto->stock < $cantidad) {
+                    throw ValidationException::withMessages([
+                        'items' => "No hay stock suficiente para el producto {$producto->nombre}.",
                     ]);
                 }
 
@@ -105,10 +160,10 @@ class PedidoService
             $cliente = $this->resolverCliente($data);
 
             $pedido = Pedido::create([
-                'cliente_id' => $cliente?->id,
+                'cliente_id' => $cliente->id,
                 'nombre_cliente' => $data['nombre'],
                 'telefono' => $data['telefono'],
-                'email' => $data['email'] ?? null,
+                'email' => filled($data['email'] ?? null) ? Str::lower(trim((string) $data['email'])) : null,
                 'direccion' => $data['direccion'] ?? null,
                 'notas' => $data['notas'] ?? null,
                 'total' => round($total, 2),
@@ -124,36 +179,40 @@ class PedidoService
     /**
      * @param  array<string, mixed>  $data
      */
-    private function resolverCliente(array $data): ?Cliente
+    private function resolverCliente(array $data): Cliente
     {
+        $user = auth()->user();
+
+        if ($user instanceof User && $user->isCliente() && $user->cliente !== null) {
+            return $user->cliente;
+        }
+
+        $email = filled($data['email'] ?? null)
+            ? Str::lower(trim((string) $data['email']))
+            : ($user instanceof User && $user->isCliente() ? Str::lower($user->email) : null);
         $telefono = trim((string) ($data['telefono'] ?? ''));
-        $email = filled($data['email'] ?? null) ? trim((string) $data['email']) : null;
 
-        if ($telefono === '' && $email === null) {
-            return null;
+        if ($email !== null) {
+            $cliente = Cliente::query()
+                ->whereRaw('LOWER(email) = ?', [$email])
+                ->first();
+
+            if ($cliente !== null) {
+                return $cliente;
+            }
         }
 
-        $cliente = Cliente::query()
-            ->where(function ($query) use ($telefono, $email) {
-                if ($email !== null) {
-                    $query->orWhere('email', $email);
-                }
-
-                if ($telefono !== '') {
-                    $query->orWhere('telefono', $telefono);
-                }
-            })
-            ->first();
-
-        if ($cliente) {
-            return $cliente;
-        }
-
-        return Cliente::create([
+        $cliente = Cliente::create([
             'nombre' => $data['nombre'],
             'email' => $email,
             'telefono' => $telefono !== '' ? $telefono : null,
         ]);
+
+        if ($user instanceof User && $user->isCliente()) {
+            $cliente->update(['user_id' => $user->id]);
+        }
+
+        return $cliente;
     }
 
     public function confirmar(Pedido $pedido, Venta $venta): Pedido
@@ -178,16 +237,20 @@ class PedidoService
 
     public function cancelar(Pedido $pedido): Pedido
     {
-        if ($pedido->estado !== Pedido::ESTADO_PENDIENTE) {
-            throw ValidationException::withMessages([
-                'estado' => 'Solo se pueden cancelar pedidos pendientes.',
+        return DB::transaction(function () use ($pedido) {
+            $pedido = Pedido::where('id', $pedido->id)->lockForUpdate()->firstOrFail();
+
+            if ($pedido->estado !== Pedido::ESTADO_PENDIENTE) {
+                throw ValidationException::withMessages([
+                    'estado' => 'Solo se pueden cancelar pedidos pendientes.',
+                ]);
+            }
+
+            $pedido->update([
+                'estado' => Pedido::ESTADO_CANCELADO,
             ]);
-        }
 
-        $pedido->update([
-            'estado' => Pedido::ESTADO_CANCELADO,
-        ]);
-
-        return $pedido;
+            return $pedido;
+        });
     }
 }

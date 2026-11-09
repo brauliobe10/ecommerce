@@ -107,7 +107,7 @@
                                         </svg>
                                         Editar
                                     </a>
-                                    <form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar la categoría {{ $categoria->nombre }}?')">
+                                    <form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST" data-confirm="¿Estás seguro de eliminar la categoría {{ $categoria->nombre }}?">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" title="Eliminar" class="ui-btn-danger">

@@ -60,6 +60,7 @@
                         <th scope="col" class="ui-th text-left">ID</th>
                         <th scope="col" class="ui-th text-left">Nombre</th>
                         <th scope="col" class="ui-th text-left">Correo</th>
+                        <th scope="col" class="ui-th text-center">Cuenta</th>
                         <th scope="col" class="ui-th text-center">Teléfono</th>
                         <th scope="col" class="ui-th text-center">Compras</th>
                         <th scope="col" class="ui-th text-center">Acciones</th>
@@ -76,6 +77,11 @@
                                 <span class="block max-w-xs truncate" title="{{ $cliente->email }}">{{ $cliente->email ?? '-' }}</span>
                             </td>
                             <td class="ui-td text-center">
+                                <span class="{{ $cliente->user_id ? 'ui-badge-success' : 'ui-badge-info' }} whitespace-nowrap">
+                                    {{ $cliente->user_id ? 'Con cuenta' : 'Invitado' }}
+                                </span>
+                            </td>
+                            <td class="ui-td text-center">
                                 <span class="whitespace-nowrap font-mono">{{ $cliente->telefono ?? '-' }}</span>
                             </td>
                             <td class="ui-td text-center">
@@ -89,7 +95,7 @@
                                         </svg>
                                         Editar
                                     </a>
-                                    <form action="{{ route('clientes.destroy', $cliente->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar al cliente {{ $cliente->nombre }}?')">
+                                    <form action="{{ route('clientes.destroy', $cliente->id) }}" method="POST" data-confirm="¿Estás seguro de eliminar al cliente {{ $cliente->nombre }}?">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" title="Eliminar" class="ui-btn-danger">
@@ -104,7 +110,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6">
+                            <td colspan="7">
                                 <div class="flex flex-col items-center justify-center gap-4 px-6 py-20 text-center">
                                     <div class="ui-empty-icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="size-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">

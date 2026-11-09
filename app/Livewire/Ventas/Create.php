@@ -10,6 +10,7 @@ use App\Models\Venta;
 use App\Services\Pedido\PedidoService;
 use App\Services\Venta\VentaService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
@@ -20,8 +21,6 @@ class Create extends Component
     public string $cliente_id = '';
 
     public string $metodo_pago = Venta::METODO_EFECTIVO;
-
-    public string $estado = Venta::ESTADO_COMPLETADA;
 
     /** @var array<int, array{key: int, producto_id: string, cantidad: string}> */
     public array $items = [];
@@ -109,19 +108,22 @@ class Create extends Component
             ->values()
             ->all();
 
+        $pedidoConfirmado = null;
+
         try {
-            $venta = app(VentaService::class)->store([
-                'cliente_id' => $this->cliente_id !== '' ? (int) $this->cliente_id : null,
-                'metodo_pago' => $this->metodo_pago,
-                'estado' => $this->estado,
-            ], $items);
+            $venta = DB::transaction(function () use ($items, $pedido, &$pedidoConfirmado) {
+                $venta = app(VentaService::class)->store([
+                    'cliente_id' => $this->cliente_id !== '' ? (int) $this->cliente_id : null,
+                    'metodo_pago' => $this->metodo_pago,
+                ], $items);
 
-            $pedidoConfirmado = null;
+                if ($pedido !== null) {
+                    app(PedidoService::class)->confirmar($pedido, $venta);
+                    $pedidoConfirmado = $pedido->id;
+                }
 
-            if ($pedido !== null) {
-                app(PedidoService::class)->confirmar($pedido, $venta);
-                $pedidoConfirmado = $pedido->id;
-            }
+                return $venta;
+            });
         } catch (ValidationException $e) {
             $this->addError('items', $e->getMessage());
 

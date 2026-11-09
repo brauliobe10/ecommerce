@@ -4,6 +4,8 @@ namespace App\Services\Producto;
 
 use App\Models\Producto;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as PaginationLengthAwarePaginator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class ProductoService
 {
@@ -61,7 +63,20 @@ class ProductoService
     public function destroy(int $id): Producto
     {
         $producto = $this->find($id);
+
+        if ($producto->detalleVentas()->exists() || $producto->detallePedidos()->exists()) {
+            throw ValidationException::withMessages([
+                'producto' => 'No puedes eliminar un producto con ventas o pedidos registrados.',
+            ]);
+        }
+
+        $imagen = $producto->imagen;
+
         $producto->delete();
+
+        if (filled($imagen)) {
+            Storage::disk('public')->delete($imagen);
+        }
 
         return $producto;
     }

@@ -133,7 +133,7 @@
                                     @endif
 
                                     @if ($pedido->estado !== 'confirmado')
-                                        <form action="{{ route('pedidos.destroy', $pedido->id) }}" method="POST" onsubmit="return confirm('¿Eliminar el pedido #{{ $pedido->id }}?')">
+                                        <form action="{{ route('pedidos.destroy', $pedido->id) }}" method="POST" data-confirm="¿Eliminar el pedido #{{ $pedido->id }}?">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" title="Eliminar" class="ui-btn-danger">

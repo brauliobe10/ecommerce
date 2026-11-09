@@ -8,6 +8,7 @@ use App\Models\Cliente;
 use App\Services\Cliente\ClienteService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\ValidationException;
 
 class ClienteController extends Controller
 {
@@ -51,7 +52,11 @@ class ClienteController extends Controller
 
     public function destroy(int $id): RedirectResponse
     {
-        $cliente = $this->service->destroy($id);
+        try {
+            $cliente = $this->service->destroy($id);
+        } catch (ValidationException $e) {
+            return redirect()->route('clientes.index')->with('error', $e->getMessage());
+        }
 
         return redirect()->route('clientes.index')->with('mensaje', 'Cliente '.$cliente->nombre.' eliminado correctamente');
     }

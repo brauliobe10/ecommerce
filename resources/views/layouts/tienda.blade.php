@@ -37,12 +37,24 @@
 
                     <div class="flex items-center gap-3">
                         @auth
-                            <a href="{{ route('dashboard') }}" wire:navigate class="ui-btn-secondary hidden !px-4 !py-2 text-sm sm:inline-flex">
-                                Panel
-                            </a>
+                            @if (auth()->user()->isCliente())
+                                <a href="{{ route('cliente.cuenta') }}" wire:navigate class="ui-btn-secondary hidden !px-4 !py-2 text-sm sm:inline-flex">
+                                    Mi cuenta
+                                </a>
+                                <a href="{{ route('cliente.pedidos.index') }}" wire:navigate class="hidden text-sm font-semibold text-text-secondary transition-colors hover:text-navy dark:hover:text-accent lg:block">
+                                    Mis pedidos
+                                </a>
+                            @else
+                                <a href="{{ route('dashboard') }}" wire:navigate class="ui-btn-secondary hidden !px-4 !py-2 text-sm sm:inline-flex">
+                                    Panel
+                                </a>
+                            @endif
                         @else
                             <a href="{{ route('login') }}" wire:navigate class="hidden text-sm font-semibold text-text-secondary transition-colors hover:text-navy dark:hover:text-accent md:block">
                                 Ingresar
+                            </a>
+                            <a href="{{ route('register') }}" wire:navigate class="ui-btn-secondary hidden !px-4 !py-2 text-sm sm:inline-flex">
+                                Crear cuenta
                             </a>
                         @endauth
 
@@ -84,12 +96,24 @@
                         @endforeach
 
                         @auth
-                            <a href="{{ route('dashboard') }}" wire:navigate @click="menuAbierto = false" class="rounded-lg px-3 py-2.5 text-sm font-semibold text-text-secondary transition-colors hover:bg-surface-muted hover:text-navy dark:hover:text-accent">
-                                Panel
-                            </a>
+                            @if (auth()->user()->isCliente())
+                                <a href="{{ route('cliente.cuenta') }}" wire:navigate @click="menuAbierto = false" class="rounded-lg px-3 py-2.5 text-sm font-semibold text-text-secondary transition-colors hover:bg-surface-muted hover:text-navy dark:hover:text-accent">
+                                    Mi cuenta
+                                </a>
+                                <a href="{{ route('cliente.pedidos.index') }}" wire:navigate @click="menuAbierto = false" class="rounded-lg px-3 py-2.5 text-sm font-semibold text-text-secondary transition-colors hover:bg-surface-muted hover:text-navy dark:hover:text-accent">
+                                    Mis pedidos
+                                </a>
+                            @else
+                                <a href="{{ route('dashboard') }}" wire:navigate @click="menuAbierto = false" class="rounded-lg px-3 py-2.5 text-sm font-semibold text-text-secondary transition-colors hover:bg-surface-muted hover:text-navy dark:hover:text-accent">
+                                    Panel
+                                </a>
+                            @endif
                         @else
                             <a href="{{ route('login') }}" wire:navigate @click="menuAbierto = false" class="rounded-lg px-3 py-2.5 text-sm font-semibold text-text-secondary transition-colors hover:bg-surface-muted hover:text-navy dark:hover:text-accent">
                                 Ingresar
+                            </a>
+                            <a href="{{ route('register') }}" wire:navigate @click="menuAbierto = false" class="rounded-lg px-3 py-2.5 text-sm font-semibold text-text-secondary transition-colors hover:bg-surface-muted hover:text-navy dark:hover:text-accent">
+                                Crear cuenta
                             </a>
                         @endauth
                     </nav>

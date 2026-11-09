@@ -20,9 +20,11 @@
 
             <flux:sidebar.nav>
                 <flux:sidebar.group heading="Gestión de usuarios" class="grid">
-                    <flux:sidebar.item icon="users" :href="route('usuarios.index')" :current="request()->routeIs('usuarios.*')" wire:navigate>
-                        Usuarios
-                    </flux:sidebar.item>
+                    @if (auth()->user()?->isAdmin())
+                        <flux:sidebar.item icon="users" :href="route('usuarios.index')" :current="request()->routeIs('usuarios.*')" wire:navigate>
+                            Usuarios
+                        </flux:sidebar.item>
+                    @endif
 
                     <flux:sidebar.item icon="user-group" :href="route('clientes.index')" :current="request()->routeIs('clientes.*')" wire:navigate>
                         Clientes

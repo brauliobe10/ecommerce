@@ -130,7 +130,7 @@
                                         </svg>
                                         Editar
                                     </a>
-                                    <form action="{{ route('productos.destroy', $producto->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar el producto {{ $producto->nombre }}?')">
+                                    <form action="{{ route('productos.destroy', $producto->id) }}" method="POST" data-confirm="¿Estás seguro de eliminar el producto {{ $producto->nombre }}?">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" title="Eliminar" class="ui-btn-danger">

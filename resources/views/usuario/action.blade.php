@@ -28,6 +28,17 @@
                     @enderror
                 </div>
 
+                <div>
+                    <label for="role" class="ui-label">Rol</label>
+                    <select name="role" id="role" required class="ui-input cursor-pointer">
+                        <option value="vendedor" @selected(old('role', $usuario->role ?? 'vendedor') === 'vendedor')>Vendedor</option>
+                        <option value="admin" @selected(old('role', $usuario->role ?? 'vendedor') === 'admin')>Administrador</option>
+                    </select>
+                    @error('role')
+                        <span class="ui-note text-red-600 dark:text-red-400">{{ $message }}</span>
+                    @enderror
+                </div>
+
                 <div class="grid gap-6 sm:grid-cols-2">
                     <div>
                         <label for="password" class="ui-label">Contraseña</label>

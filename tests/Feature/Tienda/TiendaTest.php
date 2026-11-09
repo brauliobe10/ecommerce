@@ -4,9 +4,13 @@ use App\Livewire\Tienda\Carrito;
 use App\Livewire\Tienda\CarritoPagina;
 use App\Livewire\Tienda\Catalogo;
 use App\Livewire\Tienda\Checkout;
+use App\Models\Cliente;
 use App\Models\Pedido;
 use App\Models\Producto;
+use App\Models\User;
 use App\Services\Carrito\CarritoService;
+use App\Services\Pedido\PedidoService;
+use Illuminate\Validation\ValidationException;
 use Livewire\Livewire;
 
 test('the store home page shows the featured products', function () {
@@ -250,4 +254,84 @@ test('the contact page is visible', function () {
         ->assertSee('WhatsApp')
         ->assertSee('San Luis 246, Chiclayo 14001')
         ->assertSee('google.com/maps/embed');
+});
+
+test('an authenticated customer checkout links the order to their customer record', function () {
+    config()->set('services.whatsapp.number', '573001234567');
+
+    $user = User::factory()->cliente()->create([
+        'name' => 'Cliente Registrado',
+        'email' => 'cliente@example.com',
+    ]);
+
+    $cliente = Cliente::create([
+        'user_id' => $user->id,
+        'nombre' => $user->name,
+        'email' => $user->email,
+        'telefono' => '3001234567',
+    ]);
+
+    $producto = Producto::create([
+        'nombre' => 'Cafe',
+        'codigo' => 'CAF-001',
+        'precio' => 50,
+        'stock' => 10,
+        'activo' => true,
+    ]);
+
+    app(CarritoService::class)->add($producto->id, 1);
+
+    $this->actingAs($user);
+
+    Livewire::test(Checkout::class)
+        ->set('direccion', 'Calle 123')
+        ->call('confirmar')
+        ->assertHasNoErrors();
+
+    $pedido = Pedido::firstOrFail();
+
+    expect($pedido->cliente_id)->toBe($cliente->id);
+    expect($pedido->email)->toBe('cliente@example.com');
+});
+
+test('an order cannot exceed the current product stock', function () {
+    $producto = Producto::create([
+        'nombre' => 'Cafe',
+        'codigo' => 'CAF-001',
+        'precio' => 50,
+        'stock' => 1,
+        'activo' => true,
+    ]);
+
+    expect(fn () => app(PedidoService::class)->store([
+        'nombre' => 'Juan Perez',
+        'telefono' => '3001234567',
+    ], [
+        ['producto_id' => $producto->id, 'cantidad' => 2],
+    ]))->toThrow(ValidationException::class);
+
+    expect(Pedido::count())->toBe(0);
+});
+
+test('the cart rehydrates prices and removes products without stock', function () {
+    $producto = Producto::create([
+        'nombre' => 'Cafe',
+        'codigo' => 'CAF-001',
+        'precio' => 50,
+        'stock' => 3,
+        'activo' => true,
+    ]);
+
+    app(CarritoService::class)->add($producto->id, 2);
+
+    $producto->update(['precio' => 75]);
+    $items = app(CarritoService::class)->all();
+
+    expect($items[$producto->id]['precio'])->toBe(75.0);
+    expect(app(CarritoService::class)->subtotal())->toBe(150.0);
+
+    $producto->update(['stock' => 0]);
+
+    expect(app(CarritoService::class)->count())->toBe(0);
+    expect(app(CarritoService::class)->all())->toBe([]);
 });

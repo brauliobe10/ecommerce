@@ -4,6 +4,7 @@ namespace App\Services\Cliente;
 
 use App\Models\Cliente;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as PaginationLengthAwarePaginator;
+use Illuminate\Validation\ValidationException;
 
 class ClienteService
 {
@@ -13,7 +14,7 @@ class ClienteService
      */
     public function getAll(array $filters = []): PaginationLengthAwarePaginator
     {
-        $query = Cliente::query()->withCount('ventas');
+        $query = Cliente::query()->with('user')->withCount('ventas');
 
         if (isset($filters['search']) && is_string($filters['search']) && $filters['search'] !== '') {
             $search = '%'.addcslashes(mb_strtolower(trim($filters['search'])), '%_').'%';
@@ -53,6 +54,19 @@ class ClienteService
     public function destroy(int $id): Cliente
     {
         $cliente = $this->find($id);
+
+        if ($cliente->user_id !== null) {
+            throw ValidationException::withMessages([
+                'cliente' => 'No puedes eliminar un cliente que tiene una cuenta vinculada.',
+            ]);
+        }
+
+        if ($cliente->pedidos()->exists() || $cliente->ventas()->exists()) {
+            throw ValidationException::withMessages([
+                'cliente' => 'No puedes eliminar un cliente con pedidos o ventas registradas.',
+            ]);
+        }
+
         $cliente->delete();
 
         return $cliente;

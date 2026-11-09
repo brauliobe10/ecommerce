@@ -16,7 +16,42 @@ class CarritoService
     {
         $items = session()->get(self::SESSION_KEY, []);
 
-        return is_array($items) ? $items : [];
+        if (! is_array($items) || $items === []) {
+            return [];
+        }
+
+        $productos = Producto::query()
+            ->whereIn('id', array_map('intval', array_keys($items)))
+            ->get()
+            ->keyBy('id');
+
+        $itemsActualizados = [];
+
+        foreach ($items as $productoId => $item) {
+            $producto = $productos->get((int) $productoId);
+
+            if ($producto === null || ! $producto->activo || $producto->stock <= 0) {
+                continue;
+            }
+
+            $cantidad = min(max((int) ($item['cantidad'] ?? 0), 1), $producto->stock);
+
+            $itemsActualizados[$producto->id] = [
+                'producto_id' => $producto->id,
+                'nombre' => $producto->nombre,
+                'codigo' => $producto->codigo,
+                'precio' => (float) $producto->precio,
+                'cantidad' => $cantidad,
+                'stock' => (int) $producto->stock,
+                'imagen' => $producto->imagen,
+            ];
+        }
+
+        if ($itemsActualizados !== $items) {
+            $this->persist($itemsActualizados);
+        }
+
+        return $itemsActualizados;
     }
 
     /**
@@ -78,12 +113,16 @@ class CarritoService
 
         $producto = Producto::find($productoId);
 
-        if ($producto) {
-            $cantidad = min($cantidad, max($producto->stock, 1));
-            $items[$productoId]['stock'] = (int) $producto->stock;
+        if ($producto === null || ! $producto->activo || $producto->stock <= 0) {
+            $this->remove($productoId);
+
+            return;
         }
 
+        $cantidad = min($cantidad, $producto->stock);
+
         $items[$productoId]['cantidad'] = $cantidad;
+        $items[$productoId]['stock'] = (int) $producto->stock;
 
         $this->persist($items);
     }

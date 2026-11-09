@@ -24,7 +24,7 @@ class CreatePedidoRequest extends FormRequest
     {
         return [
             'nombre' => 'required|string|max:100',
-            'telefono' => 'required|string|max:20',
+            'telefono' => ['required', 'string', 'max:20', 'regex:/^[0-9+\s().-]{6,20}$/'],
             'email' => 'nullable|email|max:150',
             'direccion' => 'nullable|string|max:255',
             'notas' => 'nullable|string|max:500',

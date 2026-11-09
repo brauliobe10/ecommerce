@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Producto extends Model
 {
@@ -32,5 +33,21 @@ class Producto extends Model
             'producto_id',         // 3. Clave foránea de ESTE modelo en la pivote
             'categoria_id'         // 4. Clave foránea del OTRO modelo en la pivote
         );
+    }
+
+    /**
+     * @return HasMany<DetalleVenta, $this>
+     */
+    public function detalleVentas(): HasMany
+    {
+        return $this->hasMany(DetalleVenta::class);
+    }
+
+    /**
+     * @return HasMany<PedidoDetalle, $this>
+     */
+    public function detallePedidos(): HasMany
+    {
+        return $this->hasMany(PedidoDetalle::class);
     }
 }

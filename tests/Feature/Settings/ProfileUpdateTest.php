@@ -46,6 +46,9 @@ test('email verification status is unchanged when email address is unchanged', f
 test('user can delete their account', function () {
     $user = User::factory()->create();
 
+    // Mantiene otro administrador para respetar la guarda del último admin.
+    User::factory()->create();
+
     $this->actingAs($user);
 
     $response = Livewire::test('pages::settings.delete-user-modal')
