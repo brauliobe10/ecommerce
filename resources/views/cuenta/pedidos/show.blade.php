@@ -1,10 +1,10 @@
-<x-layouts::tienda :title="__('Pedido #'.$pedido->id)">
+<x-layouts::tienda :title="__('Pedido #'.$pedido->numero_cliente)">
     <div class="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
         @include('partials.account-nav')
 
         <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-                <h1 class="ui-title">Pedido #{{ $pedido->id }}</h1>
+                <h1 class="ui-title">Pedido #{{ $pedido->numero_cliente }}</h1>
                 <p class="ui-subtitle">Recibido el {{ $pedido->created_at->format('d/m/Y H:i') }}</p>
             </div>
             <div class="flex flex-wrap items-center gap-3">
@@ -104,13 +104,13 @@
         <div class="mt-6 flex flex-wrap justify-end gap-3">
             @php($whatsapp = preg_replace('/\D+/', '', (string) config('services.whatsapp.number')))
             @if ($pedido->estado === 'pendiente' && filled($whatsapp))
-                <a href="https://wa.me/{{ $whatsapp }}?text={{ rawurlencode('Hola, quiero consultar por mi pedido #'.$pedido->id.'.') }}" target="_blank" rel="noopener" class="ui-btn-secondary">
+                <a href="https://wa.me/{{ $whatsapp }}?text={{ rawurlencode('Hola, quiero consultar por mi pedido #'.$pedido->numero_cliente.'.') }}" target="_blank" rel="noopener" class="ui-btn-secondary">
                     Consultar por WhatsApp
                 </a>
             @endif
 
             @if ($pedido->estado === 'pendiente')
-                <form action="{{ route('cliente.pedidos.cancelar', $pedido) }}" method="POST" data-confirm="¿Cancelar el pedido #{{ $pedido->id }}?">
+                <form action="{{ route('cliente.pedidos.cancelar', $pedido) }}" method="POST" data-confirm="¿Cancelar el pedido #{{ $pedido->numero_cliente }}?">
                     @csrf
                     @method('PATCH')
                     <button type="submit" class="ui-btn-danger !px-5 !py-2.5 !text-sm">

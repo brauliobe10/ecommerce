@@ -44,11 +44,14 @@
                                 <a href="{{ route('cliente.pedidos.index') }}" wire:navigate class="hidden text-sm font-semibold text-text-secondary transition-colors hover:text-navy dark:hover:text-accent lg:block">
                                     Mis pedidos
                                 </a>
-                            @else
-                                <a href="{{ route('dashboard') }}" wire:navigate class="ui-btn-secondary hidden !px-4 !py-2 text-sm sm:inline-flex">
-                                    Panel
-                                </a>
                             @endif
+                            {{-- LOGOUT BUTTON for all authenticated users --}}
+                            <form action="{{ route('logout') }}" method="POST" wire:navigate.ignore>
+                                @csrf
+                                <button type="submit" class="ui-btn-logout hidden !px-4 !py-2 text-sm sm:inline-flex">
+                                    Cerrar sesión
+                                </button>
+                            </form>
                         @else
                             <a href="{{ route('login') }}" wire:navigate class="hidden text-sm font-semibold text-text-secondary transition-colors hover:text-navy dark:hover:text-accent md:block">
                                 Ingresar

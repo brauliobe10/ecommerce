@@ -173,6 +173,11 @@ select:focus[data-flux-control] {
     @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-md bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-700 transition-colors duration-200 hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface dark:bg-red-500/10 dark:text-red-300 dark:hover:bg-red-500/15;
 }
 
+.ui-btn-logout {
+    @apply inline-flex items-center gap-2 rounded-lg px-5 py-2.5 font-semibold text-white transition-colors duration-200 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-surface;
+    background-color: #FF4757;
+}
+
 .ui-btn-secondary {
     @apply inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-5 py-2.5 font-semibold text-text-primary transition-colors duration-200 hover:border-navy hover:text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/20 focus-visible:ring-offset-2 focus-visible:ring-offset-surface dark:hover:border-accent dark:hover:text-accent;
 }

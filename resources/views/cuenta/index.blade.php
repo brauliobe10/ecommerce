@@ -62,7 +62,7 @@
                             @endphp
                             <a href="{{ route('cliente.pedidos.show', $pedido) }}" wire:navigate class="flex flex-wrap items-center justify-between gap-3 py-4 transition-colors hover:bg-surface-muted/60">
                                 <div>
-                                    <p class="font-semibold text-zinc-800 dark:text-zinc-100">Pedido #{{ $pedido->id }}</p>
+                                    <p class="font-semibold text-zinc-800 dark:text-zinc-100">Pedido #{{ $pedido->numero_cliente }}</p>
                                     <p class="text-sm text-zinc-500 dark:text-zinc-400">
                                         {{ $pedido->created_at->format('d/m/Y H:i') }} · {{ $pedido->detalle_pedidos_count }} producto(s)
                                     </p>

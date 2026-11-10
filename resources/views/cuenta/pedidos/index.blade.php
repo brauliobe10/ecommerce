@@ -38,7 +38,7 @@
                                 };
                             @endphp
                             <tr class="transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
-                                <td class="ui-td whitespace-nowrap font-semibold">#{{ $pedido->id }}</td>
+                                <td class="ui-td whitespace-nowrap font-semibold">#{{ $pedido->numero_cliente }}</td>
                                 <td class="ui-td whitespace-nowrap">{{ $pedido->created_at->format('d/m/Y H:i') }}</td>
                                 <td class="ui-td text-center">{{ $pedido->detalle_pedidos_count }}</td>
                                 <td class="ui-td text-center">

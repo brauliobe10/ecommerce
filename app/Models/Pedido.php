@@ -71,4 +71,18 @@ class Pedido extends Model
         return filled($this->email)
             && mb_strtolower((string) $this->email) === mb_strtolower($user->email);
     }
+
+    /**
+     * Get the sequential order number for this client (1st, 2nd, etc.).
+     */
+    public function getNumeroClienteAttribute(): int
+    {
+        return static::where('cliente_id', $this->cliente_id)
+            ->orWhere(function ($q) {
+                $q->whereNull('cliente_id')
+                    ->whereRaw('LOWER(email) = ?', [mb_strtolower($this->email)]);
+            })
+            ->where('created_at', '<=', $this->created_at)
+            ->count();
+    }
 }
