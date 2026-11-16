@@ -108,14 +108,15 @@ return [
     | Rate Limiting
     |--------------------------------------------------------------------------
     |
-    | By default, Fortify will throttle logins to five requests per minute for
-    | every email and IP address combination. However, if you would like to
-    | specify a custom rate limiter to call then you may specify it here.
+    | The "throttle" middleware is not attached to the login endpoint because it
+    | would also count successful logins. Instead, failed password attempts are
+    | counted by the lockout configured in FortifyServiceProvider, which blocks
+    | new logins for 10 minutes after 3 failures (per email + IP combination).
     |
     */
 
     'limiters' => [
-        'login' => 'login',
+        'login' => null,
     ],
 
     /*

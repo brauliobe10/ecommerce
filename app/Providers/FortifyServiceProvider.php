@@ -3,14 +3,20 @@
 namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
+use App\Actions\Fortify\EnsureLoginIsNotLocked;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Http\Responses\LoginResponse;
 use App\Http\Responses\RegisterResponse;
+use Illuminate\Auth\Events\Failed;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
+use Laravel\Fortify\Actions\AttemptToAuthenticate;
+use Laravel\Fortify\Actions\CanonicalizeUsername;
+use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
 use Laravel\Fortify\Fortify;
@@ -34,6 +40,7 @@ class FortifyServiceProvider extends ServiceProvider
         $this->configureActions();
         $this->configureViews();
         $this->configureRateLimiting();
+        $this->configureLoginLockout();
     }
 
     /**
@@ -64,12 +71,60 @@ class FortifyServiceProvider extends ServiceProvider
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
+    }
 
-        RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
+    /**
+     * Lock the login for 10 minutes after 3 failed password attempts (per email + IP).
+     *
+     * Attempts are counted only when authentication fails, so successful logins
+     * never consume the limit. Each failure flashes the remaining attempts to
+     * the login screen, and a successful login resets the counter.
+     */
+    private function configureLoginLockout(): void
+    {
+        Fortify::authenticateThrough(fn (Request $request): array => [
+            config('fortify.lowercase_usernames') ? CanonicalizeUsername::class : null,
+            EnsureLoginIsNotLocked::class,
+            AttemptToAuthenticate::class,
+            PrepareAuthenticatedSession::class,
+        ]);
 
-            return Limit::perMinute(5)->by($throttleKey);
+        Event::listen(function (Failed $event): void {
+            $request = request();
+
+            if (! $request->hasSession()) {
+                return;
+            }
+
+            $username = (string) ($event->credentials[Fortify::username()] ?? '');
+            $key = EnsureLoginIsNotLocked::throttleKeyFor($username, $request->ip());
+
+            $attempts = RateLimiter::hit($key, EnsureLoginIsNotLocked::LOCKOUT_SECONDS);
+            $remaining = EnsureLoginIsNotLocked::MAX_ATTEMPTS - $attempts;
+
+            if ($remaining > 0) {
+                session()->flash('intentos_restantes', $remaining);
+            } else {
+                $request->session()->put(
+                    EnsureLoginIsNotLocked::SESSION_KEY,
+                    now()->addSeconds((int) RateLimiter::availableIn($key))->getTimestamp(),
+                );
+            }
         });
 
+        Event::listen(function (Login $event): void {
+            $request = request();
+
+            if (! $request->hasSession()) {
+                return;
+            }
+
+            $request->session()->forget(EnsureLoginIsNotLocked::SESSION_KEY);
+
+            RateLimiter::clear(EnsureLoginIsNotLocked::throttleKeyFor(
+                (string) $request->input(Fortify::username()),
+                $request->ip(),
+            ));
+        });
     }
 }

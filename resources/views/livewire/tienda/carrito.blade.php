@@ -17,7 +17,7 @@
             x-transition:leave-end="translate-x-full"
             class="absolute right-0 top-0 flex h-full w-full flex-col border-l border-border bg-surface shadow-xl sm:max-w-xl"
         >
-            <div class="flex shrink-0 items-center justify-between border-b border-border px-6 py-4">
+            <div class="flex shrink-0 items-center justify-between border-b border-border px-4 py-4 sm:px-6">
                 <div class="flex items-center gap-3">
                     <span class="flex size-10 items-center justify-center rounded-lg bg-navy text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -42,7 +42,7 @@
                 </button>
             </div>
 
-            <div class="flex-1 min-h-0 space-y-3 overflow-y-auto overscroll-contain px-6 pt-5 pb-8">
+            <div class="flex-1 min-h-0 space-y-3 overflow-y-auto overscroll-contain px-4 pt-5 pb-8 sm:px-6">
                 @forelse ($items as $item)
                     @php($stock = $item['stock'] ?? null)
                     <div class="group relative flex gap-4 rounded-xl border border-border bg-surface p-4 transition-colors hover:border-navy/30 dark:bg-navy-soft dark:hover:border-accent/30">
@@ -121,7 +121,7 @@
             </div>
 
             @if ($this->cantidad > 0)
-                <div class="shrink-0 border-t border-border px-6 py-5">
+                <div class="shrink-0 border-t border-border px-4 py-5 sm:px-6">
                     <dl class="space-y-2">
                         <div class="flex items-center justify-between text-sm">
                             <dt class="text-text-secondary">Subtotal ({{ $this->cantidad }} {{ $this->cantidad === 1 ? 'producto' : 'productos' }})</dt>

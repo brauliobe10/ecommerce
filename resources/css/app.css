@@ -134,7 +134,7 @@ select:focus[data-flux-control] {
 }
 
 .ui-title {
-    @apply text-3xl font-bold tracking-tight text-text-primary;
+    @apply text-2xl font-bold tracking-tight text-text-primary sm:text-3xl;
 }
 
 .ui-subtitle {
@@ -228,11 +228,11 @@ select:focus[data-flux-control] {
 }
 
 .ui-th {
-    @apply border-b border-border bg-surface-muted px-4 py-4 text-xs font-bold uppercase tracking-wider text-text-secondary dark:border-border dark:bg-surface-muted dark:text-text-secondary;
+    @apply border-b border-border bg-surface-muted px-3 py-3 text-xs font-bold uppercase tracking-wider text-text-secondary sm:px-4 sm:py-4 dark:border-border dark:bg-surface-muted dark:text-text-secondary;
 }
 
 .ui-td {
-    @apply border-b border-border/70 px-4 py-4 align-middle text-sm text-text-secondary dark:border-border/60 dark:text-text-secondary;
+    @apply border-b border-border/70 px-3 py-3 align-middle text-sm text-text-secondary sm:px-4 sm:py-4 dark:border-border/60 dark:text-text-secondary;
 }
 
 .ui-td:hover {
@@ -245,6 +245,10 @@ select:focus[data-flux-control] {
 
 .ui-alert-success {
     @apply mb-6 flex items-center gap-3 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300;
+}
+
+.ui-alert-warning {
+    @apply mb-6 flex items-center gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300;
 }
 
 .ui-alert-error {

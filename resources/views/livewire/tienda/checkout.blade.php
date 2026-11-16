@@ -14,7 +14,7 @@
     @endif
 
     <div class="grid gap-8 lg:grid-cols-5">
-        <form wire:submit="confirmar" class="ui-card space-y-5 p-6 lg:col-span-3">
+        <form wire:submit="confirmar" class="ui-card space-y-5 p-4 sm:p-6 lg:col-span-3">
             <div>
                 <label for="nombre" class="ui-label">Nombre completo</label>
                 <input type="text" id="nombre" wire:model="nombre" class="ui-input" autocomplete="name" placeholder="Tu nombre">
@@ -69,7 +69,7 @@
             </p>
         </form>
 
-        <aside class="ui-card h-fit p-6 lg:col-span-2">
+        <aside class="ui-card h-fit p-4 sm:p-6 lg:col-span-2">
             <h2 class="text-sm font-semibold uppercase tracking-wider text-accent">Resumen del pedido</h2>
 
             <ul class="mt-4 space-y-3">

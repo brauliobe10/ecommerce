@@ -35,7 +35,7 @@
                         </nav>
                     </div>
 
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 sm:gap-3">
                         @auth
                             @if (auth()->user()->isCliente())
                                 <a href="{{ route('cliente.cuenta') }}" wire:navigate class="ui-btn-secondary hidden !px-4 !py-2 text-sm sm:inline-flex">
@@ -111,6 +111,17 @@
                                     Panel
                                 </a>
                             @endif
+
+                            <form action="{{ route('logout') }}" method="POST" wire:navigate.ignore>
+                                @csrf
+                                <button
+                                    type="submit"
+                                    @click="menuAbierto = false"
+                                    class="ui-btn-logout mt-2 w-full justify-center !text-sm"
+                                >
+                                    Cerrar sesión
+                                </button>
+                            </form>
                         @else
                             <a href="{{ route('login') }}" wire:navigate @click="menuAbierto = false" class="rounded-lg px-3 py-2.5 text-sm font-semibold text-text-secondary transition-colors hover:bg-surface-muted hover:text-navy dark:hover:text-accent">
                                 Ingresar
